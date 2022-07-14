@@ -8,13 +8,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+const router = require('./router/index')
 
-const signUp = require('./router/signup')
-
-
-
-app.use('/justeat', signUp)
-
+app.use('/justeat', router)
 
 app.listen(port,()=>{
     console.log(`Server is listining on port : ${port}`)

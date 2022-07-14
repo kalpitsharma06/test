@@ -5,26 +5,44 @@ const bcrypt = require('bcrypt');
 
 // SING UP
 exports.addResturent = async function (req, res, next) {
-    const { restaurant_name, restaurant_address, contact_number, email } = req.body
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-
     const singupRecords = new signUp({
-        restaurant_name: restaurant_name,
-        restaurant_address: restaurant_address,
-        contact_number: contact_number,
-        email: email,
-        password: hashedPassword
+        restaurant_name: req.body.restaurant_name,
+        restaurant_address: req.body.restaurant_address,
+        contact_number: req.body.contact_number,
+        email: req.body.email,
+        password: hashedPassword,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        primary_cuisine: req.body.primary_cuisine,
+        secoundry_cuisine: req.body.secoundry_cuisine,
+        photo_id: req.files.photo_id[0].filename,
+        proof_of_ownership: req.files.proof_of_ownership[0].filename,
+        shop_image_front: req.files.shop_image_front[0].filename,
+        foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
+        menu: req.files.menu[0].filename,
+        restaurant_logo: req.files.restaurant_logo[0].filename,
+        bank_details: req.body.bank_details,
+        address_of_welcome_pack: req.body.address_of_welcome_pack,
+        account_holder_type: req.body.account_holder_type,
+        account_holder_name: req.body.account_holder_name,
+        routing_number: req.body.routing_number,
+        account_number: req.body.account_number,
+        bank_name: req.body.bank_name,
+        bank_id: req.body.bank_id,
+        type: "vendor",
     })
 
     try {
-        const check = await signUp.findOne({ $or: [{ contact_number: contact_number }, { email: email }] })
+        const check = await signUp.findOne({ $or: [{ contact_number: req.body.contact_number }, { email: req.body.email }] })
+        console.log(req.files.photo_id[0].filename)
         if (check !== null) {
             res.status(400).json('Email or Phone Number Already Registered !')
         } else {
             await singupRecords.save();
             res.status(200).json({
-                'status': 200,
-                'message': "Successfully Signed up",
+                status: true,
+                message: "Successfully Signed up",
                 'results': singupRecords,
             })
         }
@@ -37,18 +55,34 @@ exports.addResturent = async function (req, res, next) {
 
 //Update Resturent Details
 exports.updateResturentDetails = async (req, res) => {
-    const { id } = req.params
-    const { restaurant_name, restaurant_address, contact_number, email } = req.body
     try {
-        const updateResDetails = await signUp.findByIdAndUpdate(id, {
-            restaurant_name: restaurant_name,
-            restaurant_address: restaurant_address,
-            contact_number: contact_number,
-            email: email,
+        const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
+            restaurant_name: req.body.restaurant_name,
+            restaurant_address: req.body.restaurant_address,
+            contact_number: req.body.contact_number,
+            email: req.body.email,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            primary_cuisine: req.body.primary_cuisine,
+            secoundry_cuisine: req.body.secoundry_cuisine,
+            photo_id: req.file.filename,
+            proof_of_ownership: req.file.filename,
+            shop_image_front: req.file.filename,
+            foot_hygiene_registration: req.file.filename,
+            menu: req.file.filename,
+            restaurant_logo: req.file.filename,
+            bank_details: req.body.bank_details,
+            address_of_welcome_pack: req.body.address_of_welcome_pack,
+            account_holder_type: req.body.account_holder_type,
+            account_holder_name: req.body.account_holder_name,
+            routing_number: req.body.routing_number,
+            account_number: req.body.account_number,
+            bank_name: req.body.bank_name,
+            bank_id: req.body.bank_id,
         })
         res.status(200).json({
-            'status': 200,
-            'message': "Successfully Updated Resturent details",
+            status: true,
+            message: "Successfully Updated Resturent details",
             'results': updateResDetails
         })
 
@@ -58,26 +92,43 @@ exports.updateResturentDetails = async (req, res) => {
 
 }
 
+// Delete Restaurent 
+exports.deleteRetaurant = async (req, res) => {
+    try {
+        const result = await signUp.findByIdAndDelete(req.params.id)
+        res.status(200).json({
+            status: true,
+            message: "Successfully Deleted ",
+            'results': result
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
 // update the password
-exports.updatePassword = async (req, res) => {
-    const { id } = req.params
+exports.changePassword = async (req, res) => {
     try {
         currPassword = req.body.currPassword
         newPassword = req.body.newPassword
-        const databasePassword = await signUp.findById(id)
-
+        const databasePassword = await signUp.findById(req.params.id)
         const hashedPassword = await bcrypt.hash(newPassword, 10)
         const validPassword = await bcrypt.compare(currPassword, databasePassword.password)
 
         if (validPassword) {
-            await signUp.findByIdAndUpdate(id, { password: hashedPassword })
+            const { id } = req.params
+            const results = await signUp.findByIdAndUpdate(req.params.id, { password: hashedPassword })
             res.status(200).json({
-                'message': "Successfully Updated Password",
+                status: true,
+                message: "Successfully Updated Password",
+                'results': results
             })
 
         } else {
             res.status(400).json({
-                'message': "Entered Current Password is wrong",
+                status: false,
+                message: "Entered Current Password is wrong",
             })
         }
 
@@ -87,23 +138,28 @@ exports.updatePassword = async (req, res) => {
 
 }
 
-
-
 // Login
 exports.logIn = async (req, res) => {
-    const { email, password } = req.body
     try {
-        const check = await signUp.findOne({ email: email })
+        const check = await signUp.findOne({ email: req.body.email })
         if (check === null) {
-            res.status(400).json('Email is wrong')
+            res.status(400).json({
+                status: false,
+                message: 'Email is wrong'
+            })
 
         } else {
-
             const validPassword = await bcrypt.compare(req.body.password, check.password)
             if (validPassword) {
-                res.status(200).json('Successfully Signed in')
+                res.status(200).json({
+                    status: true,
+                    message: 'Successfully Signed in'
+                })
             } else {
-                res.status(400).json('password is wrong')
+                res.status(400).json({
+                    status: false,
+                    message: 'password is wrong'
+                })
             }
         }
 
