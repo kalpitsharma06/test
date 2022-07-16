@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const con = require('../database/db')
+const con = require('../../database/db')
 
 var signup = new mongoose.Schema({
     restaurant_name:String,
@@ -24,7 +24,10 @@ var signup = new mongoose.Schema({
     routing_number: String,
     account_number: String,
     bank_name: String,
-    bank_id: String
+    bank_id: String,
+    status : Boolean,
+    is_registered : Boolean,
+    user_type : String
 });
 
 module.exports = mongoose.model('signup', signup);

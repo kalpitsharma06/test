@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const con = require('../database/db')
+const con = require('../../database/db')
 
 var subcategory = new mongoose.Schema({
     sub_category_name : String,

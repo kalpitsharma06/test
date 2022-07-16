@@ -1,7 +1,8 @@
 require('dotenv').config()
 const signUp = require('../model/signup')
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
+const {generateAccessToken} = require('../../services/auth')
 
 // SING UP
 exports.addResturent = async function (req, res, next) {
@@ -30,12 +31,13 @@ exports.addResturent = async function (req, res, next) {
         account_number: req.body.account_number,
         bank_name: req.body.bank_name,
         bank_id: req.body.bank_id,
-        type: "vendor",
+        status : true,
+        is_registered : true,
+        user_type : 'vendor'
     })
 
     try {
         const check = await signUp.findOne({ $or: [{ contact_number: req.body.contact_number }, { email: req.body.email }] })
-        console.log(req.files.photo_id[0].filename)
         if (check !== null) {
             res.status(400).json('Email or Phone Number Already Registered !')
         } else {
@@ -52,7 +54,6 @@ exports.addResturent = async function (req, res, next) {
     }
 };
 
-
 //Update Resturent Details
 exports.updateResturentDetails = async (req, res) => {
     try {
@@ -65,12 +66,12 @@ exports.updateResturentDetails = async (req, res) => {
             last_name: req.body.last_name,
             primary_cuisine: req.body.primary_cuisine,
             secoundry_cuisine: req.body.secoundry_cuisine,
-            photo_id: req.file.filename,
-            proof_of_ownership: req.file.filename,
-            shop_image_front: req.file.filename,
-            foot_hygiene_registration: req.file.filename,
-            menu: req.file.filename,
-            restaurant_logo: req.file.filename,
+            photo_id: req.files.photo_id[0].filename,
+            proof_of_ownership: req.files.proof_of_ownership[0].filename,
+            shop_image_front: req.files.shop_image_front[0].filename,
+            foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
+            menu: req.files.menu[0].filename,
+            restaurant_logo: req.files.restaurant_logo[0].filename,
             bank_details: req.body.bank_details,
             address_of_welcome_pack: req.body.address_of_welcome_pack,
             account_holder_type: req.body.account_holder_type,
@@ -78,7 +79,7 @@ exports.updateResturentDetails = async (req, res) => {
             routing_number: req.body.routing_number,
             account_number: req.body.account_number,
             bank_name: req.body.bank_name,
-            bank_id: req.body.bank_id,
+            bank_id: req.body.bank_id
         })
         res.status(200).json({
             status: true,
@@ -87,7 +88,7 @@ exports.updateResturentDetails = async (req, res) => {
         })
 
     } catch (error) {
-        res.status(400).json(err.message)
+        res.status(400).json(error.message)
     }
 
 }
@@ -110,14 +111,11 @@ exports.deleteRetaurant = async (req, res) => {
 // update the password
 exports.changePassword = async (req, res) => {
     try {
-        currPassword = req.body.currPassword
-        newPassword = req.body.newPassword
         const databasePassword = await signUp.findById(req.params.id)
-        const hashedPassword = await bcrypt.hash(newPassword, 10)
-        const validPassword = await bcrypt.compare(currPassword, databasePassword.password)
-
+        const validPassword = await bcrypt.compare(req.body.currPassword, databasePassword.password)
+        
         if (validPassword) {
-            const { id } = req.params
+            const hashedPassword = await bcrypt.hash(req.body.newPassword, 10)
             const results = await signUp.findByIdAndUpdate(req.params.id, { password: hashedPassword })
             res.status(200).json({
                 status: true,
@@ -151,10 +149,19 @@ exports.logIn = async (req, res) => {
         } else {
             const validPassword = await bcrypt.compare(req.body.password, check.password)
             if (validPassword) {
+                const token = generateAccessToken({
+                    email: req.body.email,
+                    contact_number: req.body.contact_number,
+                    password: req.body.password
+                });
+                
                 res.status(200).json({
                     status: true,
-                    message: 'Successfully Signed in'
+                    message: 'Successfully Signed in',
+                    'user_type' : check.user_type,
+                    'token': token
                 })
+
             } else {
                 res.status(400).json({
                     status: false,

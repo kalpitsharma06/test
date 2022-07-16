@@ -1,10 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const category_type = require('../controller/categoryType')
+const category_type = require('../../admin/controller/category')
 const signUp = require('../controller/signup')
 const multer = require('multer');
 const path = require('path')
-const path1 = path.join(__dirname + '../../public/uploads/')
+const path1 = path.join(__dirname + '../../../public/uploads')
+console.log(path1)
+const { auth } = require('../../services/auth');
+const chalk = require('chalk')
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -18,6 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
 });
+
 
 router.post('/addrestaurent',
     upload.fields([{
@@ -34,9 +38,24 @@ router.post('/addrestaurent',
         name: 'restaurant_logo', maxCount: 1
     }]),
     signUp.addResturent)
-router.put('/updaterestaurent/:id', upload.single('image'), signUp.updateResturentDetails)
+
+    const multerArray = [{
+        name: 'photo_id', maxCount: 1
+    }, {
+        name: 'proof_of_ownership', maxCount: 1
+    }, {
+        name: 'shop_image_front', maxCount: 1
+    }, {
+        name: 'foot_hygiene_registration', maxCount: 1
+    }, {
+        name: 'menu', maxCount: 1
+    }, {
+        name: 'restaurant_logo', maxCount: 1
+    }]
+
+router.put('/updaterestaurent/:id', upload.fields(multerArray),signUp.updateResturentDetails)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
-router.get('/login', signUp.logIn)
+router.get('/login',signUp.logIn)
 router.put('/changepassword/:id', signUp.changePassword)
 
 router.post('/addcategory', upload.single('image'), category_type.addCategory)

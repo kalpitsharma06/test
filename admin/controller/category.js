@@ -85,7 +85,7 @@ exports.updateCategory = async (req, res) => {
         const result = await category.findByIdAndUpdate(req.params.id, {
             category_name: req.body.category_name,
             category_id: req.body.category_id,
-            image: req.file.path
+            image: req.file.filename
         })
 
         res.status(200).json({
@@ -162,7 +162,7 @@ exports.updateSubCategory = async (req, res) => {
     try {
         const result = await sub_Category.findByIdAndUpdate(req.params.id, {
             sub_category_name: req.body.sub_category_name,
-            image: req.file.path,
+            image: req.file.filename,
         })
 
         res.status(200).json({
