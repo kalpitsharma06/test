@@ -1,8 +1,9 @@
 require('dotenv').config()
 const signUp = require('../model/userModel')
+const subCategory = require('../../admin/model/subCategory')
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { generateAccessToken } = require('../../services/auth')
+const { generateAccessToken } = require('../../services/auth');
+const { find } = require('../model/signup');
 
 //USER SING UP
 exports.addUser = async function (req, res, next) {
@@ -141,6 +142,31 @@ exports.logIn = async (req, res) => {
     }
 }
 
+
+
+exports.Search = async(req,res)=>{
+try{
+
+    let data = await subCategory.find({
+        "$or":[
+            {sub_category_name:{$regex:req.params.key}}
+        ]
+         })
+       .select({sub_category_name:1})
+         res.status(200).json({
+            status:"true",
+            result:data
+         })
+}
+catch(error){
+    res.status(400).json(error.message)
+}
+
+
+
+
+
+}
 
 
 

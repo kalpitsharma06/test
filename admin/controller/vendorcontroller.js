@@ -1,12 +1,8 @@
 require('dotenv').config()
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const registeruserModel = require('../../vendor/model/signup')
+const registeruserModel = require('../../apis/model/signup')
 
-function generateAccessToken(userPayload) {
-    return jwt.sign(userPayload, process.env.TOKEN_SECRET);
-}
-
+// Creating Vendor
 exports.create_vendor = async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     let restaurant_name = req.body.restaurant_name;
@@ -34,11 +30,9 @@ exports.create_vendor = async (req, res) => {
     let bank_id = req.body.bank_id;
     let type = "vendor";
 
-    //console.log("req", req)
     if (req.method === 'POST') {
         const check = await registeruserModel.findOne({ email: email })
         console.log(check)
-
         if (check == null) {
             var serachap = {
                 restaurant_name: restaurant_name,
@@ -92,9 +86,7 @@ exports.create_vendor = async (req, res) => {
 
     };
 
-  
-
-
+// Updating Vendor
     exports.edit_vendor = async (req, res) => {
         console.log("req.params.id")
         try {
@@ -134,8 +126,7 @@ exports.create_vendor = async (req, res) => {
     
     }
 
-
-
+//Deleting Vendor
     exports.delete_vendor = async (req, res) => {
         try {
             const result = await registeruserModel.findByIdAndDelete(req.params.id)

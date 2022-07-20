@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const con = require('../../database/db')
 
 var signup = new mongoose.Schema({
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
     restaurant_name:String,
     restaurant_address: String,
     contact_number: Number,

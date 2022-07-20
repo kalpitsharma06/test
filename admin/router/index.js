@@ -2,12 +2,13 @@ const express = require('express')
 const router = express.Router()
 const multer = require('multer');
 const path = require('path')
-const { auth } = require('../../services/auth');
+const { auth,authorization } = require('../../services/auth');
 const path1 = path.join(__dirname + '../../../public/uploads')
-const category_type = require('../../admin/controller/category')
 
+const category_type = require('../../admin/controller/category')
 const signUp = require('../controller/login')
 const vendor = require('../controller/vendorcontroller')
+const user = require('../controller/usercontroller')
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -22,26 +23,14 @@ const upload = multer({
     storage: storage,
 });
 
-const authorization = (req, res, next) => {
-    const token = req.cookies.access_token;
-    if (!token) {
-        return res.sendStatus(403)
-    }
-    try {
-        next();
-    } catch(err) {
-        return err.message
-    }
-};
 
-// login
+// Admin login
 router.get('/logout',authorization, signUp.logout);
 router.post('/signup', signUp.admindetails);
 router.put('/changepassword/:id',authorization, signUp.changePassword);
 router.get('/logIn', signUp.logIn);
 
-// vendorcontrol
-
+// Vendor control
 router.post('/create_vendor',
     upload.fields([{
         name: 'photo_id', maxCount: 1
@@ -57,7 +46,6 @@ router.post('/create_vendor',
         name: 'restaurant_logo', maxCount: 1
     }]), vendor.create_vendor);
 
-
 router.put('/edit_vendor/:id',
     upload.fields([{
         name: 'photo_id', maxCount: 1
@@ -72,21 +60,23 @@ router.put('/edit_vendor/:id',
     }, {
         name: 'restaurant_logo', maxCount: 1
     }]), vendor.edit_vendor);
-
-
 router.delete('/delete_vendor/:id', vendor.delete_vendor);
 
+// Category control
 router.post('/addcategory', upload.single('image'), category_type.addCategory)
 router.get('/getcategorydetails', category_type.getCategoryDetails)
 router.delete('/deletecategory/:id', category_type.deleteCategory)
 router.put('/updatecategory/:id', upload.single('image'), category_type.updateCategory)
 
+// Sub-Category control
 router.post('/addsubcategory', upload.single('image'), category_type.subCategory)
 router.get('/getsubcategorydetails', category_type.getSubCategoryDetails)
 router.delete('/deletesubcategory/:id', category_type.deleteSubCategory)
 router.put('/updatesubcategory/:id', upload.single('image'), category_type.updateSubCategory)
 
-
-
+// User control
+router.post('/adduser',user.addUser)
+router.put('/updateuser/:id',user.updateUser)
+router.delete('/deleteuser/:id', user.deleteUser)
 
 module.exports = router

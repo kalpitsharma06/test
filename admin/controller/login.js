@@ -1,11 +1,7 @@
 require('dotenv').config()
 const signUp = require('../model/login')
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-function generateAccessToken(userPayload) {
-    return jwt.sign(userPayload, process.env.TOKEN_SECRET);
-}
+const {generateAccessToken,auth } = require('../../services/auth')
 
 // SING UP
 exports.admindetails = async function (req, res, next) {

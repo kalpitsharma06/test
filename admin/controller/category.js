@@ -2,7 +2,6 @@ require('dotenv').config()
 const sub_Category = require('../model/subCategory')
 const category = require('../model/category')
 
-
 //add Category
 exports.addCategory = async function (req, res, next) {
     const { category_name, category_id } = req.body
@@ -10,7 +9,6 @@ exports.addCategory = async function (req, res, next) {
         category_name: category_name,
         category_id: category_id,
         image: req.file.filename,
-
     })
     try {
         const check = await category.findOne({ category_name: category_name })
@@ -79,7 +77,7 @@ exports.deleteCategory = async (req, res) => {
     }
 }
 
-// update sub category
+// update category
 exports.updateCategory = async (req, res) => {
     try {
         const result = await category.findByIdAndUpdate(req.params.id, {

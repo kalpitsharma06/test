@@ -8,13 +8,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-const vendorRouter = require('./vendor/router/index')
+const Router = require('./apis/router/index')
 const adminRouter = require('./admin/router/index')
-const userRouter = require('./user/router/index')
 
-app.use('/vendor', vendorRouter)
+
+app.use('/justeat', Router)
 app.use('/admin', adminRouter)
-app.use('/user', userRouter)
+
 
 app.listen(port,()=>{
     console.log(`Server is listining on port : ${port}`)
