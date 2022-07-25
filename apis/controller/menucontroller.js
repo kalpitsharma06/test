@@ -21,13 +21,18 @@ exports.create_menu=(req, res)=> {
     var offer_price = reqdata.offer_price
  
     var menu_description = reqdata.menu_description;
-    // var vendorId = req.user.id;
+  var vendorId = req.user.id;
+  console.log(vendorId)
      var id = req.params.id
     registerusersModel.findOne({ _id: id }, (err, userdata) => {
-        console.log(userdata)
+         const restro_name=userdata.restro_name
+        //  console.log(userdata.restaurant_name)
 
-             var restro_name = "hello"
+        // console.log(req.user)
+
+            
          var type = reqdata.type
+         var  vendorId=req.params.id
         // var errors = req.validationErrors();
         let menu = new itemModel();
         menu.parent = category,
@@ -36,19 +41,19 @@ exports.create_menu=(req, res)=> {
             menu.products.price = price,
             menu.products.quantity = quantity,
             menu.products.image = image,
-            menu.vendorId = req.params.id,
+            menu.vendorId = vendorId,
             menu.products.type = type,
             menu.products.offer_price = offer_price,
             menu.products.restro_name = restro_name
-        itemModel.findOne({ vendorId: vendorId, parent: category }, (err, itemdata) => {
-            console.log(itemdata)
+        itemModel.findOne({ vendorId: vendorId , parent: category }, (err, itemdata) => {
+             console.log(itemdata)
             if (itemdata == null) {
                 const payload = {
                     parent: category,
-                    vendorId: vendorId,
+                    vendorId: vendorId ,
                     products: [{ menu_type, menu_description, price, quantity, image, type, restro_name, offer_price }],
                 };
-                console.log(payload)
+                // console.log(payload)
                 var NewTicket = new itemModel(payload);
                 NewTicket.save(function (err, obj) {
                     if (err) throw err;
@@ -59,7 +64,7 @@ exports.create_menu=(req, res)=> {
                     });
                 });
             } else {
-                if (itemdata.vendorId == vendorId && itemdata.parent == category) {
+                if (itemdata.vendorId == req.params.id  && itemdata.parent == category) {
                     var itemid = itemdata._id;
                     itemdata.products.push({ menu_type, menu_description, price, quantity, image, type, restro_name, offer_price });
                     itemdata = itemdata.save();

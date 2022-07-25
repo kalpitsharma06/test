@@ -4,6 +4,7 @@ const subCategory = require('../../admin/model/subCategory')
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../../services/auth');
 const { find } = require('../model/signup');
+const nodemailer = require('nodemailer');
 
 //USER SING UP
 exports.addUser = async function (req, res, next) {
@@ -75,6 +76,10 @@ exports.deleteUser = async (req, res) => {
     }
 }
 
+
+
+
+
 // update the password
 exports.changePassword = async (req, res) => {
     try {
@@ -122,6 +127,9 @@ exports.logIn = async (req, res) => {
                     password: req.body.password
                 });
 
+                res.cookie("access_token", token, {
+                    httpOnly: true
+                })
                 res.status(200).json({
                     status: true,
                     message: 'Successfully Signed in',
@@ -154,7 +162,7 @@ try{
          })
        .select({sub_category_name:1})
          res.status(200).json({
-            status:"true",
+            status:"true..",
             result:data
          })
 }
@@ -167,6 +175,14 @@ catch(error){
 
 
 }
+
+
+exports.logout = (req, res) => {
+    return res
+        .clearCookie("access_token")
+        .status(200)
+        .json({ message: "Successfully logged out 😏 🍀" });
+};
 
 
 
