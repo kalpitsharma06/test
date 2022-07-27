@@ -66,12 +66,14 @@ exports.logIn = async (req, res) => {
         } else {
             const validPassword = await bcrypt.compare(req.body.password, check.password)
             if (validPassword) {
-                const token = generateAccessToken({
+                const  payload = generateAccessToken({
                     email: req.body.email,
                     contact_number: req.body.contact_number,
                     password: req.body.password
                 });
-
+                let envsecret = auth.getSecretToken();
+                let token = jwt.sign(payload, envsecret);
+                
                 res.cookie("access_token", token, {
                     httpOnly: true
                 })

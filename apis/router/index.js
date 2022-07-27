@@ -22,8 +22,21 @@ const storage = multer.diskStorage({
     },
 });
 
+
+// const upload = multer({
+//     storage: storage,
+// });
+
+
+
+
+
+
+const maxsize= 1024*5
+
 const upload = multer({
     storage: storage,
+    limits: {maxsize}
 });
 const multerArray = [{
     name: 'photo_id', maxCount: 1
@@ -34,9 +47,7 @@ const multerArray = [{
 }, {
     name: 'foot_hygiene_registration', maxCount: 1
 }, {
-    name: 'menu', maxCount: 1
-}, {
-    name: 'restaurant_logo', maxCount: 1
+    name: 'permission_to_trade', maxCount: 1
 }]
 // usercontroller
 
@@ -55,36 +66,24 @@ router.get('/search/:key', addUser.Search)
 
 
 router.post('/addrestaurent',
-    // upload.fields([{
-    //     name: 'photo_id', maxCount: 1
-    // }, {
-    //     name: 'proof_of_ownership', maxCount: 1
-    // }, {
-    //     name: 'shop_image_front', maxCount: 1
-    // }, {
-    //     name: 'foot_hygiene_registration', maxCount: 1
-    // }, {
-    //     name: 'menu', maxCount: 1
-    // }, {
-    //     name: 'restaurant_logo', maxCount: 1
-    // }]),
-    
-    signUp.addResturent)
+//    
+signUp.addResturent)
 
    
 
-router.put('/updaterestaurent/:id', signUp.updateResturentDetails)
+router.put('/updaterestaurent/:id',authorization, signUp.updateResturentDetails)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.get('/login_vendor',signUp.logIn)
-router.put('/changepassword/:id', signUp.changePassword)
 
+router.put('/changepassword/:id', signUp.changePassword)
+// router.put('/searnearby/:id', signUp.searnearby)
 
 
 
 // Products
 
 
-router.post('/create_menu/:id',upload.single('image'),authorization,menu.create_menu);
+router.post('/create_menu/:id',upload.single("image"),authorization,menu.create_menu);
 
 
 

@@ -8,6 +8,8 @@ const nodemailer = require('nodemailer');
 
 //USER SING UP
 exports.addUser = async function (req, res, next) {
+    
+ 
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const singupRecords = new signUp({
         firstname: req.body.firstname,
@@ -181,7 +183,7 @@ exports.logout = (req, res) => {
     return res
         .clearCookie("access_token")
         .status(200)
-        .json({ message: "Successfully logged out 😏 🍀" });
+        .json({ message: "Successfully logged out  🍀" });
 };
 
 
