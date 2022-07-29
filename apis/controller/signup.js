@@ -7,7 +7,7 @@ const { apiAuthAuthenticated, authorization, generateAccessToken } = require('..
 const auth = require("../../services/auth")
 
 // SIgn UP
-exports.addResturent = async function (req, res,next) {
+exports.addrestaurant = async function (req, res,next) {
    try{
     console.log(req.body)
     const confirmemail = req.body.confirmemail
@@ -50,7 +50,7 @@ exports.addResturent = async function (req, res,next) {
                 // account_number: req.body.account_number,
                 // bank_name: req.body.bank_name,
                 // bank_id: req.body.bank_id, 
-                bussiness_operate: req.body.bussiness_operate,
+                business_operate: req.body.business_operate,
                 typeof_location: req.body.typeof_location,
                 drivers_availability: req.body.drivers_availability,
                 status: true,
@@ -105,7 +105,7 @@ exports.addResturent = async function (req, res,next) {
 
 
 
-exports.ownership_verifcation = async function (req, res, next) {
+exports.ownership_verification = async function (req, res, next) {
     
     try{
     
@@ -268,7 +268,7 @@ catch(err){
 
 
 //Update Resturent Details
-exports.updateResturentDetails = async (req, res) => {
+exports.updateResturantDetails = async (req, res) => {
   
     try {
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
@@ -300,7 +300,7 @@ exports.updateResturentDetails = async (req, res) => {
             // account_number: req.body.account_number,
             // bank_name: req.body.bank_name,
             // bank_id: req.body.bank_id, 
-            bussiness_operate: req.body.bussiness_operate,
+            business_operate: req.body.business_operate,
             typeof_location: req.body.typeof_location,
             drivers_availability: req.body.drivers_availability,
             status: true,

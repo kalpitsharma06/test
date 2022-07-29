@@ -31,7 +31,7 @@ var signup = new mongoose.Schema({
     // bank_name: String,
     // bank_id: String,
     drivers_availability: String,
-    bussiness_operate: String,
+    business_operate: String,
     typeof_location: String,
     status: Boolean,
     is_registered: Boolean,

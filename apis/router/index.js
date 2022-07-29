@@ -66,7 +66,7 @@ router.get('/search/:key', addUser.Search)
 
 
 
-router.post('/addrestaurent',signUp.addResturent)
+router.post('/addrestaurant',signUp.addrestaurant)
 
 
 
@@ -82,10 +82,10 @@ router.put('/verification/:id'
 }, {
     name: 'permission_to_trade', maxCount: 1
 }, ])
-,signUp.ownership_verifcation)
+,signUp.ownership_verification)
    
 
-router.put('/updaterestaurent/:id', signUp.updateResturentDetails)
+router.put('/updaterestaurant/:id', signUp.updateResturantDetails)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.get('/login_vendor',signUp.logIn)
 
