@@ -28,7 +28,7 @@ const upload = multer({
 router.get('/logout',authorization_admin, signUp.logout);
 router.post('/signup', signUp.admindetails);
 router.put('/change_password',authorization_admin,signUp.change_Password);
-router.get('/logIn', signUp.logIn);
+router.post('/logIn', signUp.logIn);
 
 // Vendor control
 router.post('/create_vendor',
