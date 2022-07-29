@@ -34,8 +34,8 @@ exports.admindetails = async function (req, res, next) {
 exports.change_Password = async (req, res) => {
     try {
         const databasePassword = await signUp.findById(req.user.id)
-        const hashedPassword = await bcrypt.hash(req.body.newPassword, 10)
-        const validPassword = await bcrypt.compare(req.body.currPassword, databasePassword.password)
+        const hashedPassword = await bcrypt.hash(req.body.new_Password, 10)
+        const validPassword = await bcrypt.compare(req.body.current_Password, databasePassword.password)
 
         if (validPassword) {
             const results = await signUp.findByIdAndUpdate(req.user.id, { password: hashedPassword })
