@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const multer = require('multer');
 const path = require('path')
-const { auth,authorization } = require('../../services/auth');
+const { auth,authorization, authorization_admin } = require('../../services/auth');
 const path1 = path.join(__dirname + '../../../public/uploads')
 
 const category_type = require('../../admin/controller/category')
@@ -25,9 +25,9 @@ const upload = multer({
 
 
 // Admin login
-router.get('/logout',authorization, signUp.logout);
+router.get('/logout',authorization_admin, signUp.logout);
 router.post('/signup', signUp.admindetails);
-router.put('/changepassword/:id',authorization, signUp.changePassword);
+router.put('/change_password',authorization_admin,signUp.change_Password);
 router.get('/logIn', signUp.logIn);
 
 // Vendor control
