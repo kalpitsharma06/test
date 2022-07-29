@@ -4,7 +4,6 @@ info:
   version: 1.0.0
 servers:
   - url: https://test.xntproject.com
-  - url: https://test.xntproject.com/api/v1
   - url: https://localhost:8700
   - url: http://localhost:8700
   - url: http://107.21.164.101:8700
@@ -378,7 +377,7 @@ paths:
     post:
       tags:
         - Admin/ > admin login
-      summary: signup
+      summary: admin/signup
       requestBody:
         content:
           application/json:
@@ -393,6 +392,23 @@ paths:
           content:
             application/json: {}
   /admin/login:
+    post:
+      tags:
+        - Admin/ > admin login
+      summary: admin/login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin
+                password: '1234'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
     get:
       tags:
         - usercontrol
