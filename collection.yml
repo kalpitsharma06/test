@@ -391,7 +391,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/login:
+  /api/v1/admin/login:
     post:
       tags:
         - Admin/ > admin login
@@ -403,16 +403,7 @@ paths:
               type: object
               example:
                 email: admin
-                password: '1234'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    get:
-      tags:
-        - usercontrol
-      summary: login/user
+                password: '123'
       responses:
         '200':
           description: Successful response
@@ -479,6 +470,16 @@ paths:
                 status: true
                 is_registered: 'true'
                 user_type: 'true'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/login:
+    get:
+      tags:
+        - usercontrol
+      summary: login/user
       responses:
         '200':
           description: Successful response
