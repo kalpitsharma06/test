@@ -22,40 +22,42 @@ paths:
       summary: add Restaurent
       requestBody:
         content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABCsdsdssdsd
+                restaurant_address: ABC plaza
+                confirmemail: kkkl
+                email: kkkl
+                contact_number: '99'
+                first_name: deepak
+                last_name: sharma
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                address_of_welcome_pack: regular malll pink square
+                bussiness_operate: basement
+                typeof_location: interna
+                drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/verification/62e375d1258462fb1cfb037c:
+    put:
+      tags:
+        - vendor control
+      summary: ownership verification
+      requestBody:
+        content:
           multipart/form-data:
             schema:
               type: object
               properties:
-                restaurant_name:
-                  type: string
-                  example: ABCsdsdssdsd
-                restaurant_address:
-                  type: string
-                  example: ABC plaza
-                confirmemail:
-                  type: string
-                  example: 321oo
                 email:
                   type: string
-                  example: 321oo
-                contact_number:
-                  type: integer
-                  example: '08'
-                first_name:
-                  type: string
-                  example: deepak
-                last_name:
-                  type: string
-                  example: sharma
-                primary_cuisine:
-                  type: string
-                  example: hello
-                secoundry_cuisine:
-                  type: string
-                  example: hye
-                address_of_welcome_pack:
-                  type: string
-                  example: regular malll pink square
+                  example: kkk
                 photo_id:
                   type: string
                   format: binary
@@ -71,43 +73,73 @@ paths:
                 permission_to_trade:
                   type: string
                   format: binary
-                bussiness_operate:
-                  type: string
-                  example: basement
-                typeof_location:
-                  type: string
-                  example: interna
-                drivers_availability:
-                  type: string
-                  example: jjjjj
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/updaterestaurent:
+  /api/v1/justeat/updaterestaurent/62e375d1258462fb1cfb037c:
     put:
       tags:
         - vendor control
       summary: UPDATE RESTURENT
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
-              example:
-                restaurant_name: ABC
-                restaurant_address: ABC plaza
-                contact_number: '77788994478788'
-                email: 8hbvdvsjjjj
-                password: '123'
-                first_name: madhav
-                last_name: hbhbhbh
-                primary_cuisine: hello
-                secoundry_cuisine: hye
-                drivers_availability: 'we have '
-                typeof_location: garage
-                bussiness_operate: jjjkkkjjjjjjj
+              properties:
+                restaurant_name:
+                  type: string
+                  example: ABCsdsdssdsd
+                restaurant_address:
+                  type: string
+                  example: ABC plaza
+                contact_number:
+                  type: integer
+                  example: '08'
+                email:
+                  type: string
+                  example: ',phh,kkllnkkkkbbbcc'
+                first_name:
+                  type: string
+                  example: deepak
+                last_name:
+                  type: string
+                  example: sharma
+                primary_cuisine:
+                  type: string
+                  example: hellolll
+                secoundry_cuisine:
+                  type: string
+                  example: hye
+                address_of_welcome_pack:
+                  type: string
+                  example: regular malll pink square
+                bussiness_operate:
+                  type: string
+                  example: basement
+                typeof_location:
+                  type: string
+                  example: internakk
+                drivers_availability:
+                  type: string
+                  example: kkk
+                photo_id:
+                  type: string
+                  format: binary
+                proof_of_ownership:
+                  type: string
+                  format: binary
+                shop_image_front:
+                  type: string
+                  format: binary
+                foot_hygiene_registration:
+                  type: string
+                  format: binary
+                permission_to_trade:
+                  type: string
+                  format: binary
       responses:
         '200':
           description: Successful response
