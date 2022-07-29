@@ -13,6 +13,7 @@ tags:
   - name: Admin/
   - name: Admin/ > CATEGORY
   - name: Admin/ > SUB-CATEGORY
+  - name: Admin/ > admin login
   - name: usercontrol
 paths:
   /api/v1/justeat/addrestaurant:
@@ -158,8 +159,8 @@ paths:
   /api/v1/justeat/logout:
     get:
       tags:
-        - vendor control
-      summary: logout
+        - Admin/ > admin login
+      summary: admin/logout
       parameters:
         - name: Authorization
           in: header
@@ -372,6 +373,52 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /admin/signup:
+    post:
+      tags:
+        - Admin/ > admin login
+      summary: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin
+                password: '123'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/login:
+    get:
+      tags:
+        - usercontrol
+      summary: login/user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/change_password:
+    put:
+      tags:
+        - Admin/ > admin login
+      summary: admin/changepassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                new_Password: '123'
+                current_Password: '1234'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /admin/adduser:
     post:
       tags:
@@ -415,16 +462,6 @@ paths:
                 status: true
                 is_registered: 'true'
                 user_type: 'true'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /admin/login:
-    get:
-      tags:
-        - usercontrol
-      summary: login/user
       responses:
         '200':
           description: Successful response
