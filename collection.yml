@@ -15,7 +15,7 @@ tags:
   - name: Admin/ > SUB-CATEGORY
   - name: usercontrol
 paths:
-  /api/v1/justeat/addrestaurent:
+  /api/v1/justeat/addrestaurant:
     post:
       tags:
         - vendor control
@@ -28,15 +28,15 @@ paths:
               example:
                 restaurant_name: ABCsdsdssdsd
                 restaurant_address: ABC plaza
-                confirmemail: kkkl
-                email: kkkl
+                confirm_email: kkkoom0000
+                email: kkkoom0000
                 contact_number: '99'
                 first_name: deepak
                 last_name: sharma
                 primary_cuisine: hello
                 secoundry_cuisine: hye
                 address_of_welcome_pack: regular malll pink square
-                bussiness_operate: basement
+                business_operate: basement
                 typeof_location: interna
                 drivers_availability: jjjjj
       responses:
