@@ -10,9 +10,9 @@ const auth = require("../../services/auth")
 exports.addrestaurant = async function (req, res,next) {
    try{
     console.log(req.body)
-    const confirmemail = req.body.confirmemail
+    const confirm_email = req.body.confirm_email
     const email = req.body.email
-    if (email !== confirmemail) {
+    if (email !== confirm_email) {
         res.status(400).json({
             status: false,
             message: " email/confirm email does not  match",
