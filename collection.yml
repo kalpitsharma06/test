@@ -4,6 +4,7 @@ info:
   version: 1.0.0
 servers:
   - url: https://test.xntproject.com
+  - url: https://test.xntproject.com/api/v1
   - url: https://localhost:8700
   - url: http://localhost:8700
   - url: http://107.21.164.101:8700
