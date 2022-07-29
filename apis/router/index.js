@@ -52,7 +52,7 @@ const multerArray = [{
 // usercontroller
 
 router.post('/adduser',addUser.addUser)
-router.put('/updateuser/:id',addUser.updateUser)
+router.patch('/updateuser/:id',addUser.updateUser)
 router.delete('/deleteuser/:id', addUser.deleteUser)
 router.get('/login',addUser.logIn)
 router.get('/logout',addUser.logout)
@@ -65,13 +65,27 @@ router.get('/search/:key', addUser.Search)
 // vendor controller
 
 
-router.post('/addrestaurent',
-//    
-signUp.addResturent)
 
+router.post('/addrestaurent',signUp.addResturent)
+
+
+
+router.put('/verification/:id'
+,upload.fields([{
+    name: 'photo_id', maxCount: 1
+}, {
+    name: 'proof_of_ownership', maxCount: 1
+}, {
+    name: 'shop_image_front', maxCount: 1
+}, {
+    name: 'foot_hygiene_registration', maxCount: 1
+}, {
+    name: 'permission_to_trade', maxCount: 1
+}, ])
+,signUp.ownership_verifcation)
    
 
-router.put('/updaterestaurent/:id',authorization, signUp.updateResturentDetails)
+router.put('/updaterestaurent/:id', signUp.updateResturentDetails)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.get('/login_vendor',signUp.logIn)
 
@@ -83,7 +97,7 @@ router.put('/changepassword/:id', signUp.changePassword)
 // Products
 
 
-router.post('/create_menu/:id',upload.single("image"),authorization,menu.create_menu);
+router.post('/create_menu/:id',upload.single("image"),menu.create_menu);
 
 
 

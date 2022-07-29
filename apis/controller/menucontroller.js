@@ -95,7 +95,7 @@ exports.create_menu= async(req, res)=> {
     var offer_price = reqdata.offer_price
  
     var menu_description = reqdata.menu_description;
-   console.log(req.user.id);
+//    console.log(req.user.id);
     
      var id = req.params.id
     registerusersModel.findOne({ _id: id }, (err, userdata) => {

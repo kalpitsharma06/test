@@ -1,0 +1,430 @@
+openapi: 3.0.0
+info:
+  title: JUST EAT /
+  version: 1.0.0
+servers:
+  - url: https://test.xntproject.com
+  - url: https://localhost:8700
+  - url: http://localhost:8700
+  - url: http://107.21.164.101:8700
+tags:
+  - name: vendor control
+  - name: products
+  - name: Admin/
+  - name: Admin/ > CATEGORY
+  - name: Admin/ > SUB-CATEGORY
+  - name: usercontrol
+paths:
+  /api/v1/justeat/addrestaurent:
+    post:
+      tags:
+        - vendor control
+      summary: add Restaurent
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                restaurant_name:
+                  type: string
+                  example: ABCsdsdssdsd
+                restaurant_address:
+                  type: string
+                  example: ABC plaza
+                confirmemail:
+                  type: string
+                  example: 321oo
+                email:
+                  type: string
+                  example: 321oo
+                contact_number:
+                  type: integer
+                  example: '08'
+                first_name:
+                  type: string
+                  example: deepak
+                last_name:
+                  type: string
+                  example: sharma
+                primary_cuisine:
+                  type: string
+                  example: hello
+                secoundry_cuisine:
+                  type: string
+                  example: hye
+                address_of_welcome_pack:
+                  type: string
+                  example: regular malll pink square
+                photo_id:
+                  type: string
+                  format: binary
+                proof_of_ownership:
+                  type: string
+                  format: binary
+                shop_image_front:
+                  type: string
+                  format: binary
+                foot_hygiene_registration:
+                  type: string
+                  format: binary
+                permission_to_trade:
+                  type: string
+                  format: binary
+                bussiness_operate:
+                  type: string
+                  example: basement
+                typeof_location:
+                  type: string
+                  example: interna
+                drivers_availability:
+                  type: string
+                  example: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/updaterestaurent:
+    put:
+      tags:
+        - vendor control
+      summary: UPDATE RESTURENT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABC
+                restaurant_address: ABC plaza
+                contact_number: '77788994478788'
+                email: 8hbvdvsjjjj
+                password: '123'
+                first_name: madhav
+                last_name: hbhbhbh
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                drivers_availability: 'we have '
+                typeof_location: garage
+                bussiness_operate: jjjkkkjjjjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/login_vendor:
+    get:
+      tags:
+        - vendor control
+      summary: LOGIN
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/logout:
+    get:
+      tags:
+        - vendor control
+      summary: logout
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzc2Z5dWRmZGZkZHNkc2JjQGdtYWlsLmNvbWRkcnR0cnRld2UiLCJwYXNzd29yZCI6IjkwOTA5MDRzZHMiLCJpYXQiOjE2NTc4NTk2MzN9.SSItFFkQGZxiWZDcSr2oUs_c20H1c4DOFekVeCvaB-o
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/deleteretaurant/62d143e9ed59484782857d8c:
+    delete:
+      tags:
+        - vendor control
+      summary: DELETE RESTURENT
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/create_menu/62e2607e213d010797e7614a:
+    post:
+      tags:
+        - products
+      summary: create_menu
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                parent:
+                  type: string
+                  example: lololol
+                menu_type:
+                  type: string
+                  example: jjhhhhhhhkkkkkk
+                menu_description:
+                  type: string
+                  example: jjjjjjllllkkkk
+                price:
+                  type: integer
+                  example: '122338'
+                quantity:
+                  type: string
+                  example: jjjjjkkkkkk
+                image:
+                  type: string
+                  format: binary
+                type:
+                  type: string
+                  example: jjjjjjkkkkkk
+                restro_name:
+                  type: string
+                  example: jjjjjjkkkk
+                offer_price:
+                  type: string
+                  example: jjkkkjjj
+                category:
+                  type: string
+                  example: iiiiii
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/addcategory:
+    post:
+      tags:
+        - Admin/ > CATEGORY
+      summary: ADD
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                category_name:
+                  type: string
+                  example: newkkkkl
+                category_id:
+                  type: integer
+                  example: '1111456'
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/updatecategory/62d13d78d82891addf1fbcc1:
+    put:
+      tags:
+        - Admin/ > CATEGORY
+      summary: UPDATE
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                category_name:
+                  type: string
+                  example: eastee
+                category_id:
+                  type: integer
+                  example: '556555'
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/getcategorydetails:
+    get:
+      tags:
+        - Admin/ > CATEGORY
+      summary: GET ALL
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/deletecategory/62d50c882b47a20ca807d48f:
+    delete:
+      tags:
+        - Admin/ > CATEGORY
+      summary: DELETE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/addsubcategory:
+    post:
+      tags:
+        - Admin/ > SUB-CATEGORY
+      summary: ADD
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                sub_category_name:
+                  type: string
+                  example: idli wada
+                image:
+                  type: string
+                  format: binary
+                category:
+                  type: string
+                  example: 62d514bae2debf8cfea93777
+                hobbies:
+                  type: string
+                  example: 62d64688fc254801b5947781
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/updatesubcategory/62d551c190166fa2b11fc76c:
+    put:
+      tags:
+        - Admin/ > SUB-CATEGORY
+      summary: UPDATE
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                sub_category_name:
+                  type: string
+                  example: south indiantd
+                image:
+                  type: string
+                  format: binary
+                hobbies:
+                  type: string
+                  example: 62d64688fc254801b5947781
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/getsubcategorydetails:
+    get:
+      tags:
+        - Admin/ > SUB-CATEGORY
+      summary: GET ALL
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/deletesubcategory/62cfaccf4441b9425937720a:
+    delete:
+      tags:
+        - Admin/ > SUB-CATEGORY
+      summary: DELETE
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/adduser:
+    post:
+      tags:
+        - usercontrol
+      summary: adduser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstname: req.body.firstname
+                lastname: req.body.lastname
+                email: req.body.email
+                mobile: '99999'
+                address: oooo
+                password: '00'
+                status: true
+                is_registered: 'true'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/updateuser/62e268c1213d010797e76165:
+    patch:
+      tags:
+        - usercontrol
+      summary: update user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstname: r
+                lastname: r
+                email: req.email
+                mobile: '9990000'
+                address: ooo
+                status: true
+                is_registered: 'true'
+                user_type: 'true'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/login:
+    get:
+      tags:
+        - usercontrol
+      summary: login/user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/logout:
+    get:
+      tags:
+        - usercontrol
+      summary: logout/user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/deleteuser/62e26a88213d010797e76168:
+    delete:
+      tags:
+        - usercontrol
+      summary: Delete user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/search/w:
+    get:
+      tags:
+        - usercontrol
+      summary: recommended/search
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

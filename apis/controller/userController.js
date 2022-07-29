@@ -50,11 +50,11 @@ exports.updateUser = async (req, res) => {
             email: req.body.email,
             mobile: req.body.mobile,
             address: req.body.address,
-            password: req.body.password,
+      
         })
         res.status(200).json({
             status: true,
-            message: "Successfully Updated Resturent details",
+            message: "Successfully userdetails details",
             'results': updateUserDetails
         })
 
