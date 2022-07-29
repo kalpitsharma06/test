@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: Just-Eat
+    runs-on: self-hosted
 
     strategy:
       matrix:
