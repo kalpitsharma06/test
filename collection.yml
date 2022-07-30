@@ -345,9 +345,7 @@ paths:
                 image:
                   type: string
                   format: binary
-                hobbies:
-                  type: string
-                  example: 62d64688fc254801b5947781
+               
       responses:
         '200':
           description: Successful response
