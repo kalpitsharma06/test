@@ -105,10 +105,50 @@ exports.addrestaurant = async function (req, res,next) {
 
 
 
-exports.ownership_verification = async function (req, res, next) {
+exports.menu_bank_details = async function (req, res, next) {
     
     try{
+   
+    var updateResDetails = await signUp.findByIdAndUpdate(req.params.id,{
+          
+     
+       
+        account_holder_name: req.body.account_holder_name,
+        
+        account_number: req.body.account_number,
+        bank_name: req.body.bank_name,
+        sort_code :req.body.sort_code,
+
+    })
     
+          
+
+             
+
+        
+                // await singupRecords.save();
+        res.status(200).json({
+            status: true,
+            message: "Successfully Updated  record",
+            'results': updateResDetails,
+
+        })
+    }
+catch(err){
+    res.status(400).json({
+        status :false,
+        'result': (err.message),
+        'message': "Please submit all the  files"
+    })
+}
+
+}
+
+
+exports.ownership_verification = async function (req, res, next) {
+   
+    try{
+      
     const updateResDetails = await signUp.findByIdAndUpdate(req.params.id,{
           
            
@@ -118,7 +158,13 @@ exports.ownership_verification = async function (req, res, next) {
             shop_image_front: req.files.shop_image_front[0].filename,
             foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
             permission_to_trade: req.files.permission_to_trade[0].filename,
+                  
+        menu:req.files.menu[0].filename,
+        restaurant_logo:req.files.restaurant_logo[0].filename,
+       
+        address_of_welcome_pack:req.body.address_of_welcome_pack,
         })
+       
                 // await singupRecords.save();
         res.status(200).json({
             status: true,
@@ -131,7 +177,7 @@ catch(err){
     res.status(400).json({
         status :false,
         'result': (err.message),
-        'message': "Please submit all the  files"
+        'message': "Please submit all the  required documents"
     })
 }
 
@@ -282,20 +328,7 @@ exports.updateResturantDetails = async (req, res) => {
             last_name: req.body.last_name,
             primary_cuisine: req.body.primary_cuisine,
             secoundry_cuisine: req.body.secoundry_cuisine,
-            photo_id: req.files.photo_id[0].filename,
-            proof_of_ownership: req.files.proof_of_ownership[0].filename,
-            shop_image_front: req.files.shop_image_front[0].filename,
-            foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
-            permission_to_trade: req.files.permission_to_trade[0].filename,
-
-
-
-            // menu: req.files.menu[0].filename,
-            // restaurant_logo: req.files.restaurant_logo[0].filename,
-            // bank_details: req.body.bank_details,
-            // address_of_welcome_pack: req.body.address_of_welcome_pack,
-            // account_holder_type: req.body.account_holder_type,
-            // account_holder_name: req.body.account_holder_name,
+           
             // routing_number: req.body.routing_number,
             // account_number: req.body.account_number,
             // bank_name: req.body.bank_name,

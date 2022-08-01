@@ -48,7 +48,18 @@ const multerArray = [{
     name: 'foot_hygiene_registration', maxCount: 1
 }, {
     name: 'permission_to_trade', maxCount: 1
-}]
+}
+, {
+    name: 'menu', maxCount: 1
+}, {
+    name: 'restaurant_logo', maxCount: 1
+}
+
+
+
+
+
+]
 // usercontroller
 
 router.post('/adduser',addUser.addUser)
@@ -81,8 +92,15 @@ router.put('/verification/:id'
     name: 'foot_hygiene_registration', maxCount: 1
 }, {
     name: 'permission_to_trade', maxCount: 1
-}, ])
+}, 
+{
+    name: 'menu', maxCount: 1
+}, {
+    name: 'restaurant_logo', maxCount: 1
+}])
 ,signUp.ownership_verification)
+
+router.put('/bank_details/:id',signUp.menu_bank_details)
    
 
 router.put('/updaterestaurant/:id', signUp.updateResturantDetails)
