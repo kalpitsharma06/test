@@ -54,7 +54,7 @@ const multerArray = [{
 router.post('/adduser',addUser.addUser)
 router.patch('/updateuser/:id',addUser.updateUser)
 router.delete('/deleteuser/:id', addUser.deleteUser)
-router.get('/login',addUser.logIn)
+router.post('/login_user',addUser.logIn)
 router.get('/logout',addUser.logout)
 router.put('/changepassword/:id', addUser.changePassword)
 router.get('/search/:key', addUser.Search)

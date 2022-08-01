@@ -1,21 +1,23 @@
 require('dotenv').config()
-const signUp = require('../model/userModel')
+const User_signUp = require('../model/userModel')
 const subCategory = require('../../admin/model/subCategory')
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../../services/auth');
+const jwt = require('jsonwebtoken')
 const { find } = require('../model/signup');
 const nodemailer = require('nodemailer');
+const auth = require("../../services/auth")
 
 //USER SING UP
 exports.addUser = async function (req, res, next) {
     
  
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    const singupRecords = new signUp({
+    const singupRecords = new User_signUp({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        mobile: req.body.mobile,
+      
         address: req.body.address,
         password: hashedPassword,
         status: true,
@@ -24,15 +26,15 @@ exports.addUser = async function (req, res, next) {
     })
 
     try {
-        const check = await signUp.findOne({ $or: [{ mobile: req.body.mobile }, { email: req.body.email }] })
+        const check = await User_signUp.findOne( { email: req.body.email })
         if (check !== null) {
-            res.status(400).json('Email or Phone Number Already Registered !')
+            res.status(400).json('Email Already Registered !')
         } else {
             await singupRecords.save();
             res.status(200).json({
                 status: true,
                 message: "Successfully Signed up",
-                'results': singupRecords,
+                'results': singupRecords
             })
         }
 
@@ -44,11 +46,11 @@ exports.addUser = async function (req, res, next) {
 //Update User Details
 exports.updateUser = async (req, res) => {
     try {
-        const updateUserDetails = await signUp.findByIdAndUpdate(req.params.id, {
+        const updateUserDetails = await User_signUp.findByIdAndUpdate(req.params.id, {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             email: req.body.email,
-            mobile: req.body.mobile,
+          
             address: req.body.address,
       
         })
@@ -66,7 +68,7 @@ exports.updateUser = async (req, res) => {
 // Delete User 
 exports.deleteUser = async (req, res) => {
     try {
-        const result = await signUp.findByIdAndDelete(req.params.id)
+        const result = await User_signUp.findByIdAndDelete(req.params.id)
         res.status(200).json({
             status: true,
             message: "Successfully Deleted ",
@@ -112,26 +114,40 @@ exports.changePassword = async (req, res) => {
 
 // Login
 exports.logIn = async (req, res) => {
+
+
     try {
-        const check = await signUp.findOne({ email: req.body.email })
+        const check = await User_signUp.findOne({ email: req.body.email })
         if (check === null) {
             res.status(400).json({
                 status: false,
                 message: 'Email is wrong'
             })
-           
 
         } else {
             const validPassword = await bcrypt.compare(req.body.password, check.password)
             if (validPassword) {
-                const token = generateAccessToken({
-                    email: req.body.email,
-                    password: req.body.password
-                });
 
+                const payload = {
+                    email: req.body.email,
+                    id: check.id,
+                    password: req.body.password
+                };
+                // console.log(check.id)
+                // const payload = {
+                //     email: req.body.email,
+                //     password: req.body.password,
+                //     id:check.id
+
+
+                // };
+                let envsecret = auth.getSecretToken();
+                let token = jwt.sign(payload, envsecret);
                 res.cookie("access_token", token, {
                     httpOnly: true
                 })
+
+
                 res.status(200).json({
                     status: true,
                     message: 'Successfully Signed in',
@@ -150,6 +166,7 @@ exports.logIn = async (req, res) => {
     } catch (err) {
         res.status(400).json(err.message)
     }
+
 }
 
 

@@ -4,7 +4,6 @@ info:
   version: 1.0.0
 servers:
   - url: https://test.xntproject.com
-  - url: https://localhost:8700
   - url: http://localhost:8700
   - url: http://107.21.164.101:8700
 tags:
@@ -159,16 +158,8 @@ paths:
   /api/v1/justeat/logout:
     get:
       tags:
-        - Admin/ > admin login
-      summary: admin/logout
-      parameters:
-        - name: Authorization
-          in: header
-          schema:
-            type: string
-          example: >-
-            Bearer
-            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzc2Z5dWRmZGZkZHNkc2JjQGdtYWlsLmNvbWRkcnR0cnRld2UiLCJwYXNzd29yZCI6IjkwOTA5MDRzZHMiLCJpYXQiOjE2NTc4NTk2MzN9.SSItFFkQGZxiWZDcSr2oUs_c20H1c4DOFekVeCvaB-o
+        - usercontrol
+      summary: logout/user
       responses:
         '200':
           description: Successful response
@@ -230,7 +221,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/addcategory:
+  /admin/addcategory:
     post:
       tags:
         - Admin/ > CATEGORY
@@ -243,7 +234,7 @@ paths:
               properties:
                 category_name:
                   type: string
-                  example: newkkkkl
+                  example: newkkkklkkkkkhhhkkkkkkkl
                 category_id:
                   type: integer
                   example: '1111456'
@@ -255,7 +246,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/updatecategory/62d13d78d82891addf1fbcc1:
+  /admin/updatecategory/62d13d78d82891addf1fbcc1:
     put:
       tags:
         - Admin/ > CATEGORY
@@ -280,7 +271,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/getcategorydetails:
+  /admin/getcategorydetails:
     get:
       tags:
         - Admin/ > CATEGORY
@@ -290,7 +281,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/deletecategory/62d50c882b47a20ca807d48f:
+  /admin/deletecategory/62d50c882b47a20ca807d48f:
     delete:
       tags:
         - Admin/ > CATEGORY
@@ -300,7 +291,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/addsubcategory:
+  /admin/addsubcategory:
     post:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -313,22 +304,19 @@ paths:
               properties:
                 sub_category_name:
                   type: string
-                  example: idli wada
+                  example: madhavkkjj
                 image:
                   type: string
                   format: binary
                 category:
                   type: string
-                  example: 62d514bae2debf8cfea93777
-                hobbies:
-                  type: string
-                  example: 62d64688fc254801b5947781
+                  example: 62e2646b213d010797e76152
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/updatesubcategory/62d551c190166fa2b11fc76c:
+  /api/v1/admin/updatesubcategory/62e76a718fd92ec982ea1a22:
     put:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -341,17 +329,24 @@ paths:
               properties:
                 sub_category_name:
                   type: string
-                  example: south indiantd
+                  example: madhavkklllllllllllllllllllllllllll
                 image:
                   type: string
                   format: binary
-               
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAMTIiLCJpZCI6IjYyZGUzNmExMDcyNGMyMmQyYmU1MmMwNSIsInBhc3N3b3JkIjoiMTIzNCIsImlhdCI6MTY1ODgxNTQzMX0.MjrssS8_5tYxC2OrRLRg1kvkXKcSDxDpxK8_vDtXexA
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/getsubcategorydetails:
+  /admin/getsubcategorydetails:
     get:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -361,7 +356,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/deletesubcategory/62cfaccf4441b9425937720a:
+  /justeat/deletesubcategory/62cfaccf4441b9425937720a:
     delete:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -371,7 +366,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/signup:
+  /admin/signup:
     post:
       tags:
         - Admin/ > admin login
@@ -425,7 +420,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/adduser:
+  /api/v1/justeat/adduser:
     post:
       tags:
         - usercontrol
@@ -436,10 +431,10 @@ paths:
             schema:
               type: object
               example:
-                firstname: req.body.firstname
+                firstname: majdhav
                 lastname: req.body.lastname
-                email: req.body.email
-                mobile: '99999'
+                email: madhkjjkav
+                mobile: '990085589'
                 address: oooo
                 password: '00'
                 status: true
@@ -449,7 +444,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/updateuser/62e268c1213d010797e76165:
+  /api/v1/justeat/updateuser/62e7924613ca4af5c54960aa:
     patch:
       tags:
         - usercontrol
@@ -473,21 +468,11 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/login:
+  /api/v1/justeat/login:
     get:
       tags:
         - usercontrol
       summary: login/user
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /justeat/logout:
-    get:
-      tags:
-        - usercontrol
-      summary: logout/user
       responses:
         '200':
           description: Successful response
