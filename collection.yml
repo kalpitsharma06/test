@@ -431,12 +431,10 @@ paths:
             schema:
               type: object
               example:
-                firstname: majdhav
+                firstname: majdhjjjjjjav
                 lastname: req.body.lastname
-                email: madhkjjkav
-                mobile: '990085589'
-                address: oooo
-                password: '00'
+                email: yojjjjjgi
+                password: '9999'
                 status: true
                 is_registered: 'true'
       responses:
@@ -444,7 +442,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/updateuser/62e7924613ca4af5c54960aa:
+  /api/v1/justeat/updateuser/62e79697cf6f6f267266f03c:
     patch:
       tags:
         - usercontrol
@@ -457,9 +455,8 @@ paths:
               example:
                 firstname: r
                 lastname: r
-                email: req.email
-                mobile: '9990000'
-                address: ooo
+                email: rohjjjjkjit
+                address: ooklllkkkkkkko
                 status: true
                 is_registered: 'true'
                 user_type: 'true'
@@ -468,11 +465,19 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/login:
-    get:
+  /api/v1/justeat/login_user:
+    post:
       tags:
         - usercontrol
       summary: login/user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: yoigi
+                password: '9999'
       responses:
         '200':
           description: Successful response
