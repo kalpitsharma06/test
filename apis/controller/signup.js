@@ -148,7 +148,7 @@ catch(err){
 exports.ownership_verification = async function (req, res, next) {
    
     try{
-      
+     
     const updateResDetails = await signUp.findByIdAndUpdate(req.params.id,{
           
            

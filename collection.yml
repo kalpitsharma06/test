@@ -44,7 +44,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/verification/62e375d1258462fb1cfb037c:
+  /api/v1/justeat/verification/62e7cdcabf3eb8997c36c07e:
     put:
       tags:
         - vendor control
@@ -73,6 +73,36 @@ paths:
                 permission_to_trade:
                   type: string
                   format: binary
+                menu:
+                  type: string
+                  format: binary
+                restaurant_logo:
+                  type: string
+                  format: binary
+                address_of_welcome_pack:
+                  type: string
+                  example: jjjjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/bank_details/62e375d1258462fb1cfb037c:
+    put:
+      tags:
+        - vendor control
+      summary: bankdetails
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                address_of_welcome_pack↵: jjjkkkk
+                account_holder_name: jjjhh
+                account_number: jjjhbh
+                bank_name: juhuh
+                sort_code: jjjjuhuh
       responses:
         '200':
           description: Successful response

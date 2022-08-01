@@ -16,13 +16,13 @@ var signup = new mongoose.Schema({
     primary_cuisine: String,
     secoundry_cuisine: String,
     photo_id:{type:String,  default :null},
-     proof_of_ownership:{type:String, default :null },
-     shop_image_front:{type:String, default :null },
-     foot_hygiene_registration:{type:String, default :null },
-     permission_to_trade:{type:String, default :null },
+     proof_of_ownership:{type:String, default :"null"},
+     shop_image_front:{type:String, default :"null" },
+     foot_hygiene_registration:{type:String, default :"null "},
+     permission_to_trade:{type:String, default :"null" },
     
-    menu:{type:String,  default :null},
-    restaurant_logo:{type:String,  default :null},
+    menu:{type:String,  default :"null"},
+    restaurant_logo:{type:String,  default :"null"},
    
     address_of_welcome_pack:String,
    
