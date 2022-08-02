@@ -36,7 +36,28 @@ var signup = new mongoose.Schema({
     typeof_location: String,
     status: Boolean,
     is_registered: Boolean,
-    user_type: String
+    user_type: String,
+
+// timmings:[{
+        
+//         monday_open: {
+//             type: String 
+//         },
+//         monday_close:{
+//             type :String
+//         },
+//         tuesday_open: { type:String},
+//         tuesday_open: {type:String},
+//         thursday_open: {type:String},
+//         thursday_close: {type:String},
+//         friday_open:{type:String},
+//         friday_close:{type:String},
+//         saturday_open:{type:String},
+//         saturday_close:{type:String},
+//     }
+// ],
+
+    
 });
 
 module.exports = mongoose.model('signup', signup);

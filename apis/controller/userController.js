@@ -1,6 +1,8 @@
 require('dotenv').config()
 const User_signUp = require('../model/userModel')
+const restaurant_model = require('../model/signup')
 const subCategory = require('../../admin/model/subCategory')
+const cartModel = require('../../apis/model/cart')
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../../services/auth');
 const jwt = require('jsonwebtoken')
@@ -201,6 +203,156 @@ exports.logout = (req, res) => {
         .status(200)
         .json({ message: "Successfully logged out  🍀" });
 };
+
+
+//  add cart
+ exports.cart =  async (req, res) => {
+    const { productId, quantity, name, price, offer_price, type } = req.body;
+    var userId = req.user.id;
+    var vendorId = req.body.vendorId;
+    try {
+        let cart = await cartModel.findOne({ userId });
+        cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
+            console.log(data)
+            if (data == null) {
+             restaurant_model.findOne({ _id: ObjectId(vendorId) }, (err, restrodata) => {
+                    if (restrodata == null) {
+                        return res.status(200).json({
+                            status: 201,
+                            message: "Restaurent not found."
+                        });
+                    }
+                    var restro_address = restrodata.restro_address;
+                    var restro_name = restrodata.restro_name;
+                    if (cart) {
+                        //cart exists for user
+                        let itemIndex = cart.products.findIndex(p => p.productId == productId);
+                        console.log(itemIndex)
+                        // console.log(itemIndex)
+                        // console.log(quantity)
+                        // console.log(itemIndex)
+                        // if (itemIndex !== -1 && quantity <= 0) {
+                        //     cart.products.splice(itemIndex, 0);
+                        //     if (cart.products.length == 0) {
+                        //         cart.quantity = 0;
+                        //     } else {
+                        //         cart.price = cart.products.map(products => products.price).reduce((acc, next) => acc + next);
+                        //     }
+                        // }
+                        if (itemIndex > -1) {
+                            //product exists in the cart, update the quantity
+                            let productItem = cart.products[itemIndex];
+                            productItem.quantity = quantity;
+                            productItem.price = price;
+                            productItem.offer_price = offer_price;
+                            productItem.type = type;
+                            cart.products[itemIndex] = productItem;
+                        } else {
+                            //product does not exists in cart, add new item
+                            cart.products.push({ productId, quantity, name, price, offer_price, type });
+                        }
+                        cart = cart.save();
+                        return res.status(200).json({
+                            status: 200,
+                            message: "Your cart updated successfully."
+                        });
+                    } else {
+                        //no cart for user, create new cart
+                        const newCart = cartModel.create({
+                            userId,
+                            vendorId,
+                            restro_name,
+                            restro_address,
+                            products: [{ productId, quantity, name, price, offer_price, type }]
+                        });
+                        return res.status(200).json({
+                            status: 200,
+                            message: "Your cart created successfully."
+                        });
+                    }
+                })
+            } else {
+                cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
+                    var cart_restro = data.restro_name;
+                    restaurant_model.findOne({ _id: ObjectId(vendorId) }, (err, restrodata) => {
+                        var restro_address = restrodata.restro_address;
+                        var restro_name = restrodata.restro_name;
+                        if (cart_restro == restrodata.restro_name) {
+                            if (cart) {
+                                //cart exists for user
+                                let itemIndex = cart.products.findIndex(p => p.productId == productId);
+                                console.log(itemIndex)
+                                // console.log(itemIndex)
+                                // console.log(quantity)
+                                // console.log(itemIndex)
+                                // if (itemIndex !== -1 && quantity <= 0) {
+                                //     cart.products.splice(itemIndex, 0);
+                                //     if (cart.products.length == 0) {
+                                //         cart.quantity = 0;
+                                //     } else {
+                                //         cart.price = cart.products.map(products => products.price).reduce((acc, next) => acc + next);
+                                //     }
+                                // }
+                                if (itemIndex > -1) {
+                                    //product exists in the cart, update the quantity
+                                    let productItem = cart.products[itemIndex];
+                                    productItem.quantity = quantity;
+                                    productItem.price = price;
+                                    productItem.offer_price = offer_price;
+                                    productItem.type = type;
+                                    cart.products[itemIndex] = productItem;
+                                } else {
+                                    //product does not exists in cart, add new item
+                                    cart.products.push({ productId, quantity, name, price, offer_price, type });
+                                }
+                                cart = cart.save();
+                                return res.status(200).json({
+                                    status: 200,
+                                    message: "Your cart updated successfully."
+                                });
+                            } else {
+                                //no cart for user, create new cart
+                                const newCart = cartModel.create({
+                                    userId,
+                                    vendorId,
+                                    restro_name,
+                                    restro_address,
+                                    products: [{ productId, quantity, name, price, offer_price, type }]
+                                });
+                                return res.status(200).json({
+                                    status: 200,
+                                    message: "Your cart created successfully."
+                                });
+                            }
+                        } else {
+                            cartModel.findOne({ vendorId: ObjectId(vendorId) }, (err, cartdata) => {
+                                cartModel.deleteOne({ userId: ObjectId(userId) }, (err, cartdata) => {
+                                    const newCart = cartModel.create({
+                                        userId,
+                                        vendorId,
+                                        restro_name,
+                                        restro_address,
+                                        products: [{ productId, quantity, name, price, offer_price, type }]
+                                    });
+                                    return res.status(200).json({
+                                        status: 200,
+                                        message: "Your cart created successfully."
+                                    });
+                                })
+                            })
+                        }
+                    })
+                })
+            }
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Something went wrong");
+    }
+
+
+
+}
 
 
 

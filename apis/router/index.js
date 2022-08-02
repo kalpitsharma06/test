@@ -66,7 +66,8 @@ router.post('/adduser',addUser.addUser)
 router.patch('/updateuser/:id',authorization_user,addUser.updateUser)
 router.delete('/deleteuser/:id',authorization_user, addUser.deleteUser)
 router.post('/login_user',addUser.logIn)
-router.get('/logout',authorization_user,addUser.logout)
+router.post('/login_user',addUser.logIn)
+router.get('/cart',authorization_user,addUser.cart)
 
 router.put('/changepassword/:id',authorization_user, addUser.changePassword)
 router.get('/search/:key',authorization_user, addUser.Search)
@@ -116,8 +117,9 @@ router.put('/changepassword/:id', signUp.changePassword)
 // Products
 
 
-router.post('/create_menu/:id',upload.single("image"),menu.create_menu);
 
+router.post('/create_menu/:id',upload.single("image"),menu.create_menu);
+router.get('/get_products/:id',upload.single("image"),menu.getall_products);
 
 
 

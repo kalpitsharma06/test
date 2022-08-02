@@ -10,10 +10,10 @@ let item = new mongoose.Schema({
     vendorId: {type:String},
     products:[{
         
-        menu_type: {
+        Product_name: {
             type:String
         },
-        menu_description:{
+        Product_description:{
             type :String
         },
         price: { type:Number},
@@ -24,6 +24,11 @@ let item = new mongoose.Schema({
         offer_price:{type:String},
     }
 ],
+    extras:[{
+        
+    extras_name:String,
+    extras_price:String
+}],
     // name: String,
     // status: String,
     // status: {
