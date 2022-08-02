@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const registerusersModel = require("../apis/model/signup")
 const registerusersModel_admin = require("../admin/model/login")
+const registerusersModel_user = require("../apis/model/userModel")
 
 
 
@@ -80,6 +81,68 @@ exports.authorization =(req,res,next)  =>  {
     }
 }
 
+
+exports.authorization_user =(req,res,next)  =>  {
+
+   
+
+    const token = req.cookies.access_token;
+
+
+    if(!token){
+          res.status(200).json({
+                status: 401,
+                message: "Please Login"
+            });
+            return;
+    }
+    else{
+        try{
+            const verified = jwt.verify(token, 'AcdHz3LjemqvI872qrBpLY4B6SU3h56MexbzQpfWl1I1UgLzghtypLkUkl');
+            
+            
+            
+            
+            
+            req.user = verified;
+            
+            registerusersModel_user.find({_id: req.user.id},(err,rows)=>{
+                if(rows.length>0){
+                    if(rows[0].active != undefined && rows[0].active != null && rows[0].active != ""){
+                        if(rows[0].active == true){
+                            req.user.email=rows[0].email;
+                            next();
+                        }
+                        else{
+                            res.status(401).json({
+                                status: 401,
+                                message: "You Are Blocked!"
+                            });
+                            return;
+                        }
+                    }
+                    else{
+                        next();
+                    }
+                }
+                else {
+                    res.status(401).json({
+                        status: 401,
+                        message: "Invalid Token"
+                    });
+                    return;
+                }
+        });
+        }
+        catch(err){
+            res.status(401).json({
+                status: 401,
+                message: "Invalid Token"
+            });
+            return;
+        }
+    }
+}
 
 
 exports.authorization_admin =(req,res,next)  =>  {

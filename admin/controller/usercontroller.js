@@ -70,4 +70,19 @@ exports.deleteUser = async (req, res) => {
     }
 }
 
+exports.get_users = async (req, res) => {
+    try {
+        const result = await signUp.find()
+        res.status(200).json({
+            status: true,
+            message: "Successfully Fetched all users",
+            'total': result.length,
+            'results': result
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
 

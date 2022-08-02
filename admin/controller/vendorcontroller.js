@@ -141,6 +141,25 @@ exports.create_vendor = async (req, res) => {
         }
     }
 
+    exports.get_restaurants = async (req, res) => {
+        try {
+            const result = await registeruserModel.find()
+            res.status(200).json({
+                status: true,
+                message: "Successfully Fetched all restaurants",
+                'total': result.length,
+                'results': result
+            })
+    
+        } catch (error) {
+            res.status(400).json(error.message)
+        }
+    }
+    
+
+
+  
+
 
 
 

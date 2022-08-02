@@ -50,8 +50,8 @@ exports.updateUser = async (req, res) => {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             email: req.body.email,
-          
             address: req.body.address,
+          
       
         })
         res.status(200).json({
@@ -79,7 +79,6 @@ exports.deleteUser = async (req, res) => {
         res.status(400).json(error.message)
     }
 }
-
 
 
 

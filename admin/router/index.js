@@ -31,6 +31,8 @@ router.put('/change_password',authorization_admin,signUp.change_Password);
 router.post('/logIn', signUp.logIn);
 
 // Vendor control
+router.get('/getrestaurants',vendor.get_restaurants)
+
 router.post('/create_vendor',
     upload.fields([{
         name: 'photo_id', maxCount: 1
@@ -78,5 +80,6 @@ router.put('/updatesubcategory/:id', upload.single('image'), category_type.updat
 router.post('/adduser',user.addUser)
 router.put('/updateuser/:id',user.updateUser)
 router.delete('/deleteuser/:id', user.deleteUser)
+router.get('/getusers',user.get_users)
 
 module.exports = router

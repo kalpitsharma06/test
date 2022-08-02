@@ -7,7 +7,7 @@ const menu = require('../controller/menucontroller')
 const multer = require('multer');
 const path = require('path')
 const path1 = path.join(__dirname + '../../../public/uploads')
-const { auth,authorization ,apiAuthAuthenticated } = require('../../services/auth');
+const { auth,authorization ,apiAuthAuthenticated,authorization_user} = require('../../services/auth');
 
 
 
@@ -63,12 +63,13 @@ const multerArray = [{
 // usercontroller
 
 router.post('/adduser',addUser.addUser)
-router.patch('/updateuser/:id',addUser.updateUser)
-router.delete('/deleteuser/:id', addUser.deleteUser)
+router.patch('/updateuser/:id',authorization_user,addUser.updateUser)
+router.delete('/deleteuser/:id',authorization_user, addUser.deleteUser)
 router.post('/login_user',addUser.logIn)
-router.get('/logout',addUser.logout)
-router.put('/changepassword/:id', addUser.changePassword)
-router.get('/search/:key', addUser.Search)
+router.get('/logout',authorization_user,addUser.logout)
+
+router.put('/changepassword/:id',authorization_user, addUser.changePassword)
+router.get('/search/:key',authorization_user, addUser.Search)
 
 
 
