@@ -3,8 +3,8 @@ info:
   title: JUST EAT /
   version: 1.0.0
 servers:
-  - url: https://test.xntproject.com/api/v1
   - url: https://test.xntproject.com
+  - url: https://test.xntproject.com/api/v1
   - url: http://localhost:8700
   - url: http://107.21.164.101:8700
 tags:
@@ -30,10 +30,11 @@ paths:
               type: object
               example:
                 restaurant_name: ABCsdsdssdsd
-                restaurant_address: ABC plaza
+                restaurant_address: ABC plazap
                 pincode: '11'
-                confirm_email: k99op0
-                email: k99op0
+                confirm_email: kl099
+                email: kl099
+                meal_timming: breakfast
                 contact_number: '99'
                 first_name: deepak
                 last_name: sharma
@@ -91,7 +92,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/bank_details/62e375d1258462fb1cfb037c:
+  /api/v1/justeat/bank_details/62e907c88c7ad0c24291706f:
     put:
       tags:
         - vendor control
@@ -112,7 +113,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/updaterestaurent/62e375d1258462fb1cfb037c:
+  /api/v1/justeat/updaterestaurant/62e375d1258462fb1cfb037c:
     put:
       tags:
         - vendor control
@@ -156,24 +157,6 @@ paths:
                 typeof_location:
                   type: string
                   example: internakk
-                drivers_availability:
-                  type: string
-                  example: kkk
-                photo_id:
-                  type: string
-                  format: binary
-                proof_of_ownership:
-                  type: string
-                  format: binary
-                shop_image_front:
-                  type: string
-                  format: binary
-                foot_hygiene_registration:
-                  type: string
-                  format: binary
-                permission_to_trade:
-                  type: string
-                  format: binary
       responses:
         '200':
           description: Successful response
@@ -192,22 +175,14 @@ paths:
   /api/v1/justeat/logout:
     get:
       tags:
-        - Admin/ > admin login
-      summary: admin/logout
-      parameters:
-        - name: Authorization
-          in: header
-          schema:
-            type: string
-          example: >-
-            Bearer
-            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzc2Z5dWRmZGZkZHNkc2JjQGdtYWlsLmNvbWRkcnR0cnRld2UiLCJwYXNzd29yZCI6IjkwOTA5MDRzZHMiLCJpYXQiOjE2NTc4NTk2MzN9.SSItFFkQGZxiWZDcSr2oUs_c20H1c4DOFekVeCvaB-o
+        - usercontrol
+      summary: logout/user
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/deleteretaurant/62d143e9ed59484782857d8c:
+  /api/v1/justeat/deleteretaurant/62e2607e213d010797e7614a:
     delete:
       tags:
         - vendor control
@@ -217,7 +192,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/create_menu/62e2607e213d010797e7614a:
+  /api/v1/justeat/create_menu/62ea8da82dd2bfc4aa0bfe18:
     post:
       tags:
         - products
@@ -228,36 +203,27 @@ paths:
             schema:
               type: object
               properties:
-                parent:
+                Product_name:
                   type: string
-                  example: lololol
-                menu_type:
+                  example: rasgulla
+                Product_description:
                   type: string
-                  example: jjhhhhhhhkkkkkk
-                menu_description:
-                  type: string
-                  example: jjjjjjllllkkkk
+                  example: seet and cherry
                 price:
-                  type: integer
-                  example: '122338'
-                quantity:
                   type: string
-                  example: jjjjjkkkkkk
+                  example: '100 '
+                quantity:
+                  type: integer
+                  example: '50'
                 image:
                   type: string
                   format: binary
-                type:
-                  type: string
-                  example: jjjjjjkkkkkk
-                restro_name:
-                  type: string
-                  example: jjjjjjkkkk
                 offer_price:
+                  type: integer
+                  example: '80'
+                item_name:
                   type: string
-                  example: jjkkkjjj
-                category:
-                  type: string
-                  example: iiiiii
+                  example: bengali
       responses:
         '200':
           description: Successful response
@@ -273,7 +239,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/addcategory:
+  /admin/addcategory:
     post:
       tags:
         - Admin/ > CATEGORY
@@ -286,10 +252,10 @@ paths:
               properties:
                 category_name:
                   type: string
-                  example: newkkkklkkkkkhhhkkkkkkkl
-                category_id:
-                  type: integer
-                  example: '1111456'
+                  example: kkkkkjjjkkklnniijjkk
+                restaurant_id:
+                  type: string
+                  example: 62ea3c66c2fe73de6aa5db6f
                 image:
                   type: string
                   format: binary
@@ -298,7 +264,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/updatecategory/62d13d78d82891addf1fbcc1:
+  /admin/updatecategory/62d13d78d82891addf1fbcc1:
     put:
       tags:
         - Admin/ > CATEGORY
@@ -323,7 +289,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/getcategorydetails:
+  /admin/getcategorydetails:
     get:
       tags:
         - Admin/ > CATEGORY
@@ -333,7 +299,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/deletecategory/62d50c882b47a20ca807d48f:
+  /admin/deletecategory/62d50c882b47a20ca807d48f:
     delete:
       tags:
         - Admin/ > CATEGORY
@@ -343,7 +309,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/addsubcategory:
+  /admin/addsubcategory:
     post:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -398,7 +364,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/getsubcategorydetails:
+  /admin/getsubcategorydetails:
     get:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -408,7 +374,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/deletesubcategory/62cfaccf4441b9425937720a:
+  /justeat/deletesubcategory/62cfaccf4441b9425937720a:
     delete:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -418,7 +384,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/signup:
+  /admin/signup:
     post:
       tags:
         - Admin/ > admin login
@@ -472,7 +438,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/getrestaurants:
+  /admin/getrestaurants:
     get:
       tags:
         - Admin/ > vendor control
@@ -482,7 +448,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/getusers:
+  /admin/getusers:
     get:
       tags:
         - Admin/ > user control
@@ -538,7 +504,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/admin/justeat/login_user:
+  /api/v1/justeat/login_user:
     post:
       tags:
         - usercontrol
@@ -549,18 +515,8 @@ paths:
             schema:
               type: object
               example:
-                email: yoigi
+                email: yojjjjjgijkkjj
                 password: '9999'
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /api/v1/admin/justeat/logout:
-    get:
-      tags:
-        - usercontrol
-      summary: logout/user
       responses:
         '200':
           description: Successful response
@@ -576,11 +532,21 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/searchbypin/1:
+  /api/v1/justeat/searchbypin/11:
     get:
       tags:
         - usercontrol
       summary: search_restro_bypincode
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/Searchbymealtimming/break:
+    get:
+      tags:
+        - usercontrol
+      summary: Searchby_mealtimming
       responses:
         '200':
           description: Successful response
