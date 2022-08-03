@@ -24,6 +24,7 @@ exports.addrestaurant = async function (req, res,next) {
             const singupRecords = new signUp({
                 restaurant_name: req.body.restaurant_name,
                 restaurant_address: req.body.restaurant_address,
+                pincode:req.body.pincode,
                 contact_number: req.body.contact_number,
                 email: req.body.email,
                 // city:req.body.city,
@@ -143,6 +144,7 @@ catch(err){
 }
 
 }
+
 
 
 exports.ownership_verification = async function (req, res, next) {

@@ -24,8 +24,7 @@ let item = new mongoose.Schema({
         offer_price:{type:String},
     }
 ],
-    extras:[{
-        
+ extras:[{
     extras_name:String,
     extras_price:String
 }],

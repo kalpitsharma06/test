@@ -60,6 +60,13 @@ const multerArray = [{
 
 
 ]
+const upload1 = multer({
+    storage: storage,
+   
+});
+// var multiple_uploads = upload1.fields([{ name: 'photo_id'},{ name: 'proof_of_ownership' }])
+
+
 // usercontroller
 
 router.post('/adduser',addUser.addUser)
@@ -70,7 +77,7 @@ router.post('/login_user',addUser.logIn)
 router.get('/cart',authorization_user,addUser.cart)
 
 router.put('/changepassword/:id',authorization_user, addUser.changePassword)
-router.get('/search/:key',authorization_user, addUser.Search)
+router.get('/searchbypin/:key', addUser.Searchby_pincode)
 
 
 

@@ -5,6 +5,7 @@ var signup = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
     restaurant_name: String,
     restaurant_address: String,
+    pincode:String,
     city: String,
     lattitude: Number,
     longitude: Number,

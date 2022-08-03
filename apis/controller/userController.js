@@ -172,29 +172,44 @@ exports.logIn = async (req, res) => {
 
 
 
-exports.Search = async(req,res)=>{
+exports.Searchby_pincode = async(req,res)=>{
 try{
 
-    let data = await subCategory.find({
+    let data = await restaurant_model.find({
+        
         "$or":[
-            {sub_category_name:{$regex:req.params.key}}
+            {pincode:{$regex:req.params.key}}
         ]
          })
-       .select({sub_category_name:1})
-         res.status(200).json({
-            status:"true..",
-            result:data
-         })
+       .select({restaurant_name:1,restaurant_address:1})
+       if (data.length > 0){
+           res.status(200).json({
+               status:"true..",
+               result:data
+            })
+              
+         }
+         else{
+            res.status(400).json({
+
+                status: false,
+                message: 'No resrautrants related to this pincode'
+            })
+         }
 }
 catch(error){
-    res.status(400).json(error.message)
-}
+    res.status(400).json({
+
+        status: false,
+        message: 'No resrautrants related to this pincode'
+    })
+
+}}
 
 
 
 
 
-}
 
 
 exports.logout = (req, res) => {
@@ -352,7 +367,43 @@ exports.logout = (req, res) => {
 
 
 
-}
+} 
 
+exports.nearbyRestro =  async(req, res) => {
+    var reqdata = req.body;
+    var lat = reqdata.lat;
+    var long = reqdata.long;
+    var userId = [];
+    locationModel.aggregate([
+        {
+            $geoNear: {
+                near: {
+                    "type": "Point",
+                    "coordinates": [Number(long), Number(lat)]
+                },
+                "maxDistance": 32186.9,
+                "spherical": true,
+                query: { user_type: "vendor" },
+                "distanceField": "restroDistance",
+            }
+        },
+        { $limit: 5 }
+    ], function (err, nearbyRestro) {
+        if (nearbyRestro.length == 0) {
+            return res.status(200).json({
+                success: false,
+                status: 401,
+                message: "No nearby restaurant",
+            });
+        } else {
+            return res.status(200).json({
+                success: true,
+                status: 200,
+                message: "Nearby restaurant loaded",
+                data: nearbyRestro
+            });
+        }
+    });
+}
 
 

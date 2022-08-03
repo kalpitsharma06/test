@@ -13,6 +13,8 @@ tags:
   - name: Admin/ > CATEGORY
   - name: Admin/ > SUB-CATEGORY
   - name: Admin/ > admin login
+  - name: Admin/ > vendor control
+  - name: Admin/ > user control
   - name: usercontrol
 paths:
   /api/v1/justeat/addrestaurant:
@@ -28,8 +30,9 @@ paths:
               example:
                 restaurant_name: ABCsdsdssdsd
                 restaurant_address: ABC plaza
-                confirm_email: kkkoom0000
-                email: kkkoom0000
+                pincode: '11'
+                confirm_email: k99op0
+                email: k99op0
                 contact_number: '99'
                 first_name: deepak
                 last_name: sharma
@@ -44,7 +47,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/verification/62e7cdcabf3eb8997c36c07e:
+  /api/v1/justeat/verification/62e94e2f24fbbc2658d61885:
     put:
       tags:
         - vendor control
@@ -188,14 +191,22 @@ paths:
   /api/v1/justeat/logout:
     get:
       tags:
-        - usercontrol
-      summary: logout/user
+        - Admin/ > admin login
+      summary: admin/logout
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzc2Z5dWRmZGZkZHNkc2JjQGdtYWlsLmNvbWRkcnR0cnRld2UiLCJwYXNzd29yZCI6IjkwOTA5MDRzZHMiLCJpYXQiOjE2NTc4NTk2MzN9.SSItFFkQGZxiWZDcSr2oUs_c20H1c4DOFekVeCvaB-o
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /justeat/deleteretaurant/62d143e9ed59484782857d8c:
+  /api/v1/justeat/deleteretaurant/62d143e9ed59484782857d8c:
     delete:
       tags:
         - vendor control
@@ -251,7 +262,17 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/addcategory:
+  /api/v1/justeat/get_products/62e36fc3c1d59716c4f0da5c:
+    get:
+      tags:
+        - products
+      summary: getallproducts
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/addcategory:
     post:
       tags:
         - Admin/ > CATEGORY
@@ -276,7 +297,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/updatecategory/62d13d78d82891addf1fbcc1:
+  /api/v1/admin/updatecategory/62d13d78d82891addf1fbcc1:
     put:
       tags:
         - Admin/ > CATEGORY
@@ -301,7 +322,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/getcategorydetails:
+  /api/v1/admin/getcategorydetails:
     get:
       tags:
         - Admin/ > CATEGORY
@@ -311,7 +332,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/deletecategory/62d50c882b47a20ca807d48f:
+  /api/v1/admin/deletecategory/62d50c882b47a20ca807d48f:
     delete:
       tags:
         - Admin/ > CATEGORY
@@ -321,7 +342,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/addsubcategory:
+  /api/v1/admin/addsubcategory:
     post:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -376,7 +397,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/getsubcategorydetails:
+  /api/v1/admin/getsubcategorydetails:
     get:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -386,7 +407,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/deletesubcategory/62cfaccf4441b9425937720a:
+  /api/v1/justeat/deletesubcategory/62cfaccf4441b9425937720a:
     delete:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -396,7 +417,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/signup:
+  /api/v1/admin/signup:
     post:
       tags:
         - Admin/ > admin login
@@ -450,6 +471,26 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/v1/admin/getrestaurants:
+    get:
+      tags:
+        - Admin/ > vendor control
+      summary: gell all restaurant
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/getusers:
+    get:
+      tags:
+        - Admin/ > user control
+      summary: get users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/v1/justeat/adduser:
     post:
       tags:
@@ -463,7 +504,8 @@ paths:
               example:
                 firstname: majdhjjjjjjav
                 lastname: req.body.lastname
-                email: yojjjjjgi
+                email: yojjjjjgijkkjj
+                address: dfdjfkajf
                 password: '9999'
                 status: true
                 is_registered: 'true'
@@ -495,7 +537,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/login_user:
+  /api/v1/admin/justeat/login_user:
     post:
       tags:
         - usercontrol
@@ -513,6 +555,16 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/v1/admin/justeat/logout:
+    get:
+      tags:
+        - usercontrol
+      summary: logout/user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/v1/justeat/deleteuser/62e26a88213d010797e76168:
     delete:
       tags:
@@ -523,11 +575,11 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/search/w:
+  /api/v1/justeat/searchbypin/1:
     get:
       tags:
         - usercontrol
-      summary: recommended/search
+      summary: search_restro_bypincode
       responses:
         '200':
           description: Successful response
