@@ -125,9 +125,9 @@ exports.add_timmings = async (req, res) => {
 
 exports.create_menu = async (req, res) => {
     var category_id = req.params.id
-    categorymodel.findOne({ _id: category_id, }, (err, userdata) => {
+    categorymodel.findOne({ _id: category_id }, (err, userdata) => {
         var reqdata = req.body
-        // console.log(reqdata)
+        console.log(userdata)
         var restro_id = userdata.restaurant_id;
 
         var item_name = req.body.item_name;
