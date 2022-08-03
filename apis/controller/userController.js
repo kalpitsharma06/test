@@ -206,6 +206,40 @@ catch(error){
 
 }}
 
+exports.Searchby_mealtimming = async(req,res)=>{
+    try{
+    
+        let data = await restaurant_model.find({
+            
+            "$or":[
+                {meal_timming:{$regex:req.params.key}}
+            ]
+             })
+           .select({restaurant_name:1,restaurant_address:1})
+           if (data.length > 0){
+               res.status(200).json({
+                   status:"true..",
+                   result:data
+                })
+                  
+             }
+             else{
+                res.status(400).json({
+    
+                    status: false,
+                    message: 'No resrautrants available for this time shift '
+                })
+             }
+    }
+    catch(error){
+        res.status(400).json({
+    
+            status: false,
+            message: 'No resrautrants available for this time shift '
+        })
+    
+    }}
+
 
 
 

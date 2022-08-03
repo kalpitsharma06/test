@@ -7,26 +7,27 @@ const { apiAuthAuthenticated, authorization, generateAccessToken } = require('..
 const auth = require("../../services/auth")
 
 // SIgn UP
-exports.addrestaurant = async function (req, res,next) {
-   try{
-    console.log(req.body)
-    const confirm_email = req.body.confirm_email
-    const email = req.body.email
-    if (email !== confirm_email) {
-        res.status(400).json({
-            status: false,
-            message: " email/confirm email does not  match",
-        })
-    } else {
+exports.addrestaurant = async function (req, res, next) {
+    try {
+        console.log(req.body)
+        const confirm_email = req.body.confirm_email
+        const email = req.body.email
+        if (email !== confirm_email) {
+            res.status(400).json({
+                status: false,
+                message: " email/confirm email does not  match",
+            })
+        } else {
 
-       
+
             // console.log(req.files.filename)
             const singupRecords = new signUp({
                 restaurant_name: req.body.restaurant_name,
                 restaurant_address: req.body.restaurant_address,
-                pincode:req.body.pincode,
+                pincode: req.body.pincode,
                 contact_number: req.body.contact_number,
                 email: req.body.email,
+                meal_timming: req.body.meal_timming,
                 // city:req.body.city,
                 //  password: hashedPassword,
                 first_name: req.body.first_name,
@@ -66,8 +67,8 @@ exports.addrestaurant = async function (req, res,next) {
                     message: ' restaurant already exist with this email !'
                 })
             } else {
-                
-         
+
+
                 await singupRecords.save();
                 //             singupRecords.save(function (err, new_data) {
                 //                 if (err) return next(err);
@@ -87,47 +88,48 @@ exports.addrestaurant = async function (req, res,next) {
                     'results': singupRecords,
 
                 })
-            
 
-        
+
+
+
+            }
 
         }
+    } catch (err) {
+        res.status(400).json({
+            status: flase,
+            'result': (error.message),
+            'message': "Please submit details "
 
+        })
     }
-}catch(err){
-    res.status(400).json({
-        status :flase,
-        'result': (error.message),
-        'message': "Please submit details "
-     
-})
-}}
+}
 
 
 
 
 exports.menu_bank_details = async function (req, res, next) {
-    
-    try{
-   
-    var updateResDetails = await signUp.findByIdAndUpdate(req.params.id,{
-          
-     
-       
-        account_holder_name: req.body.account_holder_name,
-        
-        account_number: req.body.account_number,
-        bank_name: req.body.bank_name,
-        sort_code :req.body.sort_code,
 
-    })
-    
-          
+    try {
 
-             
+        var updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
 
-        
-                // await singupRecords.save();
+
+
+            account_holder_name: req.body.account_holder_name,
+
+            account_number: req.body.account_number,
+            bank_name: req.body.bank_name,
+            sort_code: req.body.sort_code,
+
+        })
+
+
+
+
+
+
+        // await singupRecords.save();
         res.status(200).json({
             status: true,
             message: "Successfully Updated  record",
@@ -135,39 +137,39 @@ exports.menu_bank_details = async function (req, res, next) {
 
         })
     }
-catch(err){
-    res.status(400).json({
-        status :false,
-        'result': (err.message),
-        'message': "Please submit all the  files"
-    })
-}
+    catch (err) {
+        res.status(400).json({
+            status: false,
+            'result': (err.message),
+            'message': "Please submit all the  files"
+        })
+    }
 
 }
 
 
 
 exports.ownership_verification = async function (req, res, next) {
-   
-    try{
-     
-    const updateResDetails = await signUp.findByIdAndUpdate(req.params.id,{
-          
-           
+
+    try {
+
+        const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
+
+
 
             photo_id: req.files.photo_id[0].filename,
             proof_of_ownership: req.files.proof_of_ownership[0].filename,
             shop_image_front: req.files.shop_image_front[0].filename,
             foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
             permission_to_trade: req.files.permission_to_trade[0].filename,
-                  
-        menu:req.files.menu[0].filename,
-        restaurant_logo:req.files.restaurant_logo[0].filename,
-       
-        address_of_welcome_pack:req.body.address_of_welcome_pack,
+
+            menu: req.files.menu[0].filename,
+            restaurant_logo: req.files.restaurant_logo[0].filename,
+
+            address_of_welcome_pack: req.body.address_of_welcome_pack,
         })
-       
-                // await singupRecords.save();
+
+        // await singupRecords.save();
         res.status(200).json({
             status: true,
             message: "Successfully Updated ownership record",
@@ -175,13 +177,13 @@ exports.ownership_verification = async function (req, res, next) {
 
         })
     }
-catch(err){
-    res.status(400).json({
-        status :false,
-        'result': (err.message),
-        'message': "Please submit all the  required documents"
-    })
-}
+    catch (err) {
+        res.status(400).json({
+            status: false,
+            'result': (err.message),
+            'message': "Please submit all the  required documents"
+        })
+    }
 
 }
 
@@ -317,7 +319,7 @@ catch(err){
 
 //Update Resturent Details
 exports.updateResturantDetails = async (req, res) => {
-  
+
     try {
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
             restaurant_name: req.body.restaurant_name,
@@ -330,7 +332,9 @@ exports.updateResturantDetails = async (req, res) => {
             last_name: req.body.last_name,
             primary_cuisine: req.body.primary_cuisine,
             secoundry_cuisine: req.body.secoundry_cuisine,
-           
+            pincode: req.body.pincode,
+
+            meal_timming: req.body.meal_timming,
             // routing_number: req.body.routing_number,
             // account_number: req.body.account_number,
             // bank_name: req.body.bank_name,
@@ -546,8 +550,8 @@ exports.searnea = async (req, res) => {
 
 
 // exports.timming= async(req, res)=> {
-    
-    
+
+
 //     signUp.findByIdAndUpdate({ _id: id }, (err, userdata) => {
 //     var id = req.
 //              var restro_name = userdata.restaurant_name
@@ -588,7 +592,7 @@ exports.searnea = async (req, res) => {
 //                     // var itemid = itemdata._id;
 //                     itemdata.products.push({ menu_type, menu_description, price, quantity, image, type, restro_name, offer_price });
 //                     itemdata.save();
-                
+
 //                     return res.status(200).json({
 //                         status: 200,
 //                         message: "item updated successfully successfully.",

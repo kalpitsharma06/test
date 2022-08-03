@@ -7,12 +7,12 @@ exports.addCategory = async function (req, res, next) {
    
    
    try{// console.log(req.file)
-    const { category_name, category_id } = req.body
-
+    const { category_name, restaurant_id } = req.body
+console.log(restaurant_id)
     if(req.file){
         var CategoryRecords = new category({
             category_name: category_name,
-            category_id: category_id,
+            restaurant_id: restaurant_id,
             image: req.file.filename,
         })
         console.log(CategoryRecords)}
@@ -20,8 +20,7 @@ exports.addCategory = async function (req, res, next) {
     else{
         var CategoryRecords = new category({
             category_name: category_name,
-            category_id: category_id,
-            
+            restaurant_id: restaurant_id,
     })}
     
             const check = await category.findOne({ category_name: category_name })

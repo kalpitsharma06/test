@@ -3,7 +3,7 @@ const con = require('../../database/db')
 
 const category = new mongoose.Schema({
   category_name:String,
-  category_id:String,
+  restaurant_id:{ type: mongoose.Types.ObjectId, ref: "signup" },
   image:String,
 });
 

@@ -78,6 +78,7 @@ router.get('/cart',authorization_user,addUser.cart)
 
 router.put('/changepassword/:id',authorization_user, addUser.changePassword)
 router.get('/searchbypin/:key', addUser.Searchby_pincode)
+router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 
 
 

@@ -7,6 +7,9 @@ let item = new mongoose.Schema({
     parent:{
         type:String,
     },
+    item_name:{
+        type:String,
+    },
     vendorId: {type:String},
     products:[{
         

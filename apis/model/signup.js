@@ -16,6 +16,7 @@ var signup = new mongoose.Schema({
     last_name: String,
     primary_cuisine: String,
     secoundry_cuisine: String,
+    meal_timming:String,
     photo_id:{type:String,  default :null},
      proof_of_ownership:{type:String, default :"null"},
      shop_image_front:{type:String, default :"null" },
