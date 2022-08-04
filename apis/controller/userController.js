@@ -2,7 +2,7 @@ require('dotenv').config()
 const User_signUp = require('../model/userModel')
 const restaurant_model = require('../model/signup')
 const subCategory = require('../../admin/model/subCategory')
-const cartModel = require('../../apis/model/cart')
+const cartModel = require('../model/cart').cart
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../../services/auth');
 const jwt = require('jsonwebtoken')
@@ -82,9 +82,6 @@ exports.deleteUser = async (req, res) => {
     }
 }
 
-
-
-
 // update the password
 exports.changePassword = async (req, res) => {
     try {
@@ -112,7 +109,6 @@ exports.changePassword = async (req, res) => {
     }
 
 }
-
 // Login
 exports.logIn = async (req, res) => {
 
@@ -169,8 +165,6 @@ exports.logIn = async (req, res) => {
     }
 
 }
-
-
 
 exports.Searchby_pincode = async(req,res)=>{
 try{
@@ -240,11 +234,36 @@ exports.Searchby_mealtimming = async(req,res)=>{
     
     }}
 
+    exports.getrestro_byid = async(req,res)=>{
+        let payload = req.params;
+        payload.userId = req.params.id;
 
+        restaurant_model.findById({_id : payload.userId} , (err ,userdetails ) => {
+           
+           if(userdetails){
+           
+            res.status(200).json({
+                status:"true..",
+                result:userdetails
+             })
+            }else{
 
+                res.status(400).json({
+                    status:"false",
+                    result:"No records"
+                 })
+            }
 
+        }, {
+              
+                // imageData:userimage,
 
-
+              
+                
+            });
+        
+    }
+// }}
 
 exports.logout = (req, res) => {
     return res
@@ -260,22 +279,24 @@ exports.logout = (req, res) => {
     var userId = req.user.id;
     var vendorId = req.body.vendorId;
     try {
+        // let cart = await cartModel.find();
         let cart = await cartModel.findOne({ userId });
         cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
-            console.log(data)
+           
             if (data == null) {
-             restaurant_model.findOne({ _id: ObjectId(vendorId) }, (err, restrodata) => {
+                restaurant_model.findOne({ _id: ObjectId(vendorId) }, (err, restrodata) => {
                     if (restrodata == null) {
                         return res.status(200).json({
                             status: 201,
-                            message: "Restaurent not found."
+                            message: " No restaurant found "
                         });
                     }
                     var restro_address = restrodata.restro_address;
                     var restro_name = restrodata.restro_name;
-                    if (cart) {
+                    if (data) {
                         //cart exists for user
                         let itemIndex = cart.products.findIndex(p => p.productId == productId);
+                        
                         console.log(itemIndex)
                         // console.log(itemIndex)
                         // console.log(quantity)
@@ -291,6 +312,7 @@ exports.logout = (req, res) => {
                         if (itemIndex > -1) {
                             //product exists in the cart, update the quantity
                             let productItem = cart.products[itemIndex];
+                            // console.log(cart.products[itemIndex],"ggg")
                             productItem.quantity = quantity;
                             productItem.price = price;
                             productItem.offer_price = offer_price;
@@ -303,7 +325,7 @@ exports.logout = (req, res) => {
                         cart = cart.save();
                         return res.status(200).json({
                             status: 200,
-                            message: "Your cart updated successfully."
+                            message: "Your cart updated successfully. added new item 1 "
                         });
                     } else {
                         //no cart for user, create new cart
@@ -316,7 +338,7 @@ exports.logout = (req, res) => {
                         });
                         return res.status(200).json({
                             status: 200,
-                            message: "Your cart created successfully."
+                            message: "Your cart created successfully. created new cart 2"
                         });
                     }
                 })
@@ -345,7 +367,9 @@ exports.logout = (req, res) => {
                                 if (itemIndex > -1) {
                                     //product exists in the cart, update the quantity
                                     let productItem = cart.products[itemIndex];
-                                    productItem.quantity = quantity;
+                                    
+                                    productItem.quantity = itemIndex;
+                                    console.log(productItem)
                                     productItem.price = price;
                                     productItem.offer_price = offer_price;
                                     productItem.type = type;
@@ -357,7 +381,7 @@ exports.logout = (req, res) => {
                                 cart = cart.save();
                                 return res.status(200).json({
                                     status: 200,
-                                    message: "Your cart updated successfully."
+                                    message: "Your cart updated successfully. added new ite m  3"
                                 });
                             } else {
                                 //no cart for user, create new cart
@@ -370,7 +394,7 @@ exports.logout = (req, res) => {
                                 });
                                 return res.status(200).json({
                                     status: 200,
-                                    message: "Your cart created successfully."
+                                    message: "Your cart created successfully. no cart for user created new cart 4"
                                 });
                             }
                         } else {
@@ -385,7 +409,7 @@ exports.logout = (req, res) => {
                                     });
                                     return res.status(200).json({
                                         status: 200,
-                                        message: "Your cart created successfully."
+                                        message: "Your cart created successfully. 6"
                                     });
                                 })
                             })
@@ -439,5 +463,20 @@ exports.nearbyRestro =  async(req, res) => {
         }
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

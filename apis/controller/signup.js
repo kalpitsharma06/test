@@ -1,5 +1,6 @@
 require('dotenv').config()
 const signUp = require('../model/signup')
+const restaurant_additionalinfonModel = require('../model/additionalinfo')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const locationModel = require('../model/location').location;
@@ -104,6 +105,185 @@ exports.addrestaurant = async function (req, res, next) {
         })
     }
 }
+
+exports.restaurant_additionalinfo = async function (req, res, next) {
+    // try{
+        // console.log(req.file.filename)
+        var restro_id = req.user.id
+        signUp.findOne({ _id: restro_id }, (err, userdata) => {
+            console.log(userdata)
+    
+   var restro_name= userdata.restaurant_name         
+ var monday_open = req.body.monday_open
+var monday_close = req.body.monday_close
+var tuesday_open = req.body.tuesday_open
+var tuesday_close = req.body.tuesday_close
+var wednesday_open = req.body.wednesday_open
+var wednesday_close = req.body.wednesday_close
+var  thursday_open  = req.body.thursday_open
+var  thursday_close  = req.body.thursday_close
+var  friday_open  = req.body.friday_open
+var  friday_close  = req.body.friday_close
+var  saturday_open  = req.body.saturday_open
+var  saturday_close  = req.body.saturday_close
+var  sunday_open  = req.body.sunday_open
+var  sunday_close  = req.body.sunday_close
+
+let info = new restaurant_additionalinfonModel();
+
+
+info.restaurant_name = restro_name,         
+info.timmings.monday_open = monday_open,
+info.timmings.monday_close = monday_close,
+info.timmings.tuesday_open = tuesday_open,
+info.timmings.tuesday_close = tuesday_close,
+info.timmings.wednesday_open = wednesday_open,
+info.timmings.wednesday_close = wednesday_close,
+info.timmings.thursday_open  = thursday_open,
+info.timmings.thursday_close  = thursday_close,
+info.timmings.friday_open  = friday_open,
+info.timmings.friday_close  = friday_close, 
+info.timmings.saturday_open  = saturday_open,
+info.timmings.saturday_close  = saturday_close,
+info.timmings.sunday_open  = sunday_open,
+info.timmings.sunday_close  = sunday_close,
+
+
+
+payload = {
+
+    restaurant_name:restro_name,
+    timmings: [{   monday_open,monday_close,tuesday_open,tuesday_open,thursday_open, thursday_close,friday_open,friday_close, saturday_open,saturday_close,sunday_open,sunday_close}],
+};
+
+console.log(payload)
+ NewTicket = new restaurant_additionalinfonModel(payload);
+NewTicket.save(
+    (function (err, obj) {
+        if (err) throw err;
+        return res.status(200).json({
+            success: true,
+            message: " Data  added  successfully",
+            payload: NewTicket
+        });
+    }));
+// console.log(itemdata)s
+
+
+
+    })
+}
+    
+
+// try{
+//     console.log(req.file.filename)
+// var restro_id = req.params.id
+// signUp.findOne({ _id: restro_id }, (err, userdata) => {
+//     var reqdata = req.body
+//     console.log(userdata)
+//     var restro_id = userdata.restaurant_id;
+
+//     var item_name = req.body.item_name;
+//     var reqdata = req.body;
+//     var category = userdata.category_name;
+//     var Product_name = reqdata.Product_name;
+//     var Product_description = reqdata.Product_description;
+//     var price = reqdata.price;
+//     var quantity = reqdata.quantity;
+//     var image = req.file.filename;
+//     var offer_price = reqdata.offer_price
+
+
+   
+//     registerusersModel.findOne({ _id: restro_id, }, (err, restrodate) => {
+
+
+//         var restro_name = restrodate.restaurant_name
+//         var type = restrodate.user_type
+//         // var errors = req.validationErrors();
+//         let menu = new itemModel();
+//         menu.parent = category,
+//             menu.products.item_name = item_name,
+//             menu.products.Product_name = Product_name,
+//             menu.products.Product_description = Product_description,
+//             menu.products.price = price,
+//             menu.products.quantity = quantity,
+//             menu.products.image = image,
+//             menu.vendorId = req.params.id,
+//             menu.products.type = type,
+//             menu.products.offer_price = offer_price,
+//             menu.products.restro_name = restro_name
+
+
+
+//         itemModel.findOne({ item_name: item_name }, (err, itemdata) => {
+
+//             if (itemdata == null) {
+//                 if(image){
+
+//                     const payload = {
+//                         parent: category,
+//                         item_name: item_name,
+//                         products: [{ Product_name, Product_description, price, quantity, image, type, restro_name, offer_price }],
+//                     };
+//                 }else{
+//                     const payload = {
+//                         parent: category,
+//                         item_name: item_name,
+//                         products: [{ Product_name, Product_description, price, quantity,  type, restro_name, offer_price }],
+//                     };
+//                 }
+//                 // console.log(products,"!1111")
+//                 var NewTicket = new itemModel(payload);
+//                 NewTicket.save(
+//                     (function (err, obj) {
+//                         if (err) throw err;
+//                         return res.status(200).json({
+//                             success: true,
+//                             message: "Item created successfully",
+//                             payload: payload
+//                         });
+//                     }));
+//                 console.log(itemdata)
+//             } else {
+//                 if (itemdata.item_name == item_name) {
+//                    if(image){
+
+//                        itemdata.products.push({ Product_name, Product_description, price, quantity, image, type, restro_name, offer_price });
+//                        itemdata.save();
+//                     }else{
+//                         itemdata.products.push({ Product_name, Product_description, price, quantity,  type, restro_name, offer_price });
+//                         itemdata.save();
+//                     }
+//                     console.log(itemdata, ">>>>.");
+//                     return res.status(200).json({
+//                         status: 200,
+//                         message: "item updated successfully successfully.",
+//                         result: itemdata
+//                     });
+//                 }
+//             }
+//         })
+
+//     })
+// })
+// } catch (err) {
+// res.status(400).json({
+//     status: false,
+//     'result': (err.message),
+//     'message': "  menu creation unsuccessfull "
+
+// })
+// }
+// }
+
+
+
+
+  
+
+      
+// }}}
 
 
 
@@ -488,14 +668,15 @@ exports.logIn = async (req, res) => {
                 message: 'Email is wrong'
             })
 
-        } else {
-            const validPassword = await bcrypt.compare(req.body.password, check.password)
-            if (validPassword) {
+        }
+          else {
+        //     const validPassword = await bcrypt.compare(req.body.password, check.password)
+        //     if (validPassword) {
 
                 const payload = {
                     email: req.body.email,
                     id: check.id,
-                    password: req.body.password
+                    // password: req.body.password
                 };
                 // console.log(check.id)
                 // const payload = {
@@ -519,15 +700,17 @@ exports.logIn = async (req, res) => {
                     'token': token
                 })
 
-            } else {
-                res.status(400).json({
-                    status: false,
-                    message: 'password is wrong'
-                })
-            }
+            } 
+            // else {
+            //     res.status(400).json({
+            //         status: false,
+            //         message: 'password is wrong'
+            //     })
+            // }
         }
 
-    } catch (err) {
+    // }
+     catch (err) {
         res.status(400).json(err.message)
     }
 

@@ -19,7 +19,7 @@ exports.generateAccessToken = (userPayload) => {
 //     next()
 // }
 
-exports.authorization =(req,res,next)  =>  {
+exports.authorization_restro =(req,res,next)  =>  {
 
    
 
@@ -107,6 +107,7 @@ exports.authorization_user =(req,res,next)  =>  {
             req.user = verified;
             
             registerusersModel_user.find({_id: req.user.id},(err,rows)=>{
+                // console.log(req.user)
                 if(rows.length>0){
                     if(rows[0].active != undefined && rows[0].active != null && rows[0].active != ""){
                         if(rows[0].active == true){
@@ -137,7 +138,7 @@ exports.authorization_user =(req,res,next)  =>  {
         catch(err){
             res.status(401).json({
                 status: 401,
-                message: "Invalid Token"
+                message: "Invalid Tokens"
             });
             return;
         }

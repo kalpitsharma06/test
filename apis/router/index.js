@@ -7,7 +7,7 @@ const menu = require('../controller/menucontroller')
 const multer = require('multer');
 const path = require('path')
 const path1 = path.join(__dirname + '../../../public/uploads')
-const { auth,authorization ,apiAuthAuthenticated,authorization_user} = require('../../services/auth');
+const { auth,   authorization_restro ,apiAuthAuthenticated,authorization_user} = require('../../services/auth');
 
 
 
@@ -79,6 +79,9 @@ router.get('/cart',authorization_user,addUser.cart)
 router.put('/changepassword/:id',authorization_user, addUser.changePassword)
 router.get('/searchbypin/:key', addUser.Searchby_pincode)
 router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
+router.get('/getrestro_byid/:id',addUser.getrestro_byid);
+router.post('/cart',authorization_user,addUser.cart);
+
 
 
 
@@ -87,8 +90,9 @@ router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 
 
 
-router.post('/addrestaurant',signUp.addrestaurant)
 
+router.post('/addrestaurant',signUp.addrestaurant)
+router.post('/restro_additionalinfo',authorization_restro,signUp.restaurant_additionalinfo)
 
 
 router.put('/verification/:id'

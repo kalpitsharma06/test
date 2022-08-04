@@ -9,21 +9,6 @@ let itemModel = require('../../apis/model/item').item;
 const registerusersModel = require('../model/signup')
 
 
-exports.add_timmings = async (req, res) => {
-
-    console.log(req.file)
-    var reqdata = req.body;
-    var monday_open = reqdata.monday_open;
-    var Product_name = reqdata.monday_close;
-    var price = reqdata.price;
-    var quantity = reqdata.quantity;
-    var image = req.file.filename;
-    var offer_price = reqdata.offer_price
-
-
-
-
-}
 
 // from restro pov
 
@@ -228,6 +213,22 @@ exports.create_menu = async (req, res) => {
     })
 }
 }
+exports.category_listing = async (req, res) => {
+    var reqdata = req.body;
+
+
+    categorymodel.find({}, (err, userdata) => {
+        return res.status(200).json({
+            success: true,
+            data: userdata,
+            message: "Category listing loaded",
+        });
+    })
+
+},
+
+
+
 
 
 

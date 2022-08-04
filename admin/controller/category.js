@@ -24,7 +24,7 @@ exports.addCategory = async function (req, res, next) {
             restaurant_id: restaurant_id,
     })}
     
-            const check = await category.findOne({category_name: category_name,restaurant_id:restaurant_id} )
+            const check = await category.findOne({category_name: category_name , restaurant_id:restaurant_id} )
             
             console.log(check,"ffff")
             if (check) {
