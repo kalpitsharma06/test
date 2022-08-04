@@ -124,6 +124,11 @@ exports.add_timmings = async (req, res) => {
 //     })}
 
 exports.create_menu = async (req, res) => {
+   
+    
+
+    try{
+        console.log(req.file.filename)
     var category_id = req.params.id
     categorymodel.findOne({ _id: category_id }, (err, userdata) => {
         var reqdata = req.body
@@ -134,12 +139,14 @@ exports.create_menu = async (req, res) => {
         var reqdata = req.body;
         var category = userdata.category_name;
         var Product_name = reqdata.Product_name;
+        var Product_description = reqdata.Product_description;
         var price = reqdata.price;
         var quantity = reqdata.quantity;
         var image = req.file.filename;
         var offer_price = reqdata.offer_price
 
-        var Product_description = reqdata.Product_description;
+    
+       
         registerusersModel.findOne({ _id: restro_id, }, (err, restrodate) => {
 
 
@@ -164,11 +171,20 @@ exports.create_menu = async (req, res) => {
             itemModel.findOne({ item_name: item_name }, (err, itemdata) => {
 
                 if (itemdata == null) {
-                    const payload = {
-                        parent: category,
-                        item_name: item_name,
-                        products: [{ Product_name, Product_description, price, quantity, image, type, restro_name, offer_price }],
-                    };
+                    if(image){
+
+                        const payload = {
+                            parent: category,
+                            item_name: item_name,
+                            products: [{ Product_name, Product_description, price, quantity, image, type, restro_name, offer_price }],
+                        };
+                    }else{
+                        const payload = {
+                            parent: category,
+                            item_name: item_name,
+                            products: [{ Product_name, Product_description, price, quantity,  type, restro_name, offer_price }],
+                        };
+                    }
                     // console.log(products,"!1111")
                     var NewTicket = new itemModel(payload);
                     NewTicket.save(
@@ -183,9 +199,14 @@ exports.create_menu = async (req, res) => {
                     console.log(itemdata)
                 } else {
                     if (itemdata.item_name == item_name) {
-                        var itemid = itemdata._id;
-                        itemdata.products.push({ Product_name, Product_description, price, quantity, image, type, restro_name, offer_price });
-                        itemdata.save();
+                       if(image){
+
+                           itemdata.products.push({ Product_name, Product_description, price, quantity, image, type, restro_name, offer_price });
+                           itemdata.save();
+                        }else{
+                            itemdata.products.push({ Product_name, Product_description, price, quantity,  type, restro_name, offer_price });
+                            itemdata.save();
+                        }
                         console.log(itemdata, ">>>>.");
                         return res.status(200).json({
                             status: 200,
@@ -198,6 +219,14 @@ exports.create_menu = async (req, res) => {
 
         })
     })
+ } catch (err) {
+    res.status(400).json({
+        status: false,
+        'result': (err.message),
+        'message': "  menu creation unsuccessfull "
+
+    })
+}
 }
 
 

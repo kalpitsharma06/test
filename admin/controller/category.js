@@ -8,14 +8,15 @@ exports.addCategory = async function (req, res, next) {
    
    try{// console.log(req.file)
     const { category_name, restaurant_id } = req.body
-console.log(restaurant_id)
+// console.log(restaurant_id)
     if(req.file){
         var CategoryRecords = new category({
             category_name: category_name,
             restaurant_id: restaurant_id,
             image: req.file.filename,
         })
-        console.log(CategoryRecords)}
+        // console.log(CategoryRecords)
+    }
       
     else{
         var CategoryRecords = new category({
@@ -23,8 +24,10 @@ console.log(restaurant_id)
             restaurant_id: restaurant_id,
     })}
     
-            const check = await category.findOne({ category_name: category_name })
-            if (check !== null) {
+            const check = await category.findOne({category_name: category_name,restaurant_id:restaurant_id} )
+            
+            console.log(check,"ffff")
+            if (check) {
                 res.status(400).json( {
                     status: false,
                     message:"category already exist"
@@ -40,7 +43,8 @@ console.log(restaurant_id)
         } catch (err) {
             res.status(400).json({
                 status: false,
-                message: err.message,})
+                message: err.message,
+                message:"category already exist with this restaurant"})
         }}
 
     
