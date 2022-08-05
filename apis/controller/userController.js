@@ -9,7 +9,8 @@ const jwt = require('jsonwebtoken')
 const { find } = require('../model/signup');
 const nodemailer = require('nodemailer');
 const auth = require("../../services/auth")
-
+var lodash = require('lodash');
+let itemModel = require('../../apis/model/item').item;
 //USER SING UP
 exports.addUser = async function (req, res, next) {
     
@@ -355,6 +356,76 @@ exports.logout = (req, res) => {
 
 
 } 
+
+
+
+exports.cart_list =  async (req, res) => {
+    var id = req.user.id;
+    cartModel.find({ userId: ObjectId(id) }, (err, cartdata) => {
+        
+        let result = cartdata.map(a => a.vendorId == 99);
+        //  console.log(result)
+
+        let productId = cartdata.map(p => p.products);
+        let quantity = cartdata.map(a => a.quantity);
+        let pro = cartdata.map(p => p.products);
+    //     let newArray = lodash.flatten(pro);
+    //  console.log("pro", pro)
+    //      console.log("qwe", quantity)
+
+        var vendorId = result.toString()
+        // console.log(vendorId)
+        itemModel.findOne({ vendorId: vendorId }, (err, itemdata) => {
+            if (cartdata.length == 0) {
+                return res.status(200).json({
+                    status: 401,
+                    message: 'No item available in your cart'
+                });
+            } else {
+                return res.status(200).json({
+                    status: 200,
+                    data: cartdata,
+                    message: 'cart listing loaded'
+                });
+            }
+        })
+    })
+},
+
+exports.clear_cart = async (req, res) => {
+  try{
+    const  id  = req.params.id;
+    const { productId_no } = req.body;
+ 
+  const data =cartModel.findOne({id:id})
+//   console.log(data)
+    cartModel.findOne({ _id: id }, (err, cartdata) => {
+        console.log(cartdata,"dddddddd")
+        var products = cartdata.products
+        
+        if (products.length == 1) { 
+            cartModel.findOneAndDelete({ _id: ObjectId(id) }, (err, cartdata) => {
+                return res.status(200).json({
+                    status: 200,
+                    message: "Your cart is empty"
+                });
+            })
+        } else {
+            console.log(cartdata.products.splice(productId_no, 1))
+            cartdata = cartdata.save();
+            return res.status(200).json({
+                status: 200,
+                message: "Your quantity reduced successfull."
+            });
+        }
+
+    }) }catch(err){
+
+     res.status(400).json({
+        status: 400,
+        message: "something went wrong"
+    })}
+},
 
 exports.nearbyRestro =  async(req, res) => {
     var reqdata = req.body;

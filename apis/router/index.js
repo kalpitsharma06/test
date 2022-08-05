@@ -81,6 +81,8 @@ router.get('/searchbypin/:key', addUser.Searchby_pincode)
 router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 router.post('/cart',authorization_user,addUser.cart);
+router.get('/cart_list',authorization_user,addUser.cart_list);
+router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 
 
 
