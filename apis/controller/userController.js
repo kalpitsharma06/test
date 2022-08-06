@@ -11,6 +11,7 @@ const nodemailer = require('nodemailer');
 const auth = require("../../services/auth")
 var lodash = require('lodash');
 let itemModel = require('../../apis/model/item').item;
+let orderModel = require('../../apis/model/order').order;
 //USER SING UP
 exports.addUser = async function (req, res, next) {
     
@@ -264,7 +265,7 @@ exports.Searchby_mealtimming = async(req,res)=>{
             });
         
     }
-// }}
+// 
 
 exports.logout = (req, res) => {
     return res
@@ -393,39 +394,41 @@ exports.cart_list =  async (req, res) => {
 },
 
 exports.clear_cart = async (req, res) => {
-  try{
-    const  id  = req.params.id;
-    const { productId_no } = req.body;
- 
-  const data =cartModel.findOne({id:id})
-//   console.log(data)
-    cartModel.findOne({ _id: id }, (err, cartdata) => {
-        console.log(cartdata,"dddddddd")
-        var products = cartdata.products
-        
-        if (products.length == 1) { 
-            cartModel.findOneAndDelete({ _id: ObjectId(id) }, (err, cartdata) => {
-                return res.status(200).json({
-                    status: 200,
-                    message: "Your cart is empty"
-                });
-            })
-        } else {
-            console.log(cartdata.products.splice(productId_no, 1))
-            cartdata = cartdata.save();
-            return res.status(200).json({
-                status: 200,
-                message: "Your quantity reduced successfull."
-            });
-        }
+    try{
 
-    }) }catch(err){
-
-     res.status(400).json({
-        status: 400,
-        message: "something went wrong"
-    })}
-},
+      const  id  = req.params.id;
+      const { productId_no } = req.body;
+   
+  
+  //   console.log(data)
+      cartModel.findOne({ _id: id }, (err, cartdata) => {
+          console.log(cartdata,"dddddddd")
+          var products = cartdata.products
+          
+          if (products.length == 1) { 
+              cartModel.findOneAndDelete({ _id: ObjectId(id) }, (err, cartdata) => {
+                  return res.status(200).json({
+                      status: 200,
+                      message: "Your cart is empty"
+                  });
+              })
+          } else {
+              console.log(cartdata.products.splice(productId_no, 1))
+              cartdata = cartdata.save();
+              return res.status(200).json({
+                  status: 200,
+                  message: "Your quantity reduced successfull."
+              });
+          }
+  
+      }) }catch(err){
+  
+       res.status(400).json({
+          status: 400,
+          message: "something went wrong"
+      })}
+  },
+  
 
 exports.nearbyRestro =  async(req, res) => {
     var reqdata = req.body;
@@ -462,6 +465,108 @@ exports.nearbyRestro =  async(req, res) => {
             });
         }
     });
+}
+
+
+
+
+ exports. create_order = (req, res) => {
+    var reqdata = req.body;
+    var order_id = "122222";
+    var transaction_id = 'txn-125sau788u978jo';
+    var transaction_status = 'complete';
+    // console.log(req.user)
+    var id1 = req.user.id
+    var id = req.body.id
+    console.log(id)
+    User_signUp.findOne({ _id: id1 }, (err, userdata) => {
+   
+        var first_name = userdata.first_name;
+        var last_name = userdata.last_name;
+        var customerID = userdata._id;
+        cartModel.findOne({ _id: id }, (err, cartdata) => {
+            console.log(cartdata)
+                if (err) throw err;
+        
+            console.log(cartdata)
+            var restro_name = cartdata.restro_name;
+            var restro_address = cartdata.restro_address;
+            var vendorID = cartdata.vendorId;
+            var payment = reqdata.payment;
+            var subtotal = reqdata.subtotal;
+            var products = cartdata.products;
+            // var errors = req.validationErrors();
+            restaurant_model.findOne({ _id: vendorID }, (err, vendordata) => {
+                var mobile = vendordata.mobile;
+                var restro_image = vendordata.image;
+                console.log(vendordata)
+                console.log(mobile)
+                let order = new orderModel();
+                order.transaction_id = transaction_id,
+                    order.transaction_status = transaction_status,
+                    order.order_id = order_id,
+                    order.first_name = first_name,
+                    order.last_name = last_name,
+                    order.restro_name = restro_name,
+                    order.restro_address = restro_address,
+                    order.mobile = mobile,
+                    order.restro_image = restro_image,
+                    order.payment = payment,
+                    order.products = products
+                order.vendorID = vendorID,
+                    order.customerID = customerID,
+                    order.subtotal = subtotal,
+                    order.products = products
+                const payload = {
+                    first_name: first_name,
+                    last_name: last_name,
+                    restro_name: restro_name,
+                    restro_address: restro_address,
+                    restro_image: restro_image,
+                    mobile: mobile,
+                    payment: payment,
+                    subtotal: subtotal,
+                    order_id: order_id,
+                    transaction_id: transaction_id,
+                    transaction_status: transaction_status,
+                    vendorID: vendorID,
+                    customerID: customerID,
+                    products: products
+                };
+                var NewTicket = new orderModel(payload);
+                NewTicket.save(function (err, obj) {
+                    cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
+                        if (err) throw err;
+                        return res.status(200).json({
+                            success: true,
+                            message: "order created successfully",
+                            payload: payload
+                        });
+                    });
+                });
+            })
+        })
+    })
+}
+ exports.order_listing  = (req, res) => {
+    var id = req.user.id
+    orderModel.find({ customerID: id }, (err, order_data) => {
+        var userorder = order_data.reverse()
+        if (order_data.length == 0) {
+            return res.status(200).json({
+                success: true,
+                status: 201,
+                message: "You have no orders",
+            });
+        } else {
+            return res.status(200).json({
+                success: true,
+                data: userorder,
+                status: 200,
+                message: "order listing successfully",
+            });
+        }
+    })
 }
 
 

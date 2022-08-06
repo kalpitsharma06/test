@@ -83,6 +83,8 @@ router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 router.post('/cart',authorization_user,addUser.cart);
 router.get('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
+router.post('/create_order',authorization_user,addUser.create_order);
+router.get('/orderlisting',authorization_user,addUser.order_listing);
 
 
 
@@ -133,8 +135,8 @@ router.put('/changepassword/:id', signUp.changePassword)
 
 
 router.post('/create_menu/:id',upload.single("image"),menu.create_menu);
-router.get('/get_products/:id',upload.single("image"),menu.getall_products);
 
+router.get('/get_products/:id',upload.single("image"),menu.getall_products);
 
 
 

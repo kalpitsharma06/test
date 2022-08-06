@@ -266,6 +266,7 @@ exports.category_listing = async (req, res) => {
 
 
 
+
 exports.getall_products = async (req, res) => {
     // var reqdata = req.body;
     var vendor_id = req.params.id
