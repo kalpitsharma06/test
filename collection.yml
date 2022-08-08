@@ -4,9 +4,7 @@ info:
   version: 1.0.0
 servers:
   - url: https://test.xntproject.com
-  - url: https://test.xntproject.com/api/v1
   - url: http://localhost:8700
-  - url: http://107.21.164.101:8700
 tags:
   - name: vendor control
   - name: products
@@ -32,12 +30,10 @@ paths:
                 restaurant_name: ABCsdsdssdsd
                 restaurant_address: ABC plazap
                 pincode: '11'
-                confirm_email: kl099
-                email: kl099
+                confirm_email: omkkjkkkk
+                email: omkkjkkkk
                 meal_timming: breakfast
                 contact_number: '99'
-                first_name: deepak
-                last_name: sharma
                 primary_cuisine: hello
                 secoundry_cuisine: hye
                 address_of_welcome_pack: regular malll pink square
@@ -49,7 +45,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/addrestaurant:
+  /api/v1/justeat/restro_additionalinfo:
     post:
       tags:
         - vendor control
@@ -60,21 +56,17 @@ paths:
             schema:
               type: object
               example:
-                restaurant_name: ABCsdsdssdsd
-                restaurant_address: ABC plazap
-                pincode: '11'
-                confirm_email: kl099
-                email: kl099
-                meal_timming: breakfast
-                contact_number: '99'
-                first_name: deepak
-                last_name: sharma
-                primary_cuisine: hello
-                secoundry_cuisine: hye
-                address_of_welcome_pack: regular malll pink square
-                business_operate: basement
-                typeof_location: interna
-                drivers_availability: jjjjj
+                monday_open: closed
+                monday_close: closed
+                tuesday_open: closed
+                thursday_open: closed
+                thursday_close: closed
+                friday_open: closed
+                friday_close: closed
+                saturday_open: closed
+                saturday_close: closed
+                sunday_open: closed
+                sunday_close: closed
       responses:
         '200':
           description: Successful response
@@ -137,8 +129,8 @@ paths:
                 address_of_welcome_pack↵: jjjkkkk
                 account_holder_name: jjjhh
                 account_number: jjjhbh
-                bank_name: juhuh
-                sort_code: jjjjuhuh
+                bank_name: jjjjjuhuh
+                ifsc_code: jjjjuhuh
       responses:
         '200':
           description: Successful response
@@ -203,6 +195,16 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/v1/justeat/vendor_order_listing:
+    get:
+      tags:
+        - vendor control
+      summary: vendor orderlisting
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/v1/justeat/logout:
     get:
       tags:
@@ -223,7 +225,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/create_menu/62ea8da82dd2bfc4aa0bfe18:
+  /api/v1/justeat/create_menu/62f0b405bcf9f798a2b7dfc8:
     post:
       tags:
         - products
@@ -239,7 +241,7 @@ paths:
                   example: rasgulla
                 Product_description:
                   type: string
-                  example: seet and cherry
+                  example: jjj
                 price:
                   type: string
                   example: '100 '
@@ -252,9 +254,77 @@ paths:
                 offer_price:
                   type: integer
                   example: '80'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/create_combo:
+    post:
+      tags:
+        - products
+      summary: add combos
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
                 item_name:
                   type: string
-                  example: bengali
+                  example: snaks
+                item_price:
+                  type: integer
+                  example: '500'
+                item_description:
+                  type: string
+                  example: helo hooo
+                product_id:
+                  type: string
+                  example: 62f0dfe5dcd85e7cbae1c427
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/edit_product/62f0dfe5dcd85e7cbae1c427:
+    patch:
+      tags:
+        - products
+      summary: edit product
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                Product_name:
+                  type: string
+                  example: jajnaogneowenioenvindiwon
+                Product_description:
+                  type: string
+                  example: seet and cherry
+                price:
+                  type: integer
+                  example: '10'
+                quantity:
+                  type: string
+                  example: ',,,'
+                image:
+                  type: string
+                  format: binary
+                offer_price:
+                  type: integer
+                  example: '80'
+                category:
+                  type: string
+                  example: jjj
+                sub_category:
+                  type: string
+                  example: jjjjjj
       responses:
         '200':
           description: Successful response
@@ -265,6 +335,16 @@ paths:
       tags:
         - products
       summary: getallproducts
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/delete_product/62f0cbbcb9fe662e6aeb3998:
+    get:
+      tags:
+        - products
+      summary: delete product
       responses:
         '200':
           description: Successful response
@@ -283,10 +363,10 @@ paths:
               properties:
                 category_name:
                   type: string
-                  example: Deserthvhvh
+                  example: lllkkkkkkk
                 restaurant_id:
                   type: string
-                  example: 62ea3c66c2fe73de6aa5db6f
+                  example: 62e375d1258462fb1cfb037c
                 image:
                   type: string
                   format: binary
@@ -320,7 +400,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/getcategorydetails:
+  /api/v1/admin/getcategorydetails:
     get:
       tags:
         - Admin/ > CATEGORY
@@ -330,7 +410,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/deletecategory/62d50c882b47a20ca807d48f:
+  /api/v1/admin/deletecategory/62e2646b213d010797e76152:
     delete:
       tags:
         - Admin/ > CATEGORY
@@ -340,7 +420,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/addsubcategory:
+  /api/v1/admin/addsubcategory:
     post:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -353,13 +433,13 @@ paths:
               properties:
                 sub_category_name:
                   type: string
-                  example: madhavkkjj
+                  example: jj
                 image:
                   type: string
                   format: binary
                 category:
                   type: string
-                  example: 62e2646b213d010797e76152
+                  example: 62f0b3e8bcf9f798a2b7dfc5
       responses:
         '200':
           description: Successful response
@@ -395,7 +475,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/getsubcategorydetails:
+  /api/v1/admin/getsubcategorydetails:
     get:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -405,7 +485,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/deletesubcategory/62cfaccf4441b9425937720a:
+  /api/v1/admin/deletesubcategory/62e2652d213d010797e7615f:
     delete:
       tags:
         - Admin/ > SUB-CATEGORY
@@ -415,19 +495,19 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/signup:
-    post:
+  /api/v1/admin/logout:
+    get:
       tags:
         - Admin/ > admin login
-      summary: admin/signup
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                email: admin
-                password: '123'
+      summary: admin/logout
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzc2Z5dWRmZGZkZHNkc2JjQGdtYWlsLmNvbWRkcnR0cnRld2UiLCJwYXNzd29yZCI6IjkwOTA5MDRzZHMiLCJpYXQiOjE2NTc4NTk2MzN9.SSItFFkQGZxiWZDcSr2oUs_c20H1c4DOFekVeCvaB-o
       responses:
         '200':
           description: Successful response
@@ -463,13 +543,13 @@ paths:
               type: object
               example:
                 new_Password: '123'
-                current_Password: '1234'
+                current_Password: '1239'
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /admin/getrestaurants:
+  /api/v1/admin/getrestaurants:
     get:
       tags:
         - Admin/ > vendor control
@@ -479,7 +559,25 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/getusers:
+  /api/v1/admin/signup:
+    post:
+      tags:
+        - Admin/ > vendor control
+      summary: admin/signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin
+                password: '123'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/getusers:
     get:
       tags:
         - Admin/ > user control
@@ -512,7 +610,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/cart:
+  /justeat/cart:
     post:
       tags:
         - usercontrol
@@ -523,13 +621,62 @@ paths:
             schema:
               type: object
               example:
-                productId: 62ea415fab797da1d0778946
+                productId: 62da8577d5b1f212ce843206
                 quantity: '2'
                 name: jj
                 price: '000'
                 offer_price: '000'
                 type: user
                 vendorId: 62e36fc3c1d59716c4f0da5c
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/create_order:
+    post:
+      tags:
+        - usercontrol
+      summary: create_order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                payment: 62ee10289f1732efd5d3fe61
+                subtotal: '2'
+                id: 62ee2558f179ddefe5a50c50
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/cart_list:
+    get:
+      tags:
+        - usercontrol
+      summary: cart_list
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/orderlisting:
+    get:
+      tags:
+        - usercontrol
+      summary: orderlist
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/cart_clear/62ed2622b7461acf00a84623:
+    get:
+      tags:
+        - usercontrol
+      summary: cart_clear
       responses:
         '200':
           description: Successful response
@@ -558,7 +705,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/login_user:
+  /justeat/login_user:
     post:
       tags:
         - usercontrol
@@ -587,6 +734,16 @@ paths:
           content:
             application/json: {}
   /api/v1/justeat/searchbypin/11:
+    get:
+      tags:
+        - usercontrol
+      summary: search_restro_bypincode
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/getrestro_byid/62e36fc3c1d59716c4f0da5c:
     get:
       tags:
         - usercontrol
