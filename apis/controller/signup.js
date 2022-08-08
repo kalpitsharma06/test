@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const locationModel = require('../model/location').location;
 const { apiAuthAuthenticated, authorization, generateAccessToken } = require('../../services/auth');
 const auth = require("../../services/auth")
+const orderModel = require('../../apis/model/order').order;
 
 // SIgn UP
 exports.addrestaurant = async function (req, res, next) {
@@ -21,8 +22,10 @@ exports.addrestaurant = async function (req, res, next) {
         } else {
 
 
+            console.log(req.body.owner_name,"dddfd")
             // console.log(req.files.filename)
             const singupRecords = new signUp({
+              
                 restaurant_name: req.body.restaurant_name,
                 restaurant_address: req.body.restaurant_address,
                 pincode: req.body.pincode,
@@ -31,8 +34,7 @@ exports.addrestaurant = async function (req, res, next) {
                 meal_timming: req.body.meal_timming,
                 // city:req.body.city,
                 //  password: hashedPassword,
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
+               
                 primary_cuisine: req.body.primary_cuisine,
                 secoundry_cuisine: req.body.secoundry_cuisine,
                 // photo_id: req.files.photo_id[0].filename,
@@ -108,72 +110,72 @@ exports.addrestaurant = async function (req, res, next) {
 
 exports.restaurant_additionalinfo = async function (req, res, next) {
     // try{
-        // console.log(req.file.filename)
-        var restro_id = req.user.id
-        signUp.findOne({ _id: restro_id }, (err, userdata) => {
-            console.log(userdata)
-    
-   var restro_name= userdata.restaurant_name         
- var monday_open = req.body.monday_open
-var monday_close = req.body.monday_close
-var tuesday_open = req.body.tuesday_open
-var tuesday_close = req.body.tuesday_close
-var wednesday_open = req.body.wednesday_open
-var wednesday_close = req.body.wednesday_close
-var  thursday_open  = req.body.thursday_open
-var  thursday_close  = req.body.thursday_close
-var  friday_open  = req.body.friday_open
-var  friday_close  = req.body.friday_close
-var  saturday_open  = req.body.saturday_open
-var  saturday_close  = req.body.saturday_close
-var  sunday_open  = req.body.sunday_open
-var  sunday_close  = req.body.sunday_close
+    // console.log(req.file.filename)
+    var restro_id = req.user.id
+    signUp.findOne({ _id: restro_id }, (err, userdata) => {
+        console.log(userdata)
 
-let info = new restaurant_additionalinfonModel();
+        var restro_name = userdata.restaurant_name
+        var monday_open = req.body.monday_open
+        var monday_close = req.body.monday_close
+        var tuesday_open = req.body.tuesday_open
+        var tuesday_close = req.body.tuesday_close
+        var wednesday_open = req.body.wednesday_open
+        var wednesday_close = req.body.wednesday_close
+        var thursday_open = req.body.thursday_open
+        var thursday_close = req.body.thursday_close
+        var friday_open = req.body.friday_open
+        var friday_close = req.body.friday_close
+        var saturday_open = req.body.saturday_open
+        var saturday_close = req.body.saturday_close
+        var sunday_open = req.body.sunday_open
+        var sunday_close = req.body.sunday_close
 
-
-info.restaurant_name = restro_name,         
-info.timmings.monday_open = monday_open,
-info.timmings.monday_close = monday_close,
-info.timmings.tuesday_open = tuesday_open,
-info.timmings.tuesday_close = tuesday_close,
-info.timmings.wednesday_open = wednesday_open,
-info.timmings.wednesday_close = wednesday_close,
-info.timmings.thursday_open  = thursday_open,
-info.timmings.thursday_close  = thursday_close,
-info.timmings.friday_open  = friday_open,
-info.timmings.friday_close  = friday_close, 
-info.timmings.saturday_open  = saturday_open,
-info.timmings.saturday_close  = saturday_close,
-info.timmings.sunday_open  = sunday_open,
-info.timmings.sunday_close  = sunday_close,
+        let info = new restaurant_additionalinfonModel();
 
 
+        info.restaurant_name = restro_name,
+            info.timmings.monday_open = monday_open,
+            info.timmings.monday_close = monday_close,
+            info.timmings.tuesday_open = tuesday_open,
+            info.timmings.tuesday_close = tuesday_close,
+            info.timmings.wednesday_open = wednesday_open,
+            info.timmings.wednesday_close = wednesday_close,
+            info.timmings.thursday_open = thursday_open,
+            info.timmings.thursday_close = thursday_close,
+            info.timmings.friday_open = friday_open,
+            info.timmings.friday_close = friday_close,
+            info.timmings.saturday_open = saturday_open,
+            info.timmings.saturday_close = saturday_close,
+            info.timmings.sunday_open = sunday_open,
+            info.timmings.sunday_close = sunday_close,
 
-payload = {
 
-    restaurant_name:restro_name,
-    timmings: [{   monday_open,monday_close,tuesday_open,tuesday_open,thursday_open, thursday_close,friday_open,friday_close, saturday_open,saturday_close,sunday_open,sunday_close}],
-};
 
-console.log(payload)
- NewTicket = new restaurant_additionalinfonModel(payload);
-NewTicket.save(
-    (function (err, obj) {
-        if (err) throw err;
-        return res.status(200).json({
-            success: true,
-            message: " Data  added  successfully",
-            payload: NewTicket
-        });
-    }));
-// console.log(itemdata)s
+            payload = {
+
+                restaurant_name: restro_name,
+                timmings: [{ monday_open, monday_close, tuesday_open, tuesday_open, thursday_open, thursday_close, friday_open, friday_close, saturday_open, saturday_close, sunday_open, sunday_close }],
+            };
+
+        console.log(payload)
+        NewTicket = new restaurant_additionalinfonModel(payload);
+        NewTicket.save(
+            (function (err, obj) {
+                if (err) throw err;
+                return res.status(200).json({
+                    success: true,
+                    message: " Data  added  successfully",
+                    payload: NewTicket
+                });
+            }));
+        // console.log(itemdata)s
 
 
 
     })
 }
-    
+
 
 // try{
 //     console.log(req.file.filename)
@@ -194,7 +196,7 @@ NewTicket.save(
 //     var offer_price = reqdata.offer_price
 
 
-   
+
 //     registerusersModel.findOne({ _id: restro_id, }, (err, restrodate) => {
 
 
@@ -280,9 +282,9 @@ NewTicket.save(
 
 
 
-  
 
-      
+
+
 // }}}
 
 
@@ -300,7 +302,7 @@ exports.menu_bank_details = async function (req, res, next) {
 
             account_number: req.body.account_number,
             bank_name: req.body.bank_name,
-            sort_code: req.body.sort_code,
+            ifsc_code: req.body.ifsc_code,
 
         })
 
@@ -335,9 +337,15 @@ exports.ownership_verification = async function (req, res, next) {
 
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
 
+            owner_email:req.body.owner_email,
+            owner_name:req.body.owner_name, 
+            gender:req.body.owner_name,
+            owner_address:req.body.owner_address,
+            owner_pincode:req.body.owner_pincode,
 
-
+            photo_id_name:req.body.photo_id_name,
             photo_id: req.files.photo_id[0].filename,
+            ownership_certificate_name:req.body.certificate_name,
             proof_of_ownership: req.files.proof_of_ownership[0].filename,
             shop_image_front: req.files.shop_image_front[0].filename,
             foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
@@ -503,6 +511,7 @@ exports.updateResturantDetails = async (req, res) => {
     try {
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
             restaurant_name: req.body.restaurant_name,
+            owner_name:req.body.owner_name,
             restaurant_address: req.body.restaurant_address,
             contact_number: req.body.contact_number,
             email: req.body.email,
@@ -629,7 +638,7 @@ exports.forgotpassword = (req, res, next) => {
 
 
     // update the password
-    exports.changePassword = async (req, res) => {
+exports.changePassword = async (req, res) => {
         try {
             const databasePassword = await signUp.findById(req.params.id)
             const validPassword = await bcrypt.compare(req.body.currPassword, databasePassword.password)
@@ -669,53 +678,60 @@ exports.logIn = async (req, res) => {
             })
 
         }
-          else {
-        //     const validPassword = await bcrypt.compare(req.body.password, check.password)
-        //     if (validPassword) {
+        else {
+            //     const validPassword = await bcrypt.compare(req.body.password, check.password)
+            //     if (validPassword) {
 
-                const payload = {
-                    email: req.body.email,
-                    id: check.id,
-                    // password: req.body.password
-                };
-                // console.log(check.id)
-                // const payload = {
-                //     email: req.body.email,
-                //     password: req.body.password,
-                //     id:check.id
-
-
-                // };
-                let envsecret = auth.getSecretToken();
-                let token = jwt.sign(payload, envsecret);
-                res.cookie("access_token", token, {
-                    httpOnly: true
-                })
+            const payload = {
+                email: req.body.email,
+                id: check.id,
+                // password: req.body.password
+            };
+            // console.log(check.id)
+            // const payload = {
+            //     email: req.body.email,
+            //     password: req.body.password,
+            //     id:check.id
 
 
-                res.status(200).json({
-                    status: true,
-                    message: 'Successfully Signed in',
-                    'user_type': check.user_type,
-                    'token': token
-                })
+            // };
+            let envsecret = auth.getSecretToken();
+            let token = jwt.sign(payload, envsecret);
+            res.cookie("access_token", token, {
+                httpOnly: true
+            })
 
-            } 
-            // else {
-            //     res.status(400).json({
-            //         status: false,
-            //         message: 'password is wrong'
-            //     })
-            // }
+
+            res.status(200).json({
+                status: true,
+                message: 'Successfully Signed in',
+                'user_type': check.user_type,
+                'token': token
+            })
+
         }
+        // else {
+        //     res.status(400).json({
+        //         status: false,
+        //         message: 'password is wrong'
+        //     })
+        // }
+    }
 
     // }
-     catch (err) {
+    catch (err) {
         res.status(400).json(err.message)
     }
 
 }
 
+
+exports.logout = (req, res) => {
+    return res
+        .clearCookie("access_token")
+        .status(200)
+        .json({ message: "Successfully logged out  🍀" });
+};
 
 
 
@@ -729,6 +745,28 @@ exports.searnea = async (req, res) => {
         res.status(400).json(error.message)
     }
 
+}
+
+exports.vendor_order_listing = async (req, res) => {
+    var id = req.user.id
+    orderModel.find({ vendorID: id }, (err, order_data) => {
+        var order = order_data.reverse()
+
+        if (order_data.length == 0) {
+            return res.status(200).json({
+                success: true,
+                status: 201,
+                message: "You have no orders",
+            });
+        } else {
+            return res.status(200).json({
+                success: true,
+                data: order,
+                status: 200,
+                message: "order listing successfully",
+            });
+        }
+    })
 }
 
 
@@ -786,7 +824,7 @@ exports.searnea = async (req, res) => {
 //         })
 //     })
 
-// }
+// 
 
 exports.firebase_token = async (req, res) => {
     var firebase_token = req.body.token;

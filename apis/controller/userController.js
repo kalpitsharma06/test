@@ -551,7 +551,9 @@ exports.nearbyRestro =  async(req, res) => {
  exports.order_listing  = (req, res) => {
     var id = req.user.id
     orderModel.find({ customerID: id }, (err, order_data) => {
-        var userorder = order_data.reverse()
+        var userorderr = order_data.reverse()
+        var userorder = order_data
+
         if (order_data.length == 0) {
             return res.status(200).json({
                 success: true,

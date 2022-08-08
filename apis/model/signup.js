@@ -4,6 +4,11 @@ const con = require('../../database/db')
 var signup = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
     restaurant_name: String,
+    owner_name: String,
+    owner_email:String,
+    owner_address:String,
+    owner_pincode:String,
+    gender:String,
     restaurant_address: String,
     pincode:String,
     city: String,
@@ -12,12 +17,14 @@ var signup = new mongoose.Schema({
     contact_number: Number,
     email: String,
     password: String,
-    first_name: String,
-    last_name: String,
+   
     primary_cuisine: String,
     secoundry_cuisine: String,
     meal_timming:String,
+    photo_id_name:{type:String},
     photo_id:{type:String,  default :null},
+
+     ownership_certificate_name:{type:String},
      proof_of_ownership:{type:String, default :"null"},
      shop_image_front:{type:String, default :"null" },
      foot_hygiene_registration:{type:String, default :"null "},
@@ -32,7 +39,7 @@ var signup = new mongoose.Schema({
     
     account_number: String,
     bank_name: String,
-    sort_code :String,
+    ifsc_code :String,
     drivers_availability: String,
     business_operate: String,
     typeof_location: String,

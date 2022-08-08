@@ -124,6 +124,8 @@ router.put('/bank_details/:id',signUp.menu_bank_details)
 router.put('/updaterestaurant/:id', signUp.updateResturantDetails)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.get('/login_vendor',signUp.logIn)
+router.get('/logout',signUp.logout)
+router.get('/vendor_order_listing',authorization_restro,signUp.vendor_order_listing)
 
 router.put('/changepassword/:id', signUp.changePassword)
 // router.put('/searnearby/:id', signUp.searnearby)
@@ -135,8 +137,11 @@ router.put('/changepassword/:id', signUp.changePassword)
 
 
 router.post('/create_menu/:id',upload.single("image"),menu.create_menu);
+router.post('/create_combo',upload.single("image"),authorization_restro,menu.create_combos);
 
 router.get('/get_products/:id',upload.single("image"),menu.getall_products);
+router.get('/delete_product/:id',menu.delete_product);
+router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
 
 
 

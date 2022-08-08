@@ -1,18 +1,23 @@
 const mongoose = require('mongoose');
 ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
-// const MODALFUNC = require('./model_functions').functions;
-let item = new mongoose.Schema({
+const MODALFUNC = require('./model_functions').functions;
+let combo = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
-    category:{
+    Item_name:{
         type:String,
     },
-    subCategory:{
+    Item_price:{
+        type:Number,
+    },
+    Item_image:{
         type:String,
     },
-    status:{type:String},
+    Item_description:{
+        type:String,
+    },
     vendorId: {type:String},
-   
+    products:[{
         
         Product_name: {
             type:String
@@ -26,12 +31,8 @@ let item = new mongoose.Schema({
         type: {type:String},
         restro_name:{type:String},
         offer_price:{type:String},
-    
-
- extras:[{
-    extras_name:String,
-    extras_price:String
-}],
+    }
+]
     // name: String,
     // status: String,
     // status: {
@@ -68,13 +69,12 @@ let item = new mongoose.Schema({
 // },
 
 },
-    // {
-    //     timestamps: {
-    //         created_at: MODALFUNC.string_ts,
-    //         updated_at: MODALFUNC.string_ts
-    //     },
-    // }
-    );
+    {
+        timestamps: {
+            created_at: MODALFUNC.string_ts,
+            updated_at: MODALFUNC.string_ts
+        },
+    });
 
 
-module.exports.item = mongoose.model("item", item);
+module.exports.combo = mongoose.model("combo", combo);
