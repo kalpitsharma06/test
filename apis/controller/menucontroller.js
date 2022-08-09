@@ -253,7 +253,7 @@ exports.create_combos = async (req, res) => {
 
 
                 })
- })
+            })
         })
     } catch (err) {
         return res.status(400).json({
@@ -263,6 +263,88 @@ exports.create_combos = async (req, res) => {
         });
     }
 }
+
+
+exports.getall_combo = async (req, res) => {
+    const id = { _id: req.params.id };
+   
+    comboModel.find({vendorId:id},
+        (err, data) => {
+
+            if (err) {
+                res.status(200).json({
+                    msg: "no combo exist",
+                    status: false,
+                    err: err.message,
+                });
+            } else {
+                res.status(200).json({
+                    msg: "delete  combo successfully",
+                    status: true,
+                    Data : data
+                   
+                });
+            }
+        })
+
+    //   })
+}
+
+exports.delete_combo = async (req, res) => {
+    const id = { _id: req.params.id };
+   
+    comboModel.findOneAndDelete(id,
+        (err, data) => {
+
+            if (err) {
+                res.status(200).json({
+                    msg: "no combo exist",
+                    status: false,
+                    err: err.message,
+                });
+            } else {
+                res.status(200).json({
+                    msg: "delete  combo successfully",
+                    status: true,
+                   
+                });
+            }
+        })
+
+    //   })
+}
+
+
+exports.delete_combo_item = async (req, res) => {
+    const id = { _id: req.params.id };
+    const { productId_no } = req.body;
+
+    comboModel.updateOne(id, { $pull: { products: { _id: req.body.productId_no } } },
+        (err, data) => {
+
+            if (err) {
+                res.status(200).json({
+                    msg: "no data exist",
+                    status: false,
+                    err: err.message,
+                });
+            } else {
+                res.status(200).json({
+                    msg: "delete  data successfully",
+                    status: true,
+                    data: data,
+                });
+            }
+        })
+
+    //   })
+}
+
+
+
+
+
+
 
 exports.edit_product = async (req, res) => {
     var reqdata = req.body;
@@ -299,34 +381,34 @@ exports.edit_product = async (req, res) => {
         })
     }
 
-};
-
-
-
-exports.delete_product = async (req, res) => {
-
-    const product_id = req.params.id;
-
-    itemModel.findByIdAndDelete({ _id: product_id }, (err, data) => {
-        console.log(data)
-        if (data == null) {
-            return res.status(200).json({
-                status: 200,
-                message: "No items to delete"
-            });
-        }
-        else {
-
-            return res.status(200).json({
-                status: 200,
-                message: "item deleted successfully"
-            });
-        }
-
-    })
 },
 
-exports.category_listing = async (req, res) => {
+
+
+    exports.delete_product = async (req, res) => {
+
+        const product_id = req.params.id;
+
+        itemModel.findByIdAndDelete({ _id: product_id }, (err, data) => {
+            console.log(data)
+            if (data == null) {
+                return res.status(200).json({
+                    status: 200,
+                    message: "No items to delete"
+                });
+            }
+            else {
+
+                return res.status(200).json({
+                    status: 200,
+                    message: "item deleted successfully"
+                });
+            }
+
+        })
+    },
+
+    exports.category_listing = async (req, res) => {
         var reqdata = req.body;
 
 
@@ -340,7 +422,7 @@ exports.category_listing = async (req, res) => {
 
     },
 
- exports.getall_products = async (req, res) => {
+    exports.getall_products = async (req, res) => {
         // var reqdata = req.body;
         var vendor_id = req.params.id
         // var userId = req.user.id;

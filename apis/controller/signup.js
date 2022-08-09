@@ -11,7 +11,7 @@ const orderModel = require('../../apis/model/order').order;
 // SIgn UP
 exports.addrestaurant = async function (req, res, next) {
     try {
-        console.log(req.body)
+let payload;
         const confirm_email = req.body.confirm_email
         const email = req.body.email
         if (email !== confirm_email) {
@@ -20,92 +20,104 @@ exports.addrestaurant = async function (req, res, next) {
                 message: " email/confirm email does not  match",
             })
         } else {
-
-
-            console.log(req.body.owner_name,"dddfd")
-            // console.log(req.files.filename)
-            const singupRecords = new signUp({
-              
-                restaurant_name: req.body.restaurant_name,
-                restaurant_address: req.body.restaurant_address,
-                pincode: req.body.pincode,
-                contact_number: req.body.contact_number,
-                email: req.body.email,
-                meal_timming: req.body.meal_timming,
-                // city:req.body.city,
-                //  password: hashedPassword,
-               
-                primary_cuisine: req.body.primary_cuisine,
-                secoundry_cuisine: req.body.secoundry_cuisine,
-                // photo_id: req.files.photo_id[0].filename,
-                // proof_of_ownership: req.files.proof_of_ownership[0].filename,
-                // shop_image_front: req.files.shop_image_front[0].filename,
-                // foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
-                // permission_to_trade: req.files.permission_to_trade[0].filename,
-
-
-
-                // menu: req.files.menu[0].filename,
-                // restaurant_logo: req.files.restaurant_logo[0].filename,
-                // bank_details: req.body.bank_details,
-                // address_of_welcome_pack: req.body.address_of_welcome_pack,
-                // account_holder_type: req.body.account_holder_type,
-                // account_holder_name: req.body.account_holder_name,
-                // routing_number: req.body.routing_number,
-                // account_number: req.body.account_number,
-                // bank_name: req.body.bank_name,
-                // bank_id: req.body.bank_id, 
-                business_operate: req.body.business_operate,
-                typeof_location: req.body.typeof_location,
-                drivers_availability: req.body.drivers_availability,
-                status: true,
-                is_registered: true,
-                user_type: 'vendor'
-            })
-
-            const check = await signUp.findOne({ email: req.body.email })
-            if (check !== null) {
-                res.status(400).json({
-                    status: false,
-                    message: ' restaurant already exist with this email !'
-                })
-            } else {
-
-
-                await singupRecords.save();
-                //             singupRecords.save(function (err, new_data) {
-                //                 if (err) return next(err);
-                // console.log(new_data)
-                //                 var userid = new_data._id;
-                //                 const payload = {
-                //                     email: email,
-                //                     id: userid,
-                //                     first_name: first_name,
-                //                     last_name: last_name,
-                //                 };
-                //                 let envsecret = commonservices.getSecretToken();
-                //                 let token = jwt.sign(payload, envsecret);
-                res.status(200).json({
-                    status: true,
-                    message: "Successfully Signed up",
-                    'results': singupRecords,
-
-                })
-
-
-
-
+            let lattitude = req.body.lattitude
+            let longitude = req.body.longitude
+            let payload = {
+                cordinates: [
+                    longitude, lattitude 
+                ]
             }
+        
+        // let payload = ({ longitude, lattitude })
 
-        }
-    } catch (err) {
-        res.status(400).json({
-            status: flase,
-            'result': (error.message),
-            'message': "Please submit details "
+
+        // console.log(req.files.filename)
+        const singupRecords = new signUp({
+
+            restaurant_name: req.body.restaurant_name,
+            restaurant_address: req.body.restaurant_address,
+            pincode: req.body.pincode,
+            contact_number: req.body.contact_number,
+            email: req.body.email,
+            meal_timming: req.body.meal_timming,
+
+
+            // city:req.body.city,
+            //  password: hashedPassword,
+
+            primary_cuisine: req.body.primary_cuisine,
+            secoundry_cuisine: req.body.secoundry_cuisine,
+            // photo_id: req.files.photo_id[0].filename,
+            // proof_of_ownership: req.files.proof_of_ownership[0].filename,
+            // shop_image_front: req.files.shop_image_front[0].filename,
+            // foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
+            // permission_to_trade: req.files.permission_to_trade[0].filename,
+
+
+
+            // menu: req.files.menu[0].filename,
+            // restaurant_logo: req.files.restaurant_logo[0].filename,
+            // bank_details: req.body.bank_details,
+            // address_of_welcome_pack: req.body.address_of_welcome_pack,
+            // account_holder_type: req.body.account_holder_type,
+            // account_holder_name: req.body.account_holder_name,
+            // routing_number: req.body.routing_number,
+            // account_number: req.body.account_number,
+            // bank_name: req.body.bank_name,
+            // bank_id: req.body.bank_id, 
+            business_operate: req.body.business_operate,
+            typeof_location: req.body.typeof_location,
+            drivers_availability: req.body.drivers_availability,
+            status: true,
+            is_registered: true,
+            user_type: 'vendor',
+            loc: payload,
 
         })
+
+        const check = await signUp.findOne({ email: req.body.email })
+        if (check !== null) {
+            res.status(400).json({
+                status: false,
+                message: ' restaurant already exist with this email !'
+            })
+        } else {
+
+
+            await singupRecords.save();
+            //             singupRecords.save(function (err, new_data) {
+            //                 if (err) return next(err);
+            // console.log(new_data)
+            //                 var userid = new_data._id;
+            //                 const payload = {
+            //                     email: email,
+            //                     id: userid,
+            //                     first_name: first_name,
+            //                     last_name: last_name,
+            //                 };
+            //                 let envsecret = commonservices.getSecretToken();
+            //                 let token = jwt.sign(payload, envsecret);
+            res.status(200).json({
+                status: true,
+                message: "Successfully Signed up",
+                'results': singupRecords,
+
+            })
+
+
+
+
+        }
+
     }
+}catch (err) {
+    res.status(400).json({
+        status: false,
+        'result': (err.message),
+        'message': "Please submit details "
+
+    })
+}
 }
 
 exports.restaurant_additionalinfo = async function (req, res, next) {
@@ -337,15 +349,15 @@ exports.ownership_verification = async function (req, res, next) {
 
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
 
-            owner_email:req.body.owner_email,
-            owner_name:req.body.owner_name, 
-            gender:req.body.owner_name,
-            owner_address:req.body.owner_address,
-            owner_pincode:req.body.owner_pincode,
+            owner_email: req.body.owner_email,
+            owner_name: req.body.owner_name,
+            gender: req.body.owner_name,
+            owner_address: req.body.owner_address,
+            owner_pincode: req.body.owner_pincode,
 
-            photo_id_name:req.body.photo_id_name,
+            photo_id_name: req.body.photo_id_name,
             photo_id: req.files.photo_id[0].filename,
-            ownership_certificate_name:req.body.certificate_name,
+            ownership_certificate_name: req.body.certificate_name,
             proof_of_ownership: req.files.proof_of_ownership[0].filename,
             shop_image_front: req.files.shop_image_front[0].filename,
             foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
@@ -511,7 +523,7 @@ exports.updateResturantDetails = async (req, res) => {
     try {
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
             restaurant_name: req.body.restaurant_name,
-            owner_name:req.body.owner_name,
+            owner_name: req.body.owner_name,
             restaurant_address: req.body.restaurant_address,
             contact_number: req.body.contact_number,
             email: req.body.email,
@@ -638,7 +650,7 @@ exports.forgotpassword = (req, res, next) => {
 
 
     // update the password
-exports.changePassword = async (req, res) => {
+    exports.changePassword = async (req, res) => {
         try {
             const databasePassword = await signUp.findById(req.params.id)
             const validPassword = await bcrypt.compare(req.body.currPassword, databasePassword.password)

@@ -9,7 +9,9 @@ let usersignup = new mongoose.Schema({
     password: { type: String },
     status: Boolean,
     is_registered: Boolean,
-    user_type: String
+    type: String,
+    guest_id:{type:String},
+
   });
 
 module.exports = mongoose.model("usersignup", usersignup);  

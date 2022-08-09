@@ -2,6 +2,16 @@ const mongoose = require('mongoose');
 const con = require('../../database/db')
 
 var signup = new mongoose.Schema({
+    loc: {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point']
+        },
+        cordinates: [
+          Number
+        ]
+      },
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
     restaurant_name: String,
     owner_name: String,
@@ -12,8 +22,8 @@ var signup = new mongoose.Schema({
     restaurant_address: String,
     pincode:String,
     city: String,
-    lattitude: Number,
-    longitude: Number,
+    
+    
     contact_number: Number,
     email: String,
     password: String,
@@ -66,8 +76,8 @@ timmings:[{
     }
 ],
 
-    
 });
+signup.index({ loc: "2dsphere" });
 
 module.exports = mongoose.model('signup', signup);
 

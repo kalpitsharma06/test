@@ -5,13 +5,17 @@ const subCategory = require('../../admin/model/subCategory')
 const cartModel = require('../model/cart').cart
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../../services/auth');
+const locationModel = require("../model/location")
 const jwt = require('jsonwebtoken')
 const { find } = require('../model/signup');
 const nodemailer = require('nodemailer');
 const auth = require("../../services/auth")
 var lodash = require('lodash');
+var randomstring = require("randomstring");
+
 let itemModel = require('../../apis/model/item').item;
 let orderModel = require('../../apis/model/order').order;
+
 //USER SING UP
 exports.addUser = async function (req, res, next) {
     
@@ -26,7 +30,7 @@ exports.addUser = async function (req, res, next) {
         password: hashedPassword,
         status: true,
         is_registered: true,
-        user_type: 'user'
+        type: 'user'
     })
 
     try {
@@ -168,6 +172,45 @@ exports.logIn = async (req, res) => {
 
 }
 
+exports.guest_login = async(req,res)=>{
+    var guest_id = randomstring.generate({
+        length: 6,
+        charset: 'numeric'
+      });
+      var guest = "guest"
+      var guestId = "guest-" + guest_id;
+      var guestdata = {
+        guest_id:guestId,
+        type:guest
+    };
+    var New_guest = new User_signUp(guestdata);
+    New_guest.save(function (err, new_data) {
+        if (err) return next(err);
+else{
+        var userid = new_data._id;
+        const payload = {
+            id: userid,
+            guest_id:guestId,
+            type:guest
+        };
+        let envsecret = auth.getSecretToken();
+        let token = jwt.sign(payload, envsecret);
+        res.cookie("access_token", token, {
+            httpOnly: true
+        })}res.status(200).json({
+            status :true,
+            data:new_data,
+            message:" Guest loggedin" ,
+
+
+        })
+
+      
+
+             
+    });
+}
+
 exports.Searchby_pincode = async(req,res)=>{
 try{
 
@@ -201,6 +244,41 @@ catch(error){
     })
 
 }}
+
+exports.Searchby_pincode = async(req,res)=>{
+    try{
+    
+        let data = await restaurant_model.find({
+            
+            "$or":[
+                {pincode:{$regex:req.params.key}}
+            ]
+             })
+           .select({restaurant_name:1,restaurant_address:1})
+           if (data.length > 0){
+               res.status(200).json({
+                   status:"true..",
+                   result:data
+                })
+                  
+             }
+             else{
+                res.status(400).json({
+    
+                    status: false,
+                    message: 'No resrautrants related to this pincode'
+                })
+             }
+    }
+    catch(error){
+        res.status(400).json({
+    
+            status: false,
+            message: 'No resrautrants related to this pincode'
+        })
+    
+    }}
+
 
 exports.Searchby_mealtimming = async(req,res)=>{
     try{
@@ -236,7 +314,7 @@ exports.Searchby_mealtimming = async(req,res)=>{
     
     }}
 
-    exports.getrestro_byid = async(req,res)=>{
+exports.getrestro_byid = async(req,res)=>{
         let payload = req.params;
         payload.userId = req.params.id;
 
@@ -434,15 +512,16 @@ exports.nearbyRestro =  async(req, res) => {
     var reqdata = req.body;
     var lat = reqdata.lat;
     var long = reqdata.long;
+    console.log(Number(lat))
     var userId = [];
-    locationModel.aggregate([
+    restaurant_model.aggregate([
         {
             $geoNear: {
                 near: {
                     "type": "Point",
-                    "coordinates": [Number(long), Number(lat)]
+                    "coordinates": [parseFloat(75.828819), parseFloat(26.901336)]
                 },
-                "maxDistance": 32186.9,
+                "maxDistance": parseFloat(32186.9)*1609,
                 "spherical": true,
                 query: { user_type: "vendor" },
                 "distanceField": "restroDistance",
@@ -450,18 +529,21 @@ exports.nearbyRestro =  async(req, res) => {
         },
         { $limit: 5 }
     ], function (err, nearbyRestro) {
-        if (nearbyRestro.length == 0) {
-            return res.status(200).json({
-                success: false,
-                status: 401,
-                message: "No nearby restaurant",
-            });
-        } else {
+        if (nearbyRestro) {
             return res.status(200).json({
                 success: true,
                 status: 200,
                 message: "Nearby restaurant loaded",
                 data: nearbyRestro
+            });
+           
+        } else {
+           
+            return res.status(200).json({
+                success: false,
+                status: 401,
+                message: "No nearby restaurant",
+                err :err.message
             });
         }
     });
@@ -472,8 +554,15 @@ exports.nearbyRestro =  async(req, res) => {
 
  exports. create_order = (req, res) => {
     var reqdata = req.body;
-    var order_id = "122222";
-    var transaction_id = 'txn-125sau788u978jo';
+    var order_id = randomstring.generate({
+        length: 6,
+        charset: 'numeric'
+      });
+  
+    var transaction_id =randomstring.generate({
+        length: 9,
+        charset: 'numeric'
+      });;
     var transaction_status = 'complete';
     // console.log(req.user)
     var id1 = req.user.id
@@ -485,9 +574,10 @@ exports.nearbyRestro =  async(req, res) => {
         var last_name = userdata.last_name;
         var customerID = userdata._id;
         cartModel.findOne({ _id: id }, (err, cartdata) => {
+          
             console.log(cartdata)
                 if (err) throw err;
-        
+        if(cartdata){
             console.log(cartdata)
             var restro_name = cartdata.restro_name;
             var restro_address = cartdata.restro_address;
@@ -545,7 +635,15 @@ exports.nearbyRestro =  async(req, res) => {
                     });
                 });
             })
-        })
+    }else{
+        return res.status(400).json({
+            success: false,
+            message: "No order in cart",
+           
+        });
+
+    }
+})
     })
 }
  exports.order_listing  = (req, res) => {
