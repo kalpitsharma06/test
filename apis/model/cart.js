@@ -19,6 +19,9 @@ let cart = new Schema({
     restro_address:{
       type:String
     },
+    subtotal:{
+      type:String
+    },
     products: [
         {
           productId:{

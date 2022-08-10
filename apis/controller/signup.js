@@ -3,11 +3,18 @@ const signUp = require('../model/signup')
 const restaurant_additionalinfonModel = require('../model/additionalinfo')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const locationModel = require('../model/location').location;
+// const locationModel = require('../model/location').location;
 const { apiAuthAuthenticated, authorization, generateAccessToken } = require('../../services/auth');
 const auth = require("../../services/auth")
 const orderModel = require('../../apis/model/order').order;
+const aws = require("aws-sdk")
 
+aws.config.update({
+    secretAccessKey: process.env.secretAccessKey,
+    accessKeyId: process.env.accessKeyId,
+    region: process.env.region,
+  });
+  var ses = new aws.SES();
 // SIgn UP
 exports.addrestaurant = async function (req, res, next) {
     try {
@@ -576,41 +583,61 @@ exports.deleteRetaurant = async (req, res) => {
 exports.forgotpassword = (req, res, next) => {
     var email = req.body.email;
     signUp.findOne({ email: email }, (err, userdata) => {
+        
         if (userdata == null) {
             return res.status(200).json({
                 status: 201,
                 message: "This email is not registered",
             });
-        }
+        } else {
+            var userid = userdata._id
+            const sender = "om>";
+            const recipient = email;
+            const subject = "Verify your email to reset your password";
+            const body_text = "Click on the link to reset password\n" + "https://test.xntproject.com/api/v1/justeat/changepassword" + userid;
 
-        else {
-            var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'madhav.appic@gmail.com',
-                    pass: ''
-                }
-            });
-
-            var mailOptions = {
-                from: 'madhav.appic@gmail.com',
-                to: 'madhavshridhar3@gmail.com',
-                subject: 'Sending Email using Node.js',
-                text: 'That was easy!'
+            var params = {
+                Source: sender,
+                Destination: {
+                    ToAddresses: [
+                        recipient
+                    ],
+                },
+                Message: {
+                    Subject: {
+                        Data: subject,
+                    },
+                    Body: {
+                        Text: {
+                            Data: body_text,
+                        },
+                    }
+                },
             };
 
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error.message);
+            //Try to send the email.
+            ses.sendEmail(params, function (err, data) {
+                // If something goes wrong, print an error message.
+                if (err) {
+                    console.log(err.message);
                 } else {
                     return res.status(200).json({
                         status: 200,
                         message: "Verification has been sent to your registered email",
-                        messageId: mailOptions
+                        messageId: data.MessageId
                     });
                 }
-
             });
+        }
+    })
+}
+
+
+
+
+
+
+            
             // var userid = userdata._id
             // const sender = " madhav.appic@gmail.com";
             // const recipient = email
@@ -641,12 +668,8 @@ exports.forgotpassword = (req, res, next) => {
             //     // If something goes wrong, print an error message.
 
             // });
-        }
-    })
-
-
-
-},
+       
+ 
 
 
     // update the password

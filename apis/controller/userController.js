@@ -5,7 +5,7 @@ const subCategory = require('../../admin/model/subCategory')
 const cartModel = require('../model/cart').cart
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../../services/auth');
-const locationModel = require("../model/location")
+// const locationModel = require("../model/signup")
 const jwt = require('jsonwebtoken')
 const { find } = require('../model/signup');
 const nodemailer = require('nodemailer');
@@ -15,6 +15,7 @@ var randomstring = require("randomstring");
 
 let itemModel = require('../../apis/model/item').item;
 let orderModel = require('../../apis/model/order').order;
+const reportsModel = require("../../apis/model/report").reports
 
 //USER SING UP
 exports.addUser = async function (req, res, next) {
@@ -318,7 +319,8 @@ exports.getrestro_byid = async(req,res)=>{
         let payload = req.params;
         payload.userId = req.params.id;
 
-        restaurant_model.findById({_id : payload.userId} , (err ,userdetails ) => {
+        restaurant_model.findById({_id : payload.userId} , (err ,userdetails) => {
+            console.log(userdetails)
            
            if(userdetails){
            
@@ -359,6 +361,7 @@ exports.logout = (req, res) => {
     let quantity = req.body.quantity
     var userId = req.user.id;
     var vendorId = req.body.vendorId;
+    var  subtotal = req.body.subtotal
     try {
         // let cart = await cartModel.find();
         let cart = await cartModel.findOne({ userId });
@@ -418,6 +421,7 @@ exports.logout = (req, res) => {
                             vendorId,
                             restro_name,
                             restro_address,
+                            subtotal,
                             products: [{ productId, quantity, name, price, offer_price, type }]
                         });
                         return res.status(200).json({
@@ -519,21 +523,22 @@ exports.nearbyRestro =  async(req, res) => {
             $geoNear: {
                 near: {
                     "type": "Point",
-                    "coordinates": [parseFloat(75.828819), parseFloat(26.901336)]
+                    "coordinates": [Number(long), Number(lat)]
                 },
-                "maxDistance": parseFloat(32186.9)*1609,
+                "maxDistance": 3002186.9,
                 "spherical": true,
-                query: { user_type: "vendor" },
+              
                 "distanceField": "restroDistance",
             }
         },
         { $limit: 5 }
     ], function (err, nearbyRestro) {
+        console.log(err)
         if (nearbyRestro) {
             return res.status(200).json({
                 success: true,
                 status: 200,
-                message: "Nearby restaurant loaded",
+                message: "Nearby restaurant ",
                 data: nearbyRestro
             });
            
@@ -669,6 +674,48 @@ exports.nearbyRestro =  async(req, res) => {
     })
 }
 
+exports.report = (req, res, next) => {
+    var reqdata = req.body;
+    const { user } = req;
+    var id = user.id;
+    // console.log(user)
+    User_signUp.find({ _id: id }, (err, user_data) => {
+        let moneyheist_obj = Object.assign({},user_data)
+        // console.log(moneyheist_obj)
+
+        //  console.log(user_data[0].firstname)
+     let firstname = user_data[0].firstname;
+     let lastname = user_data[0].lastname;
+     let email = user_data[0].email;
+    console.log(firstname)
+    var issue = reqdata.issue;
+    var description = reqdata.description;
+    let report = new reportsModel();
+    report.firstname = firstname,
+        report.lastname = lastname,
+        report.email = email,
+        report.issue = issue,
+        report.description = description
+    const payload = {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        issue: issue,
+        description: description,
+    };
+    var NewTicket = new reportsModel(payload);
+    NewTicket.save(function (err, obj) {
+        if (err) throw err;
+        return res.status(200).json([{
+            success: true,
+            status: 200,
+            message: "Report Generated successfully",
+            payload: NewTicket
+        }]);
+    });
+})
+
+}
 
 
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const con = require('../../database/db')
+// const con = require('../../database/db')
 
-var signup = new mongoose.Schema({
+const signup = new mongoose.Schema({
     loc: {
         type: {
           type: String,
@@ -77,7 +77,8 @@ timmings:[{
 ],
 
 });
-signup.index({ loc: "2dsphere" });
+
+signup.index({ loc : "2dsphere" });
 
 module.exports = mongoose.model('signup', signup);
 

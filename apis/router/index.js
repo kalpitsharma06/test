@@ -8,19 +8,25 @@ const multer = require('multer');
 const path = require('path')
 const path1 = path.join(__dirname + '../../../public/uploads')
 const { auth,   authorization_restro ,apiAuthAuthenticated,authorization_user} = require('../../services/auth');
+var multerS3 = require('multer-s3')
+const aws = require("aws-sdk")
+var s3 = new aws.S3();
+
+aws.config.update({
+    secretAccessKey: process.env.secretAccessKey,
+    accessKeyId: process.env.accessKeyId,
+    region: process.env.region,
+  });
 
 
-
-
-
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, path1);
-    },
-    filename: function (req, file, callback) {
-        callback(null, Date.now() + file.originalname);
-    },
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, callback) {
+//         callback(null, path1);
+//     },
+//     filename: function (req, file, callback) {
+//         callback(null, Date.now() + file.originalname);
+//     },
+// });
 
 
 // const upload = multer({
@@ -35,7 +41,16 @@ const storage = multer.diskStorage({
 const maxsize= 1024*5
 
 const upload = multer({
-    storage: storage,
+    storage:  multerS3({
+        s3: s3,
+        bucket:"justeat",
+        metadata: function (req, file, cb) {
+            cb(null, { fieldName: file.originalname });
+        },
+        key: function (req, file, cb) {
+            cb(null, Date.now().toString())
+        }
+    }),
     limits: {maxsize}
 });
 const multerArray = [{
@@ -60,10 +75,10 @@ const multerArray = [{
 
 
 ]
-const upload1 = multer({
-    storage: storage,
+// const upload1 = multer({
+//     storage: storage,
    
-});
+// });
 // var multiple_uploads = upload1.fields([{ name: 'photo_id'},{ name: 'proof_of_ownership' }])
 
 
@@ -86,6 +101,7 @@ router.get('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 router.post('/create_order',authorization_user,addUser.create_order);
 router.get('/orderlisting',authorization_user,addUser.order_listing);
+router.post('/report',authorization_user,addUser.report);
 
 
 
@@ -123,8 +139,9 @@ router.put('/bank_details/:id',signUp.menu_bank_details)
    
 
 router.put('/updaterestaurant/:id', signUp.updateResturantDetails)
-router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.get('/login_vendor',signUp.logIn)
+router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
+router.post('/forgotpassword', signUp.forgotpassword)
 router.get('/logout',signUp.logout)
 router.get('/vendor_order_listing',authorization_restro,signUp.vendor_order_listing)
 
