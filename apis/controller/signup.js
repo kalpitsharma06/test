@@ -18,15 +18,15 @@ aws.config.update({
 // SIgn UP
 exports.addrestaurant = async function (req, res, next) {
     try {
-let payload;
-        const confirm_email = req.body.confirm_email
+// let payload;
+        // const confirm_email = req.body.confirm_email
         const email = req.body.email
-        if (email !== confirm_email) {
-            res.status(400).json({
-                status: false,
-                message: " email/confirm email does not  match",
-            })
-        } else {
+        // if (email !== confirm_email) {
+        //     res.status(400).json({
+        //         status: false,
+        //         message: " email/confirm email does not  match",
+        //     })
+        // } else {
             let lattitude = req.body.lattitude
             let longitude = req.body.longitude
             let payload = {
@@ -109,23 +109,18 @@ let payload;
                 message: "Successfully Signed up",
                 'results': singupRecords,
 
-            })
-
-
-
-
-        }
+            })  }
 
     }
-}catch (err) {
+catch (err) {
     res.status(400).json({
         status: false,
         'result': (err.message),
         'message': "Please submit details "
 
     })
-}
-}
+}}
+
 
 exports.restaurant_additionalinfo = async function (req, res, next) {
     // try{
@@ -591,7 +586,7 @@ exports.forgotpassword = (req, res, next) => {
             });
         } else {
             var userid = userdata._id
-            const sender = "om>";
+            const sender = "<noreply@xntproject.com>";
             const recipient = email;
             const subject = "Verify your email to reset your password";
             const body_text = "Click on the link to reset password\n" + "https://test.xntproject.com/api/v1/justeat/changepassword" + userid;
@@ -638,39 +633,7 @@ exports.forgotpassword = (req, res, next) => {
 
 
             
-            // var userid = userdata._id
-            // const sender = " madhav.appic@gmail.com";
-            // const recipient = email
-            // const subject = "Verify your email to reset your password";
-            // const body_text = "Click on the link to reset password\n" + "http://13.58.214.98:8700/api/reset_password/" + userid;
-
-            // var params = {
-            //     Source: sender,
-            //     Destination: {
-            //         ToAddresses: [
-            //             recipient
-            //         ],
-            //     },
-            //     Message: {
-            //         Subject: {
-            //             Data: subject,
-            //         },
-            //         Body: {
-            //             Text: {
-            //                 Data: body_text,
-            //             },
-            //         }
-            //     },
-            // };
-
-            //Try to send the email.
-            // ses.sendEmail(params, function (err, data) {
-            //     // If something goes wrong, print an error message.
-
-            // });
-       
- 
-
+          
 
     // update the password
     exports.changePassword = async (req, res) => {

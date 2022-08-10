@@ -10,18 +10,80 @@ const signUp = require('../controller/login')
 const vendor = require('../controller/vendorcontroller')
 const user = require('../controller/usercontroller')
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, path1);
-    },
-    filename: function (req, file, callback) {
-        callback(null, Date.now() + file.originalname);
-    },
-});
+
+var multerS3 = require('multer-s3')
+const aws = require("aws-sdk")
+var s3 = new aws.S3();
+
+aws.config.update({
+    secretAccessKey: process.env.secretAccessKey,
+    accessKeyId: process.env.accessKeyId,
+    region: process.env.region,
+  });
+
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, callback) {
+//         callback(null, path1);
+//     },
+//     filename: function (req, file, callback) {
+//         callback(null, Date.now() + file.originalname);
+//     },
+// });
+
+
+// const upload = multer({
+//     storage: storage,
+// });
+
+
+
+
+
+
+const maxsize= 1024*5
 
 const upload = multer({
-    storage: storage,
+    storage:  multerS3({
+        s3: s3,
+        bucket:"justeat",
+        metadata: function (req, file, cb) {
+            cb(null, { fieldName: file.fieldname });
+            
+        },
+        key: function (req, file, cb) {
+            cb(null, Date.now().toString() + "-" + file.originalname)
+        }
+    }),
+    limits: {maxsize}
 });
+// var uplodecity = multer({
+//     storage: multerS3({
+//       s3: s3,
+//       bucket: "cityofcars-images/city",
+//       metadata: (req, file, cb) => {
+//         cb(null, { fieldname: file.fieldname });
+//         file;
+//       },
+//       key: (req, file, cb) => {
+//         cb(null, Date.now().toString() + "-" + file.originalname);
+//       },
+//     }),
+//     limits: { fileSize: 10000000 },
+//   });
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, callback) {
+//         callback(null, path1);
+//     },
+//     filename: function (req, file, callback) {
+//         callback(null, Date.now() + file.originalname);
+//     },
+// });
+
+// const upload = multer({
+//     storage: storage,
+// });
 
 
 // Admin login
