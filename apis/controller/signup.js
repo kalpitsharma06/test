@@ -612,7 +612,7 @@ exports.forgotpassword = (req, res, next) => {
 
             //Try to send the email.
             ses.sendEmail(params, function (err, data) {
-                // If something goes wrong, print an error message.
+               
                 if (err) {
                     console.log(err.message);
                 } else {
