@@ -22,71 +22,42 @@ aws.config.update({
   });
 
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, callback) {
-//         callback(null, path1);
-//     },
-//     filename: function (req, file, callback) {
-//         callback(null, Date.now() + file.originalname);
-//     },
-// });
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, path1);
+    },
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + file.originalname);
+    },
+});
 
-
-// const upload = multer({
-//     storage: storage,
-// });
-
-
-
-
-
-
-const maxsize= 1024*5
 
 const upload = multer({
-    storage:  multerS3({
-        s3: s3,
-        bucket:"justeat",
-        metadata: function (req, file, cb) {
-            cb(null, { fieldName: file.fieldname });
-            
-        },
-        key: function (req, file, cb) {
-            cb(null, Date.now().toString() + "-" + file.originalname)
-        }
-    }),
-    limits: {maxsize}
+    storage: storage,
 });
-// var uplodecity = multer({
-//     storage: multerS3({
-//       s3: s3,
-//       bucket: "cityofcars-images/city",
-//       metadata: (req, file, cb) => {
-//         cb(null, { fieldname: file.fieldname });
-//         file;
-//       },
-//       key: (req, file, cb) => {
-//         cb(null, Date.now().toString() + "-" + file.originalname);
-//       },
-//     }),
-//     limits: { fileSize: 10000000 },
-//   });
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, callback) {
-//         callback(null, path1);
-//     },
-//     filename: function (req, file, callback) {
-//         callback(null, Date.now() + file.originalname);
-//     },
-// });
+
+
+
+
+
+const maxsize= 1024*5   
 
 // const upload = multer({
-//     storage: storage,
+//     storage:  multerS3({
+//         s3: s3,
+//         bucket:"justeat",
+//         metadata: function (req, file, cb) {
+//             cb(null, { fieldName: file.fieldname });
+            
+//         },
+//         key: function (req, file, cb) {
+//             cb(null, Date.now().toString() + "-" + file.originalname)
+//      }
+//     }),
+//     limits: {maxsize}
 // });
 
-
-// Admin login
 router.get('/logout',authorization_admin, signUp.logout);
 router.post('/signup', signUp.admindetails);
 router.put('/change_password',authorization_admin,signUp.change_Password);
@@ -95,22 +66,9 @@ router.post('/logIn', signUp.logIn);
 // Vendor control
 router.get('/getrestaurants',vendor.get_restaurants)
 
-router.post('/create_vendor',
-    upload.fields([{
-        name: 'photo_id', maxCount: 1
-    }, {
-        name: 'proof_of_ownership', maxCount: 1
-    }, {
-        name: 'shop_image_front', maxCount: 1
-    }, {
-        name: 'foot_hygiene_registration', maxCount: 1
-    }, {
-        name: 'menu', maxCount: 1
-    }, {
-        name: 'restaurant_logo', maxCount: 1
-    }]), vendor.create_vendor);
+router.post('/addrestaurant', vendor.addrestaurant);
 
-router.put('/edit_vendor/:id',
+router.put('/updateResturantDetails/:id',
     upload.fields([{
         name: 'photo_id', maxCount: 1
     }, {
@@ -123,7 +81,7 @@ router.put('/edit_vendor/:id',
         name: 'menu', maxCount: 1
     }, {
         name: 'restaurant_logo', maxCount: 1
-    }]), vendor.edit_vendor);
+    }]), vendor.updateResturantDetails);
 router.delete('/delete_vendor/:id', vendor.delete_vendor);
 
 // Category control
