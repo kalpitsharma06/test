@@ -10,9 +10,9 @@ const orderModel = require('../../apis/model/order').order;
 const aws = require("aws-sdk")
 
 aws.config.update({
-    secretAccessKey: process.env.secretAccessKey,
-    accessKeyId: process.env.accessKeyId,
-    region: process.env.region,
+    secretAccessKey: "xaQwB/3+WOWf5ofmuhacNU95r8aYqzct6YUUu+iD",
+    accessKeyId: "AKIARCFXHG3UECAKFKMM",
+    region:  "us-east-1",
   });
   var ses = new aws.SES();
 // SIgn UP
