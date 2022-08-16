@@ -559,25 +559,27 @@ exports.nearbyRestro =  async(req, res) => {
 
  exports.create_order = (req, res) => {
     var reqdata = req.body;
-    var order_id = randomstring.generate({
+    var order = randomstring.generate({
         length: 6,
-        charset: 'numeric'
+        charset:'numeric'
       });
+        var order_id= "justeat"+order
   
     var transaction_id =randomstring.generate({
         length: 9,
         charset: 'numeric'
       });;
-    var transaction_status = 'complete';
+    var transaction_status = reqdata.transaction_status;
     // console.log(req.user)
     var id1 = req.user.id
     var id = req.body.id
     console.log(id)
     User_signUp.findOne({ _id: id1 }, (err, userdata) => {
-   
-        var first_name = userdata.first_name;
-        var last_name = userdata.last_name;
+   console.log(userdata)
+        var first_name = userdata.firstname;
+        var last_name = userdata.lastname;
         var customerID = userdata._id;
+        var restro_address = userdata.address;
         cartModel.findOne({ _id: id }, (err, cartdata) => {
           
             console.log(cartdata)
@@ -585,7 +587,7 @@ exports.nearbyRestro =  async(req, res) => {
         if(cartdata){
             console.log(cartdata)
             var restro_name = cartdata.restro_name;
-            var restro_address = cartdata.restro_address;
+           
             var vendorID = cartdata.vendorId;
             var payment = reqdata.payment;
             var subtotal = reqdata.subtotal;
@@ -597,7 +599,7 @@ exports.nearbyRestro =  async(req, res) => {
                 console.log(vendordata)
                 console.log(mobile)
                 let order = new orderModel();
-                order.transaction_id = transaction_id,
+                transaction_id = transaction_id,
                     order.transaction_status = transaction_status,
                     order.order_id = order_id,
                     order.first_name = first_name,
@@ -630,7 +632,7 @@ exports.nearbyRestro =  async(req, res) => {
                 };
                 var NewTicket = new orderModel(payload);
                 NewTicket.save(function (err, obj) {
-                    cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
+                    // cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
                         if (err) throw err;
                         return res.status(200).json({
                             success: true,
@@ -639,7 +641,7 @@ exports.nearbyRestro =  async(req, res) => {
                         });
                     });
                 });
-            })
+            // })
     }else{
         return res.status(400).json({
             success: false,
@@ -671,59 +673,89 @@ exports.create_order_guest = (req, res) => {
  
   
    
-        var first_name = "Guest";
+       
         
-        var customerID = guest_id;
+   
 
-
-        cartModel.findOne({ _id: customerID }, (err, cartdata) => {
+        console.log(req.body.guest_id ,"jjjjj")
+        cartModel.findOne({ _id: guest_id }, (err, cartdata) => {
           
             console.log(cartdata)
                 if (err) throw err;
         if(cartdata){
-            console.log(cartdata)
+            // console.log(cartdata)
             var restro_name = cartdata.restro_name;
             var restro_address = cartdata.restro_address;
             var vendorID = cartdata.vendorId;
             var payment = reqdata.payment;
             var subtotal = reqdata.subtotal;
             var products = cartdata.products;
+           var  first_name = req.body.first_name;
+             var  last_name = req.body.last_name;
+            var email = req.body.email;
+
+            
+            var restro_name = restro_name;
+            var restro_address = restro_address;
+            var mobile = req.body.mobile;
+            var address = req.body.address;
+            var city = req.body.city;
+            
+            var delivery_time = req.body.delivery_time;
+            var leave_note = req.body.leave_note;
+            var postcode = req.body.postcode;
             // var errors = req.validationErrors();
             restaurant_model.findOne({ _id: vendorID }, (err, vendordata) => {
                 var mobile = vendordata.mobile;
                 var restro_image = vendordata.image;
-                console.log(vendordata)
+                console.log(req.body)
                 console.log(mobile)
                 let order = new orderModel();
                 order.transaction_id = transaction_id,
                     order.transaction_status = transaction_status,
                     order.order_id = order_id,
-                    order.first_name = "Guest",
-                   
+                    order.first_name = first_name,
+                    order.last_name = last_name,
+                    order.email = email,
+
+                    
                     order.restro_name = restro_name,
                     order.restro_address = restro_address,
                     order.mobile = mobile,
+                    order.address = address,
+                    order.city = city,
+                    
+                    order.delivery_time = delivery_time,
+                    order.leave_note = leave_note,
+                    order.postcode = postcode,
                     order.restro_image = restro_image,
                     order.payment = payment,
                     order.products = products
-                order.vendorID = vendorID,
-                    order.customerID = customerID,
+                 order.vendorID = vendorID,
+                //     order.customerID = customerID,
                     order.subtotal = subtotal,
                     order.products = products
                 const payload = {
                     first_name: first_name,
-                    // last_name: last_name,
+                    last_name: last_name,
                     restro_name: restro_name,
                     restro_address: restro_address,
                     restro_image: restro_image,
                     mobile: mobile,
+                    email:email,
+                    address: address,
+                    city: city,
+                    
+                    delivery_time: delivery_time,
+                    leave_note: leave_note,
+                    postcode: postcode,
                     payment: payment,
                     subtotal: subtotal,
                     order_id: order_id,
                     transaction_id: transaction_id,
                     transaction_status: transaction_status,
                     vendorID: vendorID,
-                    customerID: customerID,
+                    // customerID: customerID,
                     products: products
                 };
                 var NewTicket = new orderModel(payload);

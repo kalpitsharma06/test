@@ -745,6 +745,8 @@ exports.searnea = async (req, res) => {
 
 }
 
+
+
 exports.vendor_order_listing = async (req, res) => {
     var id = req.user.id
     orderModel.find({ vendorID: id }, (err, order_data) => {
@@ -766,6 +768,73 @@ exports.vendor_order_listing = async (req, res) => {
         }
     })
 }
+exports.vendor_order_report = async (req, res) => {
+    var id = req.user.id
+    // var data_from =req.body.from
+
+// var data_from =req.body.from
+var date = Date.now()
+
+// var date= date.toLocaleDateString();
+//     console.log(date)
+    orderModel.find({ vendorID: id }, (err, order_data) => {
+        console.log(order_data[0].createdAt)
+
+        var order = order_data.reverse()
+
+        if (order_data.length == 0) {
+            return res.status(200).json({
+                success: true,
+                status: 201,
+                message: "You have no orders",
+            });
+        } else {
+            return res.status(200).json({
+                success: true,
+                data: order,
+                status: 200,
+                message: "order listing successfully",
+            });
+        }
+    })
+}
+exports.vendor_completed_order  = async (req, res) => {
+    var id = req.user.id
+    orderModel.find({ vendorID: id,transaction_status:"complete" }, (err, order_data) => {
+        console.log(order_data)
+        var order = order_data.reverse()
+
+        if (order_data.length == 0) {
+            return res.status(200).json({
+                success: true,
+                status: 200,
+                message: "You have no completed orders",
+            });
+        } else {
+            return res.status(200).json({
+                success: true,
+                data: order,
+                status: 200,
+                message: "order listing successfully",
+            });
+        }
+    })
+}
+exports.vendor_order_delete = async (req, res) => {
+    try {
+        const result = await orderModel.findByIdAndDelete(req.params.id)
+        res.status(200).json({
+            status: true,
+            message: "Successfully Deleted ",
+            'results': result
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
+
 
 
 // exports.timming= async(req, res)=> {

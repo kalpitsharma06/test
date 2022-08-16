@@ -86,7 +86,7 @@ router.get('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 router.get('/orderlisting',authorization_user,addUser.order_listing);
 router.post('/create_order',authorization_user,addUser.create_order);
-router.post('/create_order_guest',authorization_user,addUser.create_order);
+router.post('/create_order_guest',authorization_user,addUser.create_order_guest);
 router.post('/report',authorization_user,addUser.report);
 
 
@@ -129,7 +129,10 @@ router.get('/login_vendor',signUp.logIn)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.post('/forgotpassword', signUp.forgotpassword)
 router.get('/logout',signUp.logout)
-router.get('/vendor_order_listing',authorization_restro,signUp.vendor_order_listing)
+router.get('/vendor_completed_order',authorization_restro,signUp. vendor_completed_order)
+router.get('/vendor_order_listing',authorization_restro,signUp. vendor_order_listing)
+router.get('/vendor_order_report',authorization_restro,signUp. vendor_order_report)
+router.delete('/vendor_order_delete/:id',authorization_restro,signUp.vendor_order_delete)
 
 router.put('/changepassword/:id', signUp.changePassword)
 // router.put('/searnearby/:id', signUp.searnearby)

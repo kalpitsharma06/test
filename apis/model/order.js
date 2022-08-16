@@ -19,6 +19,25 @@ let order = new mongoose.Schema({
     mobile:{
         type:String
     },
+email:{
+        type:String
+    },
+address:{
+        type:String
+    },
+city:{
+        type:String
+    },
+    
+postcode:{
+            type:String
+        },    
+delivery_time:{
+            type:String
+        },    
+leave_note:{
+            type:String
+        },    
     transaction_status:{
         type:String
     },
