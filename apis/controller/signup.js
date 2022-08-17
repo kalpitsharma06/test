@@ -785,7 +785,7 @@ var date = Date.now()
 
 
 
-        if (orders.row >= 1) {
+        if (orders.length > 0) {
             return res.status(200).json({
                 success: true,
                 status: 201,

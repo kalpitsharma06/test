@@ -4,7 +4,6 @@ info:
   version: 1.0.0
 servers:
   - url: https://test.xntproject.com
-  - url: https://test.xntproject.com/api/v1/
   - url: http://localhost:8700
 tags:
   - name: vendor control
@@ -31,8 +30,8 @@ paths:
                 restaurant_name: ABCsdsdssdsd
                 restaurant_address: 'ajmer '
                 pincode: '11'
-                confirm_email: jitendrakumar.appic@gmail.com
-                email: jitendrakumar.appic@gmail.comllllllll
+                confirm_email: madhav.appic@gmail.com
+                email: madhav.appic@gmail.com
                 meal_timming: breakfast
                 contact_number: '99'
                 lattitude: '26.4521'
@@ -75,7 +74,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/forgotpassword:
+  /api/v1/justeat/forgotpassword:
     post:
       tags:
         - vendor control
@@ -92,7 +91,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/verification/62f0ab267997e99f91f19a59:
+  /api/v1/justeat/verification/62f253b1038df3ee7d3ace57:
     put:
       tags:
         - vendor control
@@ -105,7 +104,7 @@ paths:
               properties:
                 gender:
                   type: string
-                  example: jjjjjjj
+                  example: hello
                 owner_name:
                   type: string
                   example: kkkkk
@@ -246,6 +245,46 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /justeat/vendor_report_bydate:
+    get:
+      tags:
+        - vendor control
+      summary: vendor order reportbydate
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/vendor_report_bymonth:
+    get:
+      tags:
+        - vendor control
+      summary: vendor order reportbymonth
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/vendor_report_betweendates:
+    get:
+      tags:
+        - vendor control
+      summary: vendor order reportbtweendates
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/vendor_order_delete/62ee1969d673068c5a01e08d:
+    delete:
+      tags:
+        - vendor control
+      summary: vendor order delete
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/v1/justeat/logout:
     get:
       tags:
@@ -266,7 +305,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/create_menu/62fa3e97e67ec874f8f58848:
+  /api/v1/justeat/create_menu/62fb2d9de65e544d031c6497:
     post:
       tags:
         - products
@@ -300,7 +339,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/create_combo:
+  /api/v1/justeat/create_combo:
     post:
       tags:
         - products
@@ -434,10 +473,10 @@ paths:
               properties:
                 category_name:
                   type: string
-                  example: lllkkkkkkkkk
+                  example: lllkkjjjjkkkkkk
                 restaurant_id:
                   type: string
-                  example: 62e375d1258462fb1cfb037c
+                  example: 62fb2136e65e544d031c647a
                 image:
                   type: string
                   format: binary
@@ -725,8 +764,10 @@ paths:
               example:
                 firstname: majdhjjjjjjav
                 lastname: req.body.lastname
-                email: yojjjjjgijkkjjjl
+                email: yojjjjjgij,kkjjjl
                 address: dfdjfkajfl
+                city: jaipur
+                postcode: '1223'
                 password: '9999'
                 status: true
                 is_registered: 'true'
@@ -746,13 +787,13 @@ paths:
             schema:
               type: object
               example:
-                productId: 62fa3eace67ec874f8f5884f
+                productId: 62fb5f33dd6bd486fe7c4983
                 quantity: '2'
                 name: jj
                 price: '000'
                 offer_price: '000'
                 type: user
-                vendorId: ''
+                vendorId: 62f253b1038df3ee7d3ace57
                 subtotal: '500'
       responses:
         '200':
@@ -772,7 +813,36 @@ paths:
               example:
                 payment: 62ee10289f1732efd5d3fe61
                 subtotal: '2'
-                id: 62f22a1cf99e344a0646bcca
+                id: 62fb8692fd428aa970cd9150
+                transaction_status: complete
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/create_order_guest:
+    post:
+      tags:
+        - usercontrol
+      summary: create_order_guest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                payment: 62ee10289f1732efd5d3fe61
+                subtotal: '2'
+                guest_id: 62fb46a3300c51c5205cb18a
+                first_name: fdjfdf
+                last_name: shara
+                email: dkdddkd
+                mobile: '3433'
+                address: ffdfdf
+                city: jaipur
+                postcode: '34343'
+                delivery_time: '34343'
+                leave_note: dfjdfdhdh
       responses:
         '200':
           description: Successful response
