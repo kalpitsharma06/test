@@ -16,32 +16,46 @@ const aws = require("aws-sdk")
 var s3 = new aws.S3();
 
 aws.config.update({
-    secretAccessKey: process.env.secretAccessKey,
-    accessKeyId: process.env.accessKeyId,
-    region: process.env.region,
+    secretAccessKey: "xaQwB/3+WOWf5ofmuhacNU95r8aYqzct6YUUu+iD",
+    accessKeyId: "AKIARCFXHG3UECAKFKMM",
+    region:  "us-east-1",
+  });
+  var upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: "xntproject/just-eat",
+      metadata: (req, file, cb) => {
+        cb(null, { fieldname: file.fieldname });
+        file;
+      },
+      key: (req, file, cb) => {
+        cb(null, Date.now().toString() + "-" + file.originalname);
+      },
+    }),
+    limits: { fileSize: 10000000 },
   });
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, path1);
-    },
-    filename: function (req, file, callback) {
-        callback(null, Date.now() + file.originalname);
-    },
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, callback) {
+//         callback(null, path1);
+//     },
+//     filename: function (req, file, callback) {
+//         callback(null, Date.now() + file.originalname);
+//     },
+// });
 
 
-const upload = multer({
-    storage: storage,
-});
-
-
-
+// const upload = multer({
+//     storage: storage,
+// });
 
 
 
-const maxsize= 1024*5   
+
+
+
+// const maxsize= 1024*5   
 
 // const upload = multer({
 //     storage:  multerS3({

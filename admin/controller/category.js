@@ -5,10 +5,10 @@ const category = require('../model/category')
 //add Category
 exports.addCategory = async function (req, res, next) {
    
-   console.log(req.file)
-   try{// console.log(req.file)
+  
     const { category_name, restaurant_id } = req.body
-// console.log(restaurant_id)
+    // console.log(restaurant_id)
+    try{// console.log(req.file)
     if(req.file){
         var CategoryRecords = new category({
             category_name: category_name,

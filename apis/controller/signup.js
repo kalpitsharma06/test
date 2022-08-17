@@ -3,6 +3,7 @@ const signUp = require('../model/signup')
 const restaurant_additionalinfonModel = require('../model/additionalinfo')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const moment = require("moment")
 // const locationModel = require('../model/location').location;
 const { apiAuthAuthenticated, authorization, generateAccessToken } = require('../../services/auth');
 const auth = require("../../services/auth")
@@ -636,7 +637,7 @@ exports.forgotpassword = (req, res, next) => {
           
 
     // update the password
-    exports.changePassword = async (req, res) => {
+ exports.changePassword = async (req, res) => {
         try {
             const databasePassword = await signUp.findById(req.params.id)
             const validPassword = await bcrypt.compare(req.body.currPassword, databasePassword.password)
@@ -768,7 +769,7 @@ exports.vendor_order_listing = async (req, res) => {
         }
     })
 }
-exports.vendor_order_report = async (req, res) => {
+exports.vendor_report_bydate = async (req, res) => {
     var id = req.user.id
     // var data_from =req.body.from
 
@@ -778,22 +779,57 @@ var date = Date.now()
 // var date= date.toLocaleDateString();
 //     console.log(date)
     orderModel.find({ vendorID: id }, (err, order_data) => {
-        console.log(order_data[0].createdAt)
+    
+     const orders = order_data.filter(x => moment(x.createdAt).format('YYYY-MM-DD') == req.body.date    )
+   console.log(orders)
 
-        var order = order_data.reverse()
 
-        if (order_data.length == 0) {
+
+        if (orders.row >= 1) {
             return res.status(200).json({
                 success: true,
                 status: 201,
-                message: "You have no orders",
+                result: orders,
             });
         } else {
+            return res.status(400).json({
+                success: true,
+              
+                status: 400,
+                message: "No reports available for today",
+            });
+        }
+    })
+}
+exports.vendor_report_bymonth = async (req, res) => {
+    var id = req.user.id
+    // var data_from =req.body.from
+
+// var data_from =req.body.from
+var date = Date.now()
+
+// var date= date.toLocaleDateString();
+//     console.log(date)
+    orderModel.find({ vendorID: id }, (err, order_data) => {
+       
+    if (err) throw err;
+     const orders = order_data.filter(x => moment(x.createdAt).format('YYYY-MM') == req.body.date)
+   console.log(orders)
+
+
+
+        if (orders.row>=1) {
             return res.status(200).json({
                 success: true,
-                data: order,
-                status: 200,
-                message: "order listing successfully",
+                status: 201,
+                result: orders,
+            });
+        } else {
+            return res.status(400).json({
+                success: true,
+              
+                status: 400,
+                message: "No reports  available for this month",
             });
         }
     })

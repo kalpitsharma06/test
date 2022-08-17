@@ -9,18 +9,41 @@ const path = require('path')
 const path1 = path.join(__dirname + '../../../public/uploads')
 const { auth,   authorization_restro ,apiAuthAuthenticated,authorization_user} = require('../../services/auth');
 
+var multerS3 = require('multer-s3')
+const aws = require("aws-sdk")
+var s3 = new aws.S3();
+
+aws.config.update({
+    secretAccessKey: "xaQwB/3+WOWf5ofmuhacNU95r8aYqzct6YUUu+iD",
+    accessKeyId: "AKIARCFXHG3UECAKFKMM",
+    region:  "us-east-1",
+  });
+  var upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: "xntproject/just-eat",
+      metadata: (req, file, cb) => {
+        cb(null, { fieldname: file.fieldname });
+        file;
+      },
+      key: (req, file, cb) => {
+        cb(null, Date.now().toString() + "-" + file.originalname);
+      },
+    }),
+    limits: { fileSize: 10000000 },
+  });
 
 
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, path1);
-    },
-    filename: function (req, file, callback) {
-        callback(null, Date.now() + file.originalname);
-    },
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, callback) {
+//         callback(null, path1);
+//     },
+//     filename: function (req, file, callback) {
+//         callback(null, Date.now() + file.originalname);
+//     },
+// });
 
 
 // const upload = multer({
@@ -32,12 +55,12 @@ const storage = multer.diskStorage({
 
 
 
-const maxsize= 1024*5
+// const maxsize= 1024*5
 
-const upload = multer({
-    storage: storage,
-    limits: {maxsize}
-});
+// const upload = multer({
+//     storage: storage,
+//     limits: {maxsize}
+// });
 const multerArray = [{
     name: 'photo_id', maxCount: 1
 }, {
@@ -54,16 +77,11 @@ const multerArray = [{
 }, {
     name: 'restaurant_logo', maxCount: 1
 }
-
-
-
-
-
 ]
-const upload1 = multer({
-    storage: storage,
+// const upload1 = multer({
+//     storage: storage,
    
-});
+// });
 // var multiple_uploads = upload1.fields([{ name: 'photo_id'},{ name: 'proof_of_ownership' }])
 
 
@@ -131,7 +149,8 @@ router.post('/forgotpassword', signUp.forgotpassword)
 router.get('/logout',signUp.logout)
 router.get('/vendor_completed_order',authorization_restro,signUp. vendor_completed_order)
 router.get('/vendor_order_listing',authorization_restro,signUp. vendor_order_listing)
-router.get('/vendor_order_report',authorization_restro,signUp. vendor_order_report)
+router.get('/vendor_report_bydate',authorization_restro,signUp. vendor_report_bydate)
+router.get('/vendor_report_bymonth',authorization_restro,signUp. vendor_report_bymonth)
 router.delete('/vendor_order_delete/:id',authorization_restro,signUp.vendor_order_delete)
 
 router.put('/changepassword/:id', signUp.changePassword)

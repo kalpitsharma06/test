@@ -28,6 +28,8 @@ exports.addUser = async function (req, res, next) {
         email: req.body.email,
       
         address: req.body.address,
+        city:req.body.city,
+        postcode:req.body.postcode,
         password: hashedPassword,
         status: true,
         is_registered: true,
