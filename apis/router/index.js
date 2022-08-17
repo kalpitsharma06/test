@@ -151,6 +151,7 @@ router.get('/vendor_completed_order',authorization_restro,signUp. vendor_complet
 router.get('/vendor_order_listing',authorization_restro,signUp. vendor_order_listing)
 router.get('/vendor_report_bydate',authorization_restro,signUp. vendor_report_bydate)
 router.get('/vendor_report_bymonth',authorization_restro,signUp. vendor_report_bymonth)
+router.get('/vendor_report_betweendates',authorization_restro,signUp. vendor_report_betweendates)
 router.delete('/vendor_order_delete/:id',authorization_restro,signUp.vendor_order_delete)
 
 router.put('/changepassword/:id', signUp.changePassword)
@@ -169,7 +170,7 @@ router.delete('/delete_combo/:id',authorization_restro,menu.delete_combo);
 router.get('/get_combo/:id',authorization_restro,menu.getall_combo);
 
 
-router.get('/get_products/:id',upload.single("image"),menu.getall_products);
+router.get('/get_products/:id',menu.getall_products);
 router.get('/delete_product/:id',menu.delete_product);
 router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
 

@@ -28,7 +28,7 @@ aws.config.update({
         cb(null, { fieldname: file.fieldname });
         file;
       },
-      key: (req, file, cb) => {
+      filename: (req, file, cb) => {
         cb(null, Date.now().toString() + "-" + file.originalname);
       },
     }),

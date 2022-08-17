@@ -577,7 +577,7 @@ exports.nearbyRestro =  async(req, res) => {
     var id = req.body.id
     console.log(id)
     User_signUp.findOne({ _id: id1 }, (err, userdata) => {
-   console.log(userdata)
+//    console.log(userdata)
         var first_name = userdata.firstname;
         var last_name = userdata.lastname;
         var customerID = userdata._id;

@@ -359,15 +359,15 @@ exports.ownership_verification = async function (req, res, next) {
             owner_pincode: req.body.owner_pincode,
 
             photo_id_name: req.body.photo_id_name,
-            photo_id: req.files.photo_id[0].filename,
+            photo_id: req.files.photo_id[0].location,
             ownership_certificate_name: req.body.certificate_name,
-            proof_of_ownership: req.files.proof_of_ownership[0].filename,
-            shop_image_front: req.files.shop_image_front[0].filename,
-            foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
-            permission_to_trade: req.files.permission_to_trade[0].filename,
+            proof_of_ownership: req.files.proof_of_ownership[0].location,
+            shop_image_front: req.files.shop_image_front[0].location,
+            foot_hygiene_registration: req.files.foot_hygiene_registration[0].location,
+            permission_to_trade: req.files.permission_to_trade[0].location,
 
-            menu: req.files.menu[0].filename,
-            restaurant_logo: req.files.restaurant_logo[0].filename,
+            menu: req.files.menu[0].location,
+            restaurant_logo: req.files.restaurant_logo[0].location,
 
             address_of_welcome_pack: req.body.address_of_welcome_pack,
         })
@@ -814,11 +814,50 @@ var date = Date.now()
        
     if (err) throw err;
      const orders = order_data.filter(x => moment(x.createdAt).format('YYYY-MM') == req.body.date)
-   console.log(orders)
+   console.log(orders.length)
 
 
 
-        if (orders.row>=1) {
+        if (orders.length > 0) {
+            return res.status(200).json({
+                success: true,
+                status: 201,
+                result: orders,
+            });
+        } else {
+            return res.status(400).json({
+                success: true,
+              
+                status: 400,
+                message: "No reports  available for this month",
+            });
+        }
+    })
+}
+
+exports.vendor_report_betweendates= async (req, res) => {
+    var id = req.user.id
+    console.log(id)
+    // var data_from =req.body.from
+
+// var data_from =req.body.from
+var date = Date.now()
+    
+// var date= date.toLocaleDateString();
+//     console.log(date)
+    orderModel.find({ vendorID: id }, (err, order_data) => {
+       
+        const startDate = moment(req.body.start_date).format('YYYY-MM-DD');
+        const endDate = moment(req.body.end_date).format('YYYY-MM-DD');
+        console.log(startDate)
+    if (err) throw err;
+     const orders = order_data.filter(x => moment(x.createdAt).format('YYYY-MM-DD') >= startDate && moment(x.createdAt).format('YYYY-MM-DD') <= endDate )
+//    console.log(orders.row)
+
+  
+
+
+        if (orders.length > 0) {
             return res.status(200).json({
                 success: true,
                 status: 201,
@@ -856,6 +895,7 @@ exports.vendor_completed_order  = async (req, res) => {
         }
     })
 }
+
 exports.vendor_order_delete = async (req, res) => {
     try {
         const result = await orderModel.findByIdAndDelete(req.params.id)

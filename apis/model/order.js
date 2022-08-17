@@ -82,10 +82,11 @@ leave_note:{
     },
 
 
-   }, {
+   },
+    {
     timestamps: {
-        created_at: MODALFUNC.string_ts,
-        updated_at: MODALFUNC.string_ts
+        created_at: true,
+        updated_at: true
     },
 },
     {

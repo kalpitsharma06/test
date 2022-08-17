@@ -38,7 +38,7 @@ exports.create_menu = async (req, res) => {
                 var Product_description = reqdata.Product_description;
                 var price = reqdata.price;
                 var quantity = reqdata.quantity;
-                var image = req.file.filename;
+                var image = req.file.location;
                 var offer_price = reqdata.offer_price
                 var status = "Active"
                 registerusersModel.findOne({ _id: restro_id, }, (err, restrodate) => {

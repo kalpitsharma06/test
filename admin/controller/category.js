@@ -7,13 +7,14 @@ exports.addCategory = async function (req, res, next) {
    
   
     const { category_name, restaurant_id } = req.body
+    console.log(req.file)
     // console.log(restaurant_id)
     try{// console.log(req.file)
     if(req.file){
         var CategoryRecords = new category({
             category_name: category_name,
             restaurant_id: restaurant_id,
-            image: req.file.filename,
+            image: req.file.location,
         })
         // console.log(CategoryRecords)
     }
@@ -26,7 +27,7 @@ exports.addCategory = async function (req, res, next) {
     
             const check = await category.findOne({category_name: category_name , restaurant_id:restaurant_id} )
             
-            console.log(check,"ffff")
+            // console.log(check,"ffff")
             if (check) {
                 res.status(400).json( {
                     status: false,
@@ -108,7 +109,7 @@ exports.updateCategory = async (req, res) => {
             const result = await category.findByIdAndUpdate(req.params.id, {
                 category_name: req.body.category_name,
                 // category_id: req.body.category_id,
-                image: req.file.filename
+                image: req.file.location
             })
             }else{
 
@@ -168,7 +169,7 @@ exports.subCategory = async function (req, res, next) {
         if(req.file){
             var sub_CategoryRecords = new sub_Category({
                 sub_category_name: req.body.sub_category_name,
-                image: req.file.filename,
+                image: req.file.location,
                 category: req.body.category
             })
     
@@ -249,7 +250,7 @@ exports.updateSubCategory = async (req, res) => {
                 const result = await sub_Category.findByIdAndUpdate(req.params.id, {
                     sub_category_name: req.body.sub_category_name,
                     // category_id: req.body.category_id,
-                    image: req.file.filename
+                    image: req.file.location
                 })
                 }else{
     
