@@ -6,11 +6,13 @@ const cookieParser = require('cookie-parser')
 const swaggerUI = require("swagger-ui-express");
 const fileUpload = require("express-fileupload");
 const cors = require("cors")
+var compression = require('compression')
 
 const YAML = require("yamljs");
 const swaggerJSDocs = YAML.load("./collection.yml");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(compression())
 app.use(cookieParser());
 app.use(cors());
 app.use(function(req, res, next) {
