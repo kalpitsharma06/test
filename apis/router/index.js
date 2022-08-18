@@ -88,7 +88,7 @@ const multerArray = [{
 // usercontroller
 
 router.post('/adduser',addUser.addUser)
-router.patch('/updateuser/:id',authorization_user,addUser.updateUser)
+router.patch('/updateuser/:id',addUser.updateUser)
 router.get('/get_usersbyid',authorization_user,addUser.get_usersbyid)
 router.delete('/deleteuser/:id',authorization_user, addUser.deleteUser)
 router.post('/login_user',addUser.logIn)
