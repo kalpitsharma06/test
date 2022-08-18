@@ -180,7 +180,7 @@ exports.logIn = async (req, res) => {
                     message: 'Successfully Signed in',
                     'user_type': check.user_type,
                     'token': token,
-                    "result":payload
+                    "result":check
                 })
 
             } else {

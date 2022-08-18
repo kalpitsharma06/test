@@ -675,6 +675,7 @@ exports.logIn = async (req, res) => {
 
     try {
         const check = await signUp.findOne({ email: req.body.email })
+        console.log(check)
         if (check === null) {
             res.status(400).json({
                 status: false,
@@ -708,10 +709,10 @@ exports.logIn = async (req, res) => {
 
             res.status(200).json({
                 status: true,
-                message: 'Successfully Signed in',
+                message: 'Successfully Signed in',  
                 'user_type': check.user_type,
                 'token': token,
-                "result":payload
+                "result":check
 
             })
 
