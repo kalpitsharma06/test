@@ -10,6 +10,7 @@ let usersignup = new mongoose.Schema({
     city: { type: String },
     postcode: { type: String },
     password: { type: String },
+    mobile:{type:String},
     status: Boolean,
     is_registered: Boolean,
     type: String,

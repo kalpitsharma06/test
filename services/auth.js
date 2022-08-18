@@ -87,6 +87,7 @@ exports.authorization_user =(req,res,next)  =>  {
    
 
     const token = req.cookies.access_token;
+    // const token = req.header('Authorization');
 
 
     if(!token){

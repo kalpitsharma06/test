@@ -710,7 +710,9 @@ exports.logIn = async (req, res) => {
                 status: true,
                 message: 'Successfully Signed in',
                 'user_type': check.user_type,
-                'token': token
+                'token': token,
+                "result":payload
+
             })
 
         }

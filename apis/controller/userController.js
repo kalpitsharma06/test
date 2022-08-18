@@ -64,6 +64,7 @@ exports.updateUser = async (req, res) => {
             address: req.body.address,
             city:req.body.city,
             postcode:req.body.postcode,
+            mobile:req.body.mobile,
       
         })
         res.status(200).json({
@@ -157,7 +158,7 @@ exports.logIn = async (req, res) => {
                 const payload = {
                     email: req.body.email,
                     id: check.id,
-                    password: req.body.password
+                   
                 };
                 // console.log(check.id)
                 // const payload = {
@@ -178,7 +179,8 @@ exports.logIn = async (req, res) => {
                     status: true,
                     message: 'Successfully Signed in',
                     'user_type': check.user_type,
-                    'token': token
+                    'token': token,
+                    "result":payload
                 })
 
             } else {
