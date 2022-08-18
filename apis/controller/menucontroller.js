@@ -334,21 +334,35 @@ exports.delete_combo_item = async (req, res) => {
 
 exports.edit_product = async (req, res) => {
     var reqdata = req.body;
+    
     // const {user} = req;
     // var id = user.id;
     const id = req.params.id;
 
     try {
-        const newData = await itemModel.findByIdAndUpdate(req.params.id, {
+        if (req.file){
+        var newData = await itemModel.findByIdAndUpdate(req.params.id, {
             category: reqdata.category,
             sub_Category: reqdata.sub_category,
             type: reqdata.type,
             price: reqdata.price,
-            image: reqdata.image,
+            image: req.file.location,
             quantity: reqdata.quantity,
             Product_name: reqdata.Product_name,
             Product_description: reqdata.Product_description,
         })
+    }else{
+         newData = await itemModel.findByIdAndUpdate(req.params.id, {
+            category: reqdata.category,
+            sub_Category: reqdata.sub_category,
+            type: reqdata.type,
+            price: reqdata.price,
+            quantity: reqdata.quantity,
+            Product_name: reqdata.Product_name,
+            Product_description: reqdata.Product_description,
+        })
+
+    }
 
         res.status(200).json({
             success: true,
@@ -362,6 +376,7 @@ exports.edit_product = async (req, res) => {
             success: false,
             status: 400,
             message: "Item update unsuccessfull",
+            err :err.message,
 
 
         })
@@ -369,9 +384,7 @@ exports.edit_product = async (req, res) => {
 
 },
 
-
-
-    exports.delete_product = async (req, res) => {
+exports.delete_product = async (req, res) =>{
 
         const product_id = req.params.id;
 
@@ -393,8 +406,7 @@ exports.edit_product = async (req, res) => {
 
         })
     },
-
-    exports.category_listing = async (req, res) => {
+exports.category_listing =async(req, res)=> {
         var reqdata = req.body;
 
 
@@ -407,8 +419,7 @@ exports.edit_product = async (req, res) => {
         })
 
     },
-
-    exports.getall_products = async (req, res) => {
+exports.getall_products = async(req, res) =>{
         // var reqdata = req.body;
         var vendor_id = req.params.id
         // var userId = req.user.id;

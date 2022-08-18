@@ -79,6 +79,7 @@ router.post('/logIn', signUp.logIn);
 
 // Vendor control
 router.get('/getrestaurants',vendor.get_restaurants)
+router.get('/get_restrobyid/:id',vendor.get_restrobyid)
 
 router.post('/addrestaurant', vendor.addrestaurant);
 
@@ -114,6 +115,7 @@ router.put('/updatesubcategory/:id', upload.single('image'), category_type.updat
 router.post('/adduser',user.addUser)
 router.put('/updateuser/:id',user.updateUser)
 router.delete('/deleteuser/:id', user.deleteUser)
-router.get('/getusers',user.get_users)
 
+router.get('/getusers',user.get_users)
+router.get('/get_usersbyid/:id',user.get_usersbyid)
 module.exports = router

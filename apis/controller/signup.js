@@ -9,6 +9,9 @@ const { apiAuthAuthenticated, authorization, generateAccessToken } = require('..
 const auth = require("../../services/auth")
 const orderModel = require('../../apis/model/order').order;
 const aws = require("aws-sdk")
+// const cluster = require("cluster");
+
+
 
 aws.config.update({
     secretAccessKey: "xaQwB/3+WOWf5ofmuhacNU95r8aYqzct6YUUu+iD",
@@ -386,7 +389,9 @@ exports.ownership_verification = async function (req, res, next) {
             'result': (err.message),
             'message': "Please submit all the  required documents"
         })
+
     }
+    // cluster.worker.kill()
 
 }
 
@@ -895,6 +900,33 @@ exports.vendor_completed_order  = async (req, res) => {
         }
     })
 }
+exports.vendor_cancelled_order = async (req, res) => {
+    var id = req.user.id
+    orderModel.find({ vendorID: id,transaction_status:"cancelled" }, (err, order_data) => {
+        console.log(order_data)
+        var order = order_data.reverse()
+
+        if (order_data.length == 0) {
+            return res.status(200).json({
+                success: true,
+                status: 200,
+                message: "You have no cancelled orders",
+            });
+        } else {
+            return res.status(200).json({
+                success: true,
+                data: order,
+                status: 200,
+                message: "order listing successfully",
+            });
+        }
+    })
+}
+
+
+
+
+
 
 exports.vendor_order_delete = async (req, res) => {
     try {

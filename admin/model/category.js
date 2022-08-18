@@ -5,6 +5,7 @@ const category = new mongoose.Schema({
   category_name:String,
   restaurant_id:{ type: mongoose.Types.ObjectId, ref: "signup" },
   image:String,
+  status:String,
 });
 
 module.exports = mongoose.model('category', category)

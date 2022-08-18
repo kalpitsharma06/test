@@ -7,6 +7,8 @@ const swaggerUI = require("swagger-ui-express");
 const fileUpload = require("express-fileupload");
 const cors = require("cors")
 var compression = require('compression')
+    // const cluster = require("cluster");
+    // const totalCPUs = require("os").cpus().length;
 
 const YAML = require("yamljs");
 const swaggerJSDocs = YAML.load("./collection.yml");
@@ -21,6 +23,8 @@ app.use(function(req, res, next) {
         next();
     });
 
+    
+
 const Router = require('./apis/router/index')
 const adminRouter = require('./admin/router/index')
 
@@ -32,7 +36,20 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJSDocs));
 
 
 
+// if (cluster.isMaster) {
+//     for (let i = 0; i < totalCPUs; i++) {
+//         cluster.fork();
+//     }
 
+//     cluster.on("exit", (worker, code, signal) => {
+//         cluster.fork();
+//     });
+    
+// } else {
+//     app.listen(port, () => {
+//         console.log(`App listening on port ${port} with pid ${process.pid}`);
+//     });
+// }
 
 
 

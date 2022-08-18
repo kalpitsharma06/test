@@ -89,6 +89,7 @@ const multerArray = [{
 
 router.post('/adduser',addUser.addUser)
 router.patch('/updateuser/:id',authorization_user,addUser.updateUser)
+router.get('/get_usersbyid',authorization_user,addUser.get_usersbyid)
 router.delete('/deleteuser/:id',authorization_user, addUser.deleteUser)
 router.post('/login_user',addUser.logIn)
 router.post('/guest_login',addUser.guest_login)
@@ -118,9 +119,7 @@ router.post('/report',authorization_user,addUser.report);
 
 router.post('/addrestaurant',signUp.addrestaurant)
 router.post('/restro_additionalinfo',authorization_restro,signUp.restaurant_additionalinfo)
-
-
-router.put('/verification/:id'
+router.patch('/verification/:id'
 ,upload.fields([{
     name: 'photo_id', maxCount: 1
 }, {
@@ -138,16 +137,14 @@ router.put('/verification/:id'
     name: 'restaurant_logo', maxCount: 1
 }])
 ,signUp.ownership_verification)
-
 router.put('/bank_details/:id',signUp.menu_bank_details)
-   
-
 router.put('/updaterestaurant/:id', signUp.updateResturantDetails)
 router.get('/login_vendor',signUp.logIn)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.post('/forgotpassword', signUp.forgotpassword)
 router.get('/logout',signUp.logout)
 router.get('/vendor_completed_order',authorization_restro,signUp. vendor_completed_order)
+router.get('/vendor_cancelled_order',authorization_restro,signUp. vendor_cancelled_order)
 router.get('/vendor_order_listing',authorization_restro,signUp. vendor_order_listing)
 router.get('/vendor_report_bydate',authorization_restro,signUp. vendor_report_bydate)
 router.get('/vendor_report_bymonth',authorization_restro,signUp. vendor_report_bymonth)
@@ -170,9 +167,9 @@ router.delete('/delete_combo/:id',authorization_restro,menu.delete_combo);
 router.get('/get_combo/:id',authorization_restro,menu.getall_combo);
 
 
-router.get('/get_products/:id',menu.getall_products);
-router.get('/delete_product/:id',menu.delete_product);
-router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
+router.get('/get_products/:id',authorization_restro,menu.getall_products);
+router.delete('/delete_product/:id',authorization_restro,menu.delete_product);
+router.patch('/edit_product/:id',upload.single("image"),authorization_restro,menu.edit_product);
 
 
 

@@ -5,6 +5,7 @@ var subcategory = new mongoose.Schema({
     sub_category_name : String,
     image : String,
     category:{ type: mongoose.Types.ObjectId, ref: "categorySchema" },
+    status:String,
 });
 
 module.exports = mongoose.model('subcategory', subcategory);

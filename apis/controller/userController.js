@@ -62,19 +62,39 @@ exports.updateUser = async (req, res) => {
             lastname: req.body.lastname,
             email: req.body.email,
             address: req.body.address,
-          
+            city:req.body.city,
+            postcode:req.body.postcode,
       
         })
         res.status(200).json({
             status: true,
             message: "Successfully userdetails details",
-            'results': updateUserDetails
+            results: updateUserDetails
         })
 
     } catch (error) {
         res.status(400).json(error.message)
     }
 }
+
+// Get user by id
+exports.get_usersbyid = async (req, res) => {
+    var id = req.user.id
+    try {
+        const result = await User_signUp.findOne({_id:id})
+        res.status(200).json({
+            status: true,
+            message: "Successfully Fetched  users",
+          
+            'results': result
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
+
 
 // Delete User 
 exports.deleteUser = async (req, res) => {

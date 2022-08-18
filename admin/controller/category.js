@@ -15,6 +15,7 @@ exports.addCategory = async function (req, res, next) {
             category_name: category_name,
             restaurant_id: restaurant_id,
             image: req.file.location,
+            status:"Active",
         })
         // console.log(CategoryRecords)
     }
@@ -23,6 +24,7 @@ exports.addCategory = async function (req, res, next) {
         var CategoryRecords = new category({
             category_name: category_name,
             restaurant_id: restaurant_id,
+            status:"Active",
     })}
     
             const check = await category.findOne({category_name: category_name , restaurant_id:restaurant_id} )
@@ -47,9 +49,6 @@ exports.addCategory = async function (req, res, next) {
                 message: err.message,
                 message:"category already exist with this restaurant"})
         }}
-
-    
-    
 
 //get sub category
 exports.getCategoryDetails = async (req, res) => {
@@ -157,20 +156,15 @@ exports.subCategory = async function (req, res, next) {
     //         'results': categoryRecords,
     //     })
     // }
-
-
-
-
-
-
-    try{// console.log(req.file)
+try{// console.log(req.file)
         // const { category_name, category_id } = req.body
     
         if(req.file){
             var sub_CategoryRecords = new sub_Category({
                 sub_category_name: req.body.sub_category_name,
                 image: req.file.location,
-                category: req.body.category
+                category: req.body.category,
+                status:"Active",
             })
     
           }
@@ -178,7 +172,8 @@ exports.subCategory = async function (req, res, next) {
         else{
             var sub_CategoryRecords = new sub_Category({
                 sub_category_name: req.body.sub_category_name,
-                category: req.body.category
+                category: req.body.category,
+                status:"Active",
                 
         })}
         
@@ -193,22 +188,7 @@ exports.subCategory = async function (req, res, next) {
                 res.status(400).json({
                     status: false,
                     message: err.message,})
-            }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ }}
 
 //get sub category
 exports.getSubCategoryDetails = async (req, res) => {
@@ -268,7 +248,7 @@ exports.updateSubCategory = async (req, res) => {
             } catch (error) {
                 res.status(400).json(error.message)
             }
-        }
+ }
 
 
 

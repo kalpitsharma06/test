@@ -1,7 +1,8 @@
 require('dotenv').config()
 const bcrypt = require('bcrypt');
+const User_signUp = require('../../apis/model/userModel')
+const restaurant_model = require('../../apis/model/signup')
 const {generateAccessToken,auth } = require('../../services/auth')
-const signUp = require('../../apis/model/userModel')
 
 //USER SING UP
 exports.addUser = async function (req, res, next) {
@@ -85,5 +86,22 @@ exports.get_users = async (req, res) => {
     }
 }
 
+
+// Get user by id
+exports.get_usersbyid = async (req, res) => {
+    var id = req.params.id
+    try {
+        const result = await User_signUp.findOne({_id:id})
+        res.status(200).json({
+            status: true,
+            message: "Successfully Fetched  users",
+          
+            'results': result
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
 
 
