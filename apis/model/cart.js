@@ -19,8 +19,8 @@ let cart = new Schema({
     restro_address:{
       type:String
     },
-    subtotal:{
-      type:String
+    Grand_total:{
+      type:Number
     },
     products: [
         {
@@ -34,6 +34,7 @@ let cart = new Schema({
           price: {type:Number},
           offer_price :{type: Number},
           type:{type:String},
+          subtotal:{type:Number}
         }
       ],
       active: {

@@ -350,8 +350,7 @@ exports.menu_bank_details = async function (req, res, next) {
 
 
 exports.ownership_verification = async function (req, res, next) {
-
-    try {
+try {
 
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
 
@@ -392,7 +391,6 @@ exports.ownership_verification = async function (req, res, next) {
 
     }
     // cluster.worker.kill()
-
 }
 
 // exports.addResturent = async function (req, res, next) {
@@ -565,7 +563,6 @@ exports.updateResturantDetails = async (req, res) => {
         res.status(400).json(error.message)
     }
 }
-
 // Delete Restaurent 
 exports.deleteRetaurant = async (req, res) => {
     try {
@@ -580,7 +577,6 @@ exports.deleteRetaurant = async (req, res) => {
         res.status(400).json(error.message)
     }
 }
-
 exports.forgotpassword = (req, res, next) => {
     var email = req.body.email;
     signUp.findOne({ email: email }, (err, userdata) => {
@@ -632,16 +628,7 @@ exports.forgotpassword = (req, res, next) => {
         }
     })
 }
-
-
-
-
-
-
-            
-          
-
-    // update the password
+ // update the password
  exports.changePassword = async (req, res) => {
         try {
             const databasePassword = await signUp.findById(req.params.id)
@@ -668,8 +655,7 @@ exports.forgotpassword = (req, res, next) => {
         }
 
     }
-
-// Login
+    // Login
 exports.logIn = async (req, res) => {
 
 
@@ -731,17 +717,12 @@ exports.logIn = async (req, res) => {
     }
 
 }
-
-
 exports.logout = (req, res) => {
     return res
         .clearCookie("access_token")
         .status(200)
         .json({ message: "Successfully logged out  🍀" });
 };
-
-
-
 // update the password
 exports.searnea = async (req, res) => {
     try {

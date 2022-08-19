@@ -88,7 +88,7 @@ const multerArray = [{
 // usercontroller
 
 router.post('/adduser',addUser.addUser)
-router.patch('/updateuser/:id',addUser.updateUser)
+router.patch('/updateuser/:id',authorization_user,addUser.updateUser)
 router.get('/get_usersbyid',authorization_user,addUser.get_usersbyid)
 router.delete('/deleteuser/:id',authorization_user, addUser.deleteUser)
 router.post('/login_user',addUser.logIn)
@@ -107,6 +107,12 @@ router.get('/orderlisting',authorization_user,addUser.order_listing);
 router.post('/create_order',authorization_user,addUser.create_order);
 router.post('/create_order_guest',authorization_user,addUser.create_order_guest);
 router.post('/report',authorization_user,addUser.report);
+
+router.post('/addcard',authorization_user,addUser.Addcard)
+router.delete('/deletecard/:id',authorization_user, addUser.deleteCard)
+router.patch('/updatecard/:id',authorization_user,addUser.updateCard)
+router.patch('/contactpreference',authorization_user,addUser.contactPreference)
+
 
 
 

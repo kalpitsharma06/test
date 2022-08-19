@@ -19,38 +19,30 @@ exports.generateAccessToken = (userPayload) => {
 //     next()
 // }
 
-exports.authorization_restro =(req,res,next)  =>  {
-
-   
-
-    const token = req.cookies.access_token;
+exports.authorization_restro = (req, res, next) => {
+    // const token = req.cookies.access_token;
+    const token = req.header('Authorization');
 
 
-    if(!token){
-          res.status(200).json({
-                status: 401,
-                message: "Please Login"
-            });
-            return;
+    if (!token) {
+        res.status(200).json({
+            status: 401,
+            message: "Please Login"
+        });
+        return;
     }
-    else{
-        try{
+    else {
+        try {
             const verified = jwt.verify(token, 'AcdHz3LjemqvI872qrBpLY4B6SU3h56MexbzQpfWl1I1UgLzghtypLkUkl');
-            
-            
-            
-            
-            
             req.user = verified;
-            
-            registerusersModel.find({_id: req.user.id},(err,rows)=>{
-                if(rows.length>0){
-                    if(rows[0].active != undefined && rows[0].active != null && rows[0].active != ""){
-                        if(rows[0].active == true){
-                            req.user.email=rows[0].email;
+            registerusersModel.find({ _id: req.user.id }, (err, rows) => {
+                if (rows.length > 0) {
+                    if (rows[0].active != undefined && rows[0].active != null && rows[0].active != "") {
+                        if (rows[0].active == true) {
+                            req.user.email = rows[0].email;
                             next();
                         }
-                        else{
+                        else {
                             res.status(401).json({
                                 status: 401,
                                 message: "You Are Blocked!"
@@ -58,7 +50,7 @@ exports.authorization_restro =(req,res,next)  =>  {
                             return;
                         }
                     }
-                    else{
+                    else {
                         next();
                     }
                 }
@@ -69,9 +61,9 @@ exports.authorization_restro =(req,res,next)  =>  {
                     });
                     return;
                 }
-        });
+            });
         }
-        catch(err){
+        catch (err) {
             res.status(401).json({
                 status: 401,
                 message: "Invalid Token"
@@ -82,40 +74,29 @@ exports.authorization_restro =(req,res,next)  =>  {
 }
 
 
-exports.authorization_user =(req,res,next)  =>  {
-
-   
-
-    const token = req.cookies.access_token;
-    // const token = req.header('Authorization');
-
-
-    if(!token){
-          res.status(200).json({
-                status: 401,
-                message: "Please Login"
-            });
-            return;
+exports.authorization_user = (req, res, next) => {
+    // const token = req.cookies.access_token
+    const token = req.header('Authorization');
+    if (!token) {
+        res.status(200).json({
+            status: 401,
+            message: "Please Login"
+        });
+        return;
     }
-    else{
-        try{
+    else {
+        try {
             const verified = jwt.verify(token, 'AcdHz3LjemqvI872qrBpLY4B6SU3h56MexbzQpfWl1I1UgLzghtypLkUkl');
-            
-            
-            
-            
-            
             req.user = verified;
-            
-            registerusersModel_user.find({_id: req.user.id},(err,rows)=>{
+            registerusersModel_user.find({ _id: req.user.id }, (err, rows) => {
                 // console.log(req.user)
-                if(rows.length>0){
-                    if(rows[0].active != undefined && rows[0].active != null && rows[0].active != ""){
-                        if(rows[0].active == true){
-                            req.user.email=rows[0].email;
+                if (rows.length > 0) {
+                    if (rows[0].active != undefined && rows[0].active != null && rows[0].active != "") {
+                        if (rows[0].active == true) {
+                            req.user.email = rows[0].email;
                             next();
                         }
-                        else{
+                        else {
                             res.status(401).json({
                                 status: 401,
                                 message: "You Are Blocked!"
@@ -123,7 +104,7 @@ exports.authorization_user =(req,res,next)  =>  {
                             return;
                         }
                     }
-                    else{
+                    else {
                         next();
                     }
                 }
@@ -134,9 +115,9 @@ exports.authorization_user =(req,res,next)  =>  {
                     });
                     return;
                 }
-        });
+            });
         }
-        catch(err){
+        catch (err) {
             res.status(401).json({
                 status: 401,
                 message: "Invalid Tokens"
@@ -147,38 +128,34 @@ exports.authorization_user =(req,res,next)  =>  {
 }
 
 
-exports.authorization_admin =(req,res,next)  =>  {
-
-   
-
-    const token = req.cookies.access_token;
-
-
-    if(!token){
-          res.status(200).json({
-                status: 401,
-                message: "Please Login"
-            });
-            return;
+exports.authorization_admin = (req, res, next) => {
+    // const token = req.cookies.access_token;
+    const token = req.header('Authorization');
+    if (!token) {
+        res.status(200).json({
+            status: 401,
+            message: "Please Login"
+        });
+        return;
     }
-    else{
-        try{
+    else {
+        try {
             const verified = jwt.verify(token, 'AcdHz3LjemqvI872qrBpLY4B6SU3h56MexbzQpfWl1I1UgLzghtypLkUkl');
-            
-            
-            
-            
-            
+
+
+
+
+
             req.user = verified;
-            
-            registerusersModel_admin.find({_id: req.user.id},(err,rows)=>{
-                if(rows.length>0){
-                    if(rows[0].active != undefined && rows[0].active != null && rows[0].active != ""){
-                        if(rows[0].active == true){
-                            req.user.email=rows[0].email;
+
+            registerusersModel_admin.find({ _id: req.user.id }, (err, rows) => {
+                if (rows.length > 0) {
+                    if (rows[0].active != undefined && rows[0].active != null && rows[0].active != "") {
+                        if (rows[0].active == true) {
+                            req.user.email = rows[0].email;
                             next();
                         }
-                        else{
+                        else {
                             res.status(401).json({
                                 status: 401,
                                 message: "You Are Blocked!"
@@ -186,7 +163,7 @@ exports.authorization_admin =(req,res,next)  =>  {
                             return;
                         }
                     }
-                    else{
+                    else {
                         next();
                     }
                 }
@@ -197,9 +174,9 @@ exports.authorization_admin =(req,res,next)  =>  {
                     });
                     return;
                 }
-        });
+            });
         }
-        catch(err){
+        catch (err) {
             res.status(401).json({
                 status: 401,
                 message: "Invalid Token"
@@ -248,7 +225,7 @@ exports.authorization_admin =(req,res,next)  =>  {
 // }
 
 
-    exports.getSecretToken = () => {
+exports.getSecretToken = () => {
 
-        return 'AcdHz3LjemqvI872qrBpLY4B6SU3h56MexbzQpfWl1I1UgLzghtypLkUkl'
-    }
+    return 'AcdHz3LjemqvI872qrBpLY4B6SU3h56MexbzQpfWl1I1UgLzghtypLkUkl'
+}

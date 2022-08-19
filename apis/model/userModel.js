@@ -16,6 +16,15 @@ let usersignup = new mongoose.Schema({
     type: String,
     guest_id:{type:String},
 
+
+
+
+      get_order_update_email:Boolean,
+      get_order_update_text:Boolean,
+      get_new_offers_email:Boolean,
+      get_new_offers_text:Boolean,
+
+
   });
 
 module.exports = mongoose.model("usersignup", usersignup);  

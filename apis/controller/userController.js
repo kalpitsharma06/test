@@ -1,5 +1,6 @@
 require('dotenv').config()
 const User_signUp = require('../model/userModel')
+const savedCards = require('../model/savedcards')
 const restaurant_model = require('../model/signup')
 const subCategory = require('../../admin/model/subCategory')
 const cartModel = require('../model/cart').cart
@@ -12,6 +13,7 @@ const nodemailer = require('nodemailer');
 const auth = require("../../services/auth")
 var lodash = require('lodash');
 var randomstring = require("randomstring");
+const { result } = require('lodash')
 
 let itemModel = require('../../apis/model/item').item;
 let orderModel = require('../../apis/model/order').order;
@@ -53,10 +55,13 @@ exports.addUser = async function (req, res, next) {
         res.status(400).json(err.message)
     }
 };
-
+ 
 //Update User Details
 exports.updateUser = async (req, res) => {
+    const id = req.user.id
+    console.log(id)
     try {
+
         const updateUserDetails = await User_signUp.findByIdAndUpdate(req.params.id, {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -270,9 +275,6 @@ catch(error){
 
 }}
 
-
-
-
 exports.Searchby_mealtimming = async(req,res)=>{
     try{
     
@@ -349,26 +351,42 @@ exports.logout = (req, res) => {
 
 //  add cart
  exports.cart =  async (req, res) => {
+     try {
     const { productId, name, price, offer_price, type } = req.body;
     let quantity = req.body.quantity
     var userId = req.user.id;
     var vendorId = req.body.vendorId;
-    var  subtotal = req.body.subtotal
-    try {
+    var  subtotal = price*quantity
+    // console.log(subtotal)
+    let restro_address;
+    let restro_name;
+
+    let  Grand_total =subtotal;
+   
         // let cart = await cartModel.find();
         let cart = await cartModel.findOne({ userId });
         cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
-          
-                restaurant_model.findOne({ _id: vendorId }, (err, restrodata) => {
+
+
+        console.log(data)
+        if (data) {
+         restaurant_model.findOne({ _id: vendorId }, (err, restrodata) => {
+            console.log(restrodata)
                     if (restrodata == null) {
                         return res.status(200).json({
                             status: 201,
                             message: " No restaurant found "
                         });
                     }
-                    var restro_address = restrodata.restro_address;
-                    var restro_name = restrodata.restro_name;
-                    if (data) {
+                     
+                                       
+               
+                
+                data.products.map((p) =>{
+                    return Grand_total=Grand_total+(p.subtotal)
+                } )
+              
+               
                         //cart exists for user
                         let itemIndex = cart.products.findIndex(p => p.productId == productId);
                         
@@ -387,42 +405,57 @@ exports.logout = (req, res) => {
                         if (itemIndex > -1) {
                             //product exists in the cart, update the quantity
                             let productItem = cart.products[itemIndex];
-                            // console.log(productItem)
+                            //  console.log(cart)
                              let newQuantity = cart.products[itemIndex].quantity
                              newQuantity++
+                             let newSubtotal = cart.products[itemIndex].subtotal
+                             newSubtotal= newQuantity*price
+                            //  console.log(newSubtotal)
                              
-                            productItem.quantity = newQuantity;
-                            productItem.price = price;
+                             productItem.quantity = newQuantity;
+                             productItem.subtotal = newSubtotal;
+                             productItem.price = price;
+                             subtotal = price*newQuantity   
                             productItem.offer_price = offer_price;
                             productItem.type = type;
                             cart.products[itemIndex] = productItem;
                             //  cart.products.push({ productId, quantity, name, price, offer_price, type });
+                           cart.Grand_total=Grand_total;
                         } else {
-                            //product does not exists in cart, add new item
-                            cart.products.push({ productId, quantity, name, price, offer_price, type });
+                            
+                            cart.Grand_total=Grand_total;
+             
+                            cart.products.push({ productId, quantity, name, price, offer_price, type, subtotal });
                         }
+                        
                         cart = cart.save();
                         return res.status(200).json({
                             status: 200,
                             message: "Your cart prducts quatity updated successfully."
                         });
-                    } else {
+                    }) } else {
+                        console.log(Grand_total,"2")
+                    //     restro_address = restrodata.restro_address;
+                    //  restro_name = restrodata.restro_name;
                         //no cart for user, create new cart
                         const newCart = cartModel.create({
                             userId,
                             vendorId,
                             restro_name,
                             restro_address,
-                            subtotal,
-                            products: [{ productId, quantity, name, price, offer_price, type }]
+                            Grand_total,
+                      
+                              products: [{ productId, quantity, name, price, offer_price, type ,subtotal}]
                         });
+                        // console.log(newCart)
                         return res.status(200).json({
                             status: 200,
-                            message: "Your cart created successfully. "
+                            message: "Your cart created successfully. ",
+                            result:newCart
                         });
                     }
-                })
-            } )
+          
+            })
     } catch (err) {
         console.log(err);
         res.status(500).send("Something went wrong");
@@ -438,8 +471,7 @@ exports.cart_list =  async (req, res) => {
     var id = req.user.id;
     cartModel.find({ userId: ObjectId(id) }, (err, cartdata) => {
         
-        let result = cartdata.map(a => a.vendorId == 99);
-        //  console.log(result)
+      
 
         let productId = cartdata.map(p => p.products);
         let quantity = cartdata.map(a => a.quantity);
@@ -448,9 +480,9 @@ exports.cart_list =  async (req, res) => {
     //  console.log("pro", pro)
     //      console.log("qwe", quantity)
 
-        var vendorId = result.toString()
+        // var vendorId = result.toString()
         // console.log(vendorId)
-        itemModel.findOne({ vendorId: vendorId }, (err, itemdata) => {
+        // itemModel.findOne({ vendorId: vendorId }, (err, itemdata) => {
             if (cartdata.length == 0) {
                 return res.status(200).json({
                     status: 401,
@@ -463,7 +495,7 @@ exports.cart_list =  async (req, res) => {
                     message: 'cart listing loaded'
                 });
             }
-        })
+        // })
     })
 },
 
@@ -545,11 +577,7 @@ exports.nearbyRestro =  async(req, res) => {
         }
     });
 }
-
-
-
-
- exports.create_order = (req, res) => {
+exports.create_order = (req, res) => {
     var reqdata = req.body;
     var order = randomstring.generate({
         length: 6,
@@ -773,11 +801,7 @@ exports.create_order_guest = (req, res) => {
 })
    
 }
-
-
-
-
- exports.order_listing  = (req, res) => {
+exports.order_listing  = (req, res) => {
     var id = req.user.id
     orderModel.find({ customerID: id }, (err, order_data) => {
         var userorderr = order_data.reverse()
@@ -799,7 +823,6 @@ exports.create_order_guest = (req, res) => {
         }
     })
 }
-
 exports.report = (req, res, next) => {
     var reqdata = req.body;
     const { user } = req;
@@ -844,6 +867,148 @@ exports.report = (req, res, next) => {
 }
 
 
+//USER CARD ADD
+exports.Addcard = async function (req, res, next) {
+    
+ 
+    const id = req.user.id
+    const cardRecords = new savedCards({
+   
+
+        account_holder_name: req.body.account_holder_name,
+
+        account_number: req.body.account_number,
+        bank_name: req.body.bank_name,
+        ifsc_code: req.body.ifsc_code,
+        status: true,
+        is_registered: true,
+        type: 'user',
+        user_id:id
+
+    })
+
+    try {
+        const check =   await savedCards.findOne( {account_number:req.body.account_number})
+        console.log(check)
+        if (check) {
+            res.status(400).json('This account number is Already Registered !')
+        } else {
+            await cardRecords.save((err,rows)=>{
+                if(err) throw err;
+                res.status(200).json({
+                    status: true,
+                    message: "Successfully Added account",
+                    'results': cardRecords
+                })
+            });
+        }
+
+    } catch (err) {
+        res.status(400).json(err.message)
+    }
+};
+
+//Update card Details
+exports.updateCard = async (req, res) => {
+    const id = req.user.id
+    // console.log(id)
+    try {
+
+  var  account_holder_name = req.body.account_holder_name
+            
+//          account_number = req.body.account_number,
+//           bank_name = req.body.bank_name,
+//           ifsc_code = req.body.ifsc_code,
+        
+//           is_registered = true,
+//           type = 'user',
+//           user_id =id
+
+// }
+
+        const  payload = {
+
+            account_holder_name:account_holder_name,
+            
+            account_number: req.body.account_number,
+            bank_name: req.body.bank_name,
+            ifsc_code: req.body.ifsc_code,
+            status: true,
+            is_registered: true,
+            type: 'user',
+            user_id:id
+        
+        }
+        console.log(payload)
+        const updatecardDetails = await savedCards.findByIdAndUpdate(req.params.id, (payload))
+        console.log(updatecardDetails,"ffffkkkk")
+        res.status(200).json({
+            status: true,
+            message: "Successfully updated details",
+            results:payload
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
+
+
+// Delete card
+exports.deleteCard = async (req, res) => {
+    try {
+        const result = await savedCards.findByIdAndDelete(req.params.id)
+        res.status(200).json({
+            status: true,
+            message: "Successfully Deleted ",
+            'results': result
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
+exports.contactPreference = async (req, res) => {
+    const id = req.user.id
+    // console.log(id)
+    try {
+
+
+
+        const  payload = {
+            
+
+      get_order_update_email:req.body.get_order_update_email,
+      
+      get_order_update_text: req.body.get_order_update_text,
+      get_new_offers_email: req.body.get_new_offers_email,
+      get_new_offers_text: req.body.get_new_offers_text,
+
+         
+            status: true,
+            is_registered: true,
+            type: 'user',
+            user_id:id
+        
+        }
+        console.log(payload)
+        const updatecardDetails = await User_signUp.findByIdAndUpdate(id, (payload))
+        console.log(updatecardDetails,"ffffkkkk")
+        res.status(200).json({
+            status: true,
+            message: "Successfully updated details",
+            results:payload
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
+
+ 
 
 
 
