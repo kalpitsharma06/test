@@ -245,6 +245,26 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /justeat/vendor_completed_order:
+    get:
+      tags:
+        - vendor control
+      summary: vendor completed order
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/vendor_cancelled_order:
+    get:
+      tags:
+        - vendor control
+      summary: vendor  cancelled order
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /justeat/vendor_report_bydate:
     get:
       tags:
@@ -309,7 +329,7 @@ paths:
     post:
       tags:
         - products
-      summary: create_menu
+      summary: create_menu/product
       requestBody:
         content:
           multipart/form-data:
@@ -400,7 +420,17 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/edit_product/62f0dfe5dcd85e7cbae1c427:
+  /api/v1/justeat/delete_product/62fc9902227916def7ef25cc:
+    delete:
+      tags:
+        - products
+      summary: delete product
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /justeat/edit_product/62fc95c0295173b4c9a00d1a:
     patch:
       tags:
         - products
@@ -669,11 +699,21 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /admin/get_restrobyid/62f253b1038df3ee7d3ace57:
+    get:
+      tags:
+        - Admin/ > vendor control
+      summary: gell all restaurantbyid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /admin/delete_vendor/62f2529e038df3ee7d3ace52:
     delete:
       tags:
         - Admin/ > vendor control
-      summary: admin/signup
+      summary: delete restaurant
       responses:
         '200':
           description: Successful response
@@ -714,7 +754,7 @@ paths:
     post:
       tags:
         - Admin/ > vendor control
-      summary: update restaurant
+      summary: add restaurant
       requestBody:
         content:
           application/json:
@@ -736,6 +776,16 @@ paths:
                 business_operate: basement
                 typeof_location: interna
                 drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/get_usersbyid/62f228996645a0e8b789234f:
+    get:
+      tags:
+        - Admin/ > user control
+      summary: get_usersbyid
       responses:
         '200':
           description: Successful response
@@ -776,7 +826,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/cart:
+  /justeat/cart:
     post:
       tags:
         - usercontrol
@@ -787,14 +837,20 @@ paths:
             schema:
               type: object
               example:
-                productId: 62fb5f33dd6bd486fe7c4983
+                productId: 62fc9980295173b4c9a00d24
                 quantity: '2'
                 name: jj
-                price: '000'
+                price: '1000'
                 offer_price: '000'
                 type: user
-                vendorId: 62f253b1038df3ee7d3ace57
-                subtotal: '500'
+                vendorId: 62fb2136e65e544d031c647a
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg0NTI1OX0.YoPCTLulcyu3LtAVS-b4sZlFoXBsi5eR3siUFGoTVtQ
       responses:
         '200':
           description: Successful response
@@ -820,29 +876,13 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/create_order_guest:
+  /api/v1/justeat/create_order_guest:
     post:
       tags:
         - usercontrol
       summary: create_order_guest
       requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                payment: 62ee10289f1732efd5d3fe61
-                subtotal: '2'
-                guest_id: 62fb46a3300c51c5205cb18a
-                first_name: fdjfdf
-                last_name: shara
-                email: dkdddkd
-                mobile: '3433'
-                address: ffdfdf
-                city: jaipur
-                postcode: '34343'
-                delivery_time: '34343'
-                leave_note: dfjdfdhdh
+        content: {}
       responses:
         '200':
           description: Successful response
@@ -853,6 +893,13 @@ paths:
       tags:
         - usercontrol
       summary: cart_list
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
       responses:
         '200':
           description: Successful response
@@ -878,7 +925,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/updateuser/62e79697cf6f6f267266f03c:
+  /api/v1/justeat/updateuser/62fde6e25f1101e64f1f8310:
     patch:
       tags:
         - usercontrol
@@ -889,13 +936,23 @@ paths:
             schema:
               type: object
               example:
-                firstname: r
-                lastname: r
-                email: rohjjjjkjit
+                firstname: rjj
+                lastname: rjjj
+                email: akshat@gmail.com
                 address: ooklllkkkkkkko
+                city: mumbai
+                postcode: '22123'
                 status: true
                 is_registered: 'true'
                 user_type: 'true'
+                mobile: '4444444'
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg0NTM0MX0.mHMUQB5YlM-FRcDfK4rCPIFANxfrcKgHOsVqfkGoXbs
       responses:
         '200':
           description: Successful response
@@ -912,8 +969,15 @@ paths:
             schema:
               type: object
               example:
-                email: yojjjjjgijkkjjj
+                email: madhav@gmail.com
                 password: '9999'
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg0NTI1OX0.YoPCTLulcyu3LtAVS-b4sZlFoXBsi5eR3siUFGoTVtQ
       responses:
         '200':
           description: Successful response
@@ -965,11 +1029,11 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/searchbypin/11:
+  /justeat/searchbypin/aj:
     get:
       tags:
         - usercontrol
-      summary: search_restro_bypincode
+      summary: search_restro_main
       responses:
         '200':
           description: Successful response
@@ -979,7 +1043,7 @@ paths:
     get:
       tags:
         - usercontrol
-      summary: search_restro_byid
+      summary: get_usersbyid
       responses:
         '200':
           description: Successful response
@@ -1000,6 +1064,105 @@ paths:
       tags:
         - usercontrol
       summary: search_neaeby
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/addcard:
+    post:
+      tags:
+        - usercontrol
+      summary: addcard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                address_of_welcome_pack↵: jjjkkkk
+                account_holder_name: jjjhh
+                account_number: jjkkkjjjjjjjjjhbh
+                bank_name: jjjjjuhuh
+                ifsc_code: jjjjuhuh
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/updatecard/62ff25e92c36e2f413c5a0cd:
+    patch:
+      tags:
+        - usercontrol
+      summary: update  card
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                account_holder_name: madhav
+                account_number: jjkkkjjjjjjjjjhbh
+                bank_name: jjjjjuhuh
+                ifsc_code: jjjjuhuh
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/contactpreference:
+    patch:
+      tags:
+        - usercontrol
+      summary: contact prerence
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                get_order_update_email: 'true'
+                get_order_update_text: 'true'
+                get_new_offers_email: 'true'
+                get_new_offers_text: 'true'
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/deletecard/62ff25f22c36e2f413c5a0d0:
+    delete:
+      tags:
+        - usercontrol
+      summary: Delete  card
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
       responses:
         '200':
           description: Successful response
