@@ -23,26 +23,33 @@ const reportsModel = require("../../apis/model/report").reports
 exports.addUser = async function (req, res, next) {
     
  
+   var address =req.body.address
+   var city=req.body.city
+  var  postcode=req.body.postcode
+  var address_title=req.body.address_title
+  var mobile=req.body.mobile
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const singupRecords = new User_signUp({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
       
-        address: req.body.address,
-        city:req.body.city,
-        postcode:req.body.postcode,
         password: hashedPassword,
         status: true,
         is_registered: true,
-        type: 'user'
-    })
-
+        type: 'user',
+ 
+  address_book:({address,city,postcode,address_title,mobile})
+ } )
     try {
         const check = await User_signUp.findOne( { email: req.body.email })
         if (check !== null) {
+           
             res.status(400).json('Email Already Registered !')
-        } else {
+
+        }
+       
+         else {
             await singupRecords.save();
             res.status(200).json({
                 status: true,
@@ -1005,6 +1012,103 @@ exports.contactPreference = async (req, res) => {
     } catch (error) {
         res.status(400).json(error.message)
     }
+}
+
+
+
+//USER SING UP
+exports.add_addressbook = async function (req, res, next) {
+    
+ 
+    var address =req.body.address
+    var city=req.body.city
+   var  postcode=req.body.postcode
+   var address_title=req.body.address_title
+   var mobile=req.body.mobile
+   var id = req.user.id
+   try {    
+   User_signUp.findOne({ _id: id }, async(err, userdata) => {
+if(userdata){
+
+   await userdata.address_book.push({address,city,postcode,address_title,mobile})
+   userdata.save()
+    res.status(200).json({
+        status: true,
+        message: "Successfully Signed up",
+        'results': userdata
+    })
+}
+
+   })
+    
+  
+
+   
+         
+ 
+     } catch (err) {
+         res.status(400).json(err.message)
+     }
+ };
+
+ exports.delete_address = async (req, res) => {
+    const id = { _id: req.user.id };
+    const  address_id  = req.params.id;
+  
+//    const id = req.user.id
+   console.log(id)
+   console.log(req.params.id)
+
+    User_signUp.updateOne(id, { $pull: { address_book: { _id: address_id } } },
+        (err, data) => {
+
+            if (err) {
+                res.status(200).json({
+                    msg: "no data exist",
+                    status: false,
+                    err: err.message,
+                });
+            } else {
+                res.status(200).json({
+                    msg: "Address Deleted successfully",
+                    status: true,
+                    data: data,
+                });
+            }
+        })
+
+    //   })
+}
+
+
+
+exports.edit_address = async (req, res) => {
+    const id = { _id: req.user.id };
+    const  address_id  = req.params.id;
+  
+//    const id = req.user.id
+   console.log(id)
+   console.log(req.params.id)
+
+    User_signUp.updateOne(id, { $set: { address_book: { address: "address_id" } } },
+        (err, data) => {
+
+            if (err) {
+                res.status(200).json({
+                    msg: "no data exist",
+                    status: false,
+                    err: err.message,
+                });
+            } else {
+                res.status(200).json({
+                    msg: "Address updated successfully",
+                    status: true,
+                    data: data,
+                });
+            }
+        })
+
+    //   })
 }
 
 

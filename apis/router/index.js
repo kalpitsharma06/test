@@ -114,6 +114,11 @@ router.patch('/updatecard/:id',authorization_user,addUser.updateCard)
 router.patch('/contactpreference',authorization_user,addUser.contactPreference)
 
 
+router.post('/addaddressbook',authorization_user,addUser.add_addressbook)
+router.delete('/deleteaddress/:id',authorization_user,addUser.delete_address);
+router.patch('/editaddress/:id',authorization_user,addUser.edit_address);
+
+
 
 
 

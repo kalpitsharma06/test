@@ -4,20 +4,23 @@ let usersignup = new mongoose.Schema({
     firstname: { type: String },
     lastname: { type: String },
     email: { type: String },
-  
-    
-    address: { type: String },
-    city: { type: String },
-    postcode: { type: String },
-    password: { type: String },
-    mobile:{type:String},
     status: Boolean,
     is_registered: Boolean,
     type: String,
     guest_id:{type:String},
+    password: { type: String },
+  
+    address_book:[{
+    address: { type: String },
+    city: { type: String },
+    postcode: { type: String },
+    address_title:{type:String},
+   
+    mobile:{type:String},
+   
 
 
-
+}],
 
       get_order_update_email:Boolean,
       get_order_update_text:Boolean,
