@@ -2,6 +2,7 @@ require('dotenv').config()
 const User_signUp = require('../model/userModel')
 const savedCards = require('../model/savedcards')
 const restaurant_model = require('../model/signup')
+const additional_restroinof = require('../model/additionalinfo')
 const subCategory = require('../../admin/model/subCategory')
 const cartModel = require('../model/cart').cart
 const bcrypt = require('bcrypt');
@@ -347,6 +348,31 @@ exports.getrestro_byid = async(req,res)=>{
         
     }
 // 
+
+exports.get_products = async (req, res) => {
+    const id =  req.params.id ;
+console.log(id)
+    itemModel.find({ vendorId: id },
+        (err, data) => {
+console.log(data)
+            if (err) {
+                res.status(200).json({
+                    msg: "No menu exist",
+                    status: false,
+                    err: err.message,
+                });
+            } else {
+                res.status(200).json({
+                    msg: " Menu list successfully loaded",
+                    status: true,
+                    Data: data
+
+                });
+            }
+        })
+
+    //   })
+}
 
 exports.logout = (req, res) => {
     return res
@@ -1016,7 +1042,7 @@ exports.contactPreference = async (req, res) => {
 
 
 
-//USER SING UP
+//ADD ADDRESSS 
 exports.add_addressbook = async function (req, res, next) {
     
  
@@ -1051,6 +1077,7 @@ if(userdata){
      }
  };
 
+ // DELETE ADDRESS
  exports.delete_address = async (req, res) => {
     const id = { _id: req.user.id };
     const  address_id  = req.params.id;
@@ -1079,23 +1106,36 @@ if(userdata){
 
     //   })
 }
-
-
-
-exports.edit_address = async (req, res) => {
-    const id = { _id: req.user.id };
+// EDIT ADDRESS
+exports.edit_address = async function (req, res, next) {
+    
+    const id =  req.user.id;
     const  address_id  = req.params.id;
+    
+    var address =req.body.address
+    var city=req.body.city
+   var  postcode=req.body.postcode
+   var address_title=req.body.address_title
+   var mobile=req.body.mobile
+
   
 //    const id = req.user.id
    console.log(id)
    console.log(req.params.id)
 
-    User_signUp.updateOne(id, { $set: { address_book: { address: "address_id" } } },
+   User_signUp.updateOne( 
+    { _id : ObjectId(id), "address_book._id":ObjectId(address_id)  }, 
+    { $set: { "address_book.$.city": city
+    ,"address_book.$.postcode": postcode,
+    "address_book.$.address_title": address_title,
+    "address_book.$.mobile": mobile ,  "address_book.$.address": address } }
+  
+  ,
         (err, data) => {
 
             if (err) {
                 res.status(200).json({
-                    msg: "no data exist",
+                    msg: "Something went wrong",
                     status: false,
                     err: err.message,
                 });
@@ -1108,8 +1148,74 @@ exports.edit_address = async (req, res) => {
             }
         })
 
-    //   })
+ };
+
+
+
+// ADD FEEDBACK
+
+ exports.add_feedback = async function (req, res, next) {
+    
+ 
+    var feedback =req.body.feedback
+    var rating=req.body.rating
+   var  order_id=req.body.order_id
+   var user_id =req.user.id
+    var total_reviews= 1
+    var final_rating = 0
+    var sum_rating=0
+ 
+   var id = req.params.id
+   try {    
+    additional_restroinof.findOne({ restaurant_id: id }, async(err, restrodata) => {
+
+if(restrodata){
+
+    restrodata.feedback.push({feedback,rating,order_id,user_id})
+    total_reviews= restrodata.feedback.length
+
+        restrodata.feedback.map((p) =>{
+            return sum_rating=sum_rating+(p.rating)
+        } )
+      
+        restrodata.final_rating = sum_rating/total_reviews
+    restrodata.total_reviews=total_reviews
+   await restrodata.save()
+
+
+  
+    res.status(200).json({
+        status: true,
+        message: "Feedback successfully submitted",
+        'results': restrodata
+    })
+    
 }
+else{
+    res.status(400).json({
+        status: true,
+        message: "Restaurant not found",
+        'results': restrodata
+    })
+
+}
+})
+
+  
+
+   
+         
+ 
+     } catch (err) {
+         res.status(400).json(err.message)
+     }
+ };
+
+
+    
+
+
+
 
 
  

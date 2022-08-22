@@ -99,6 +99,7 @@ router.put('/changepassword/:id',authorization_user, addUser.changePassword)
 router.get('/searchbypin/:key', addUser.Searchby_pincode)
 router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 router.get('/getrestro_byid/:id',addUser.getrestro_byid);
+router.get('/get_productsbyrestro/:id',authorization_user,addUser.get_products);
 router.get('/nearbyRestro',addUser.nearbyRestro);
 router.post('/cart',authorization_user,addUser.cart);
 router.get('/cart_list',authorization_user,addUser.cart_list);
@@ -117,6 +118,9 @@ router.patch('/contactpreference',authorization_user,addUser.contactPreference)
 router.post('/addaddressbook',authorization_user,addUser.add_addressbook)
 router.delete('/deleteaddress/:id',authorization_user,addUser.delete_address);
 router.patch('/editaddress/:id',authorization_user,addUser.edit_address);
+
+
+router.post('/addfeedback/:id',authorization_user,addUser.add_feedback)
 
 
 

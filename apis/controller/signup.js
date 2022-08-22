@@ -151,7 +151,7 @@ exports.restaurant_additionalinfo = async function (req, res, next) {
 
         let info = new restaurant_additionalinfonModel();
 
-
+        info.restaurant_id=restro_id,
         info.restaurant_name = restro_name,
             info.timmings.monday_open = monday_open,
             info.timmings.monday_close = monday_close,
@@ -171,6 +171,7 @@ exports.restaurant_additionalinfo = async function (req, res, next) {
 
 
             payload = {
+                restaurant_id:restro_id,
 
                 restaurant_name: restro_name,
                 timmings: [{ monday_open, monday_close, tuesday_open, tuesday_open, thursday_open, thursday_close, friday_open, friday_close, saturday_open, saturday_close, sunday_open, sunday_close }],

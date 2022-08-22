@@ -16,6 +16,7 @@ const signup = require('../model/signup');
 
 exports.create_menu = async (req, res) => {
     var subCategory_id = req.params.id
+    console.log(req.file.location)
     try {
         subCategoryModel.findOne({ _id: subCategory_id }, (err, subCategorydata) => {
 

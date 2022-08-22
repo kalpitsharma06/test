@@ -5,6 +5,8 @@ var additional_info = new mongoose.Schema({
      restaurant_id:{ type: mongoose.Types.ObjectId, ref: "signup" },
      restaurant_name: {type:String},
     rating:{type:String},
+    total_reviews:Number,
+    final_rating:Number,
 timmings:[{
         
         monday_open: {
@@ -25,6 +27,16 @@ timmings:[{
         sunday_close:{ type: String ,default:"closed",},
     }
 ],
+
+feedback:[{
+    user_id :{ type: mongoose.Types.ObjectId, ref: "usersignup" },
+    feedback:{ type: String},
+    rating:{type:Number},
+    order_id :{ type: mongoose.Types.ObjectId, ref: "order" },
+
+}
+
+]
 
     
 });
