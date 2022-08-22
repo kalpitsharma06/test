@@ -69,6 +69,13 @@ paths:
                 saturday_close: closed
                 sunday_open: closed
                 sunday_close: closed
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9ta2tqa2tra2tscHBwb28iLCJpZCI6IjYyZjI1M2IxMDM4ZGYzZWU3ZDNhY2U1NyIsImlhdCI6MTY2MTE2NDk1MX0.Yrpqz7TkKWqzMhtrAl_-RTgu3G0CLN7-mzkdMFBAc9Q
       responses:
         '200':
           description: Successful response
@@ -91,8 +98,8 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/verification/62f253b1038df3ee7d3ace57:
-    put:
+  /api/v1/justeat/verification/62f34a45b778d9dc4ac77187:
+    patch:
       tags:
         - vendor control
       summary: ownership verification
@@ -969,7 +976,7 @@ paths:
             schema:
               type: object
               example:
-                email: madhav@gmail.com
+                email: ',,n,jg,bjj,'
                 password: '9999'
       parameters:
         - name: Authorization
@@ -1029,7 +1036,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/searchbypin/aj:
+  /api/v1/justeat/searchbypin/aj:
     get:
       tags:
         - usercontrol
@@ -1040,6 +1047,33 @@ paths:
           content:
             application/json: {}
   /api/v1/justeat/getrestro_byid/62f2529e038df3ee7d3ace52:
+    get:
+      tags:
+        - usercontrol
+      summary: search_restro_byid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/get_productsbyrestro/62fb2136e65e544d031c647a:
+    get:
+      tags:
+        - usercontrol
+      summary: get_menu by restro
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiwsbixnLGosIiwiaWQiOiI2MzAwN2I2MGMzNWJhZGY2MDMyNzEyOGQiLCJpYXQiOjE2NjExNDc4MTd9.xl2t1WKTCU4xYudYcqj_0YhcFIx3RNgWr5STlSvULTA
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/get_usersbyid:
     get:
       tags:
         - usercontrol
@@ -1097,6 +1131,79 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/v1justeat/addaddressbook:
+    post:
+      tags:
+        - usercontrol
+      summary: add addressbook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                address: dfjdjfkajfl
+                city: jaipur
+                postcode: '1223'
+                password: '9999'
+                status: true
+                mobile: '23232332'
+                address_title: home
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiwsbixnLGosIiwiaWQiOiI2MzAwN2I2MGMzNWJhZGY2MDMyNzEyOGQiLCJpYXQiOjE2NjA5NzgwMzV9.VKx_MoYXGNMCCJoPQMzqbfEaHRgjO19Do71wg8jJOFM
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/addfeedback/62f253b1038df3ee7d3ace57:
+    post:
+      tags:
+        - usercontrol
+      summary: add Feedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                feedback: hhhhhhgggghhh
+                rating: '2'
+                order_id: 62f253b1038df3ee7d3ace57
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/deleteaddress/63008438f5e230098d581c34:
+    delete:
+      tags:
+        - usercontrol
+      summary: delete address
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiwsbixnLGosIiwiaWQiOiI2MzAwN2I2MGMzNWJhZGY2MDMyNzEyOGQiLCJpYXQiOjE2NjA5NzkzNDV9.CNon8lxBOU01OjNrOK4ORqYP459_1M7tnB9DnsyNSnU
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/v1/justeat/updatecard/62ff25e92c36e2f413c5a0cd:
     patch:
       tags:
@@ -1119,6 +1226,36 @@ paths:
             type: string
           example: >-
             eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/editaddress/63030e471f9ca0141691b1d4:
+    patch:
+      tags:
+        - usercontrol
+      summary: update  address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                address: dfjdjfhhhkajfl
+                city: jaipur
+                postcode: '1223'
+                password: '9999'
+                status: true
+                mobile: '23232332'
+                address_title: home
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiwsbixqZyxiamosIiwiaWQiOiI2MzAzMGU0NzFmOWNhMDE0MTY5MWIxZDMiLCJpYXQiOjE2NjExNjA3NDl9.qpzdsSnLEPGIJzhaCrSG9ciTvubvOmNq-sBr6mjrPZo
       responses:
         '200':
           description: Successful response
