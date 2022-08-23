@@ -161,11 +161,11 @@ exports.create_combos = async (req, res) => {
             itemModel.findOne({ _id: product_id }, (err, productdata) => {
                 var reqdata = req.body
                 // console.log(productdata)
-                var product_id = req.body.product_id
+                // var product_id = req.body.product_id
                 // var user = req.user.id
                 var item_name = reqdata.item_name
                 var item_price = reqdata.item_price
-                var item_image = req.file.filename
+                var item_image = req.file.location
                 var item_description = reqdata.item_description
                 var Product_name = productdata.Product_name
                 var Product_description = productdata.Product_description
@@ -401,6 +401,31 @@ exports.get_productsdetails = async(req, res) =>{
     //             })
     //         }} else {
     itemModel.findOne({ _id }, (err, userdata) => {
+        console.log(userdata)
+        return res.status(200).json({
+            success: true,
+            data: userdata,
+            message: " menu details loaded",
+        });
+    })
+}
+
+exports.get_productsbycategory = async(req, res) =>{
+    // var reqdata = req.body;
+    var category = req.body.category
+    // var userId = req.user.id;
+    // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
+    //     if (favourite_data == null) {
+    //         if (vendor_id == '') {
+    //             itemModel.find({}, (err, userdata) => {
+    //                 return res.status(200).json({
+    //                     success: true,
+    //                     data: userdata,
+    //                     message: "Menu listing loaded",
+    //                 });
+    //             })
+    //         }} else {
+    itemModel.find({category}, (err, userdata) => {
         console.log(userdata)
         return res.status(200).json({
             success: true,
