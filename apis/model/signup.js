@@ -18,11 +18,12 @@ const signup = new mongoose.Schema({
     owner_email:String,
     owner_address:String,
     owner_pincode:String,
+    owner_status:Boolean,
     gender:String,
     restaurant_address: String,
     pincode:String,
     city: String,
-    
+    address_status:Boolean,
     
     contact_number: Number,
     email: String,
@@ -39,12 +40,12 @@ const signup = new mongoose.Schema({
      shop_image_front:{type:String, default :"null" },
      foot_hygiene_registration:{type:String, default :"null "},
      permission_to_trade:{type:String, default :"null" },
-    
+    menu_status:Boolean,
     menu:{type:String,  default :"null"},
     restaurant_logo:{type:String,  default :"null"},
    
     address_of_welcome_pack:String,
-   
+   bank_status:Boolean,
     account_holder_name: String,
     
     account_number: String,
@@ -57,24 +58,6 @@ const signup = new mongoose.Schema({
     is_registered: Boolean,
     user_type: String,
 
-timmings:[{
-        
-        monday_open: {
-            type: String 
-        },
-        monday_close:{
-            type :String
-        },
-        tuesday_open: { type:String},
-        tuesday_open: {type:String},
-        thursday_open: {type:String},
-        thursday_close: {type:String},
-        friday_open:{type:String},
-        friday_close:{type:String},
-        saturday_open:{type:String},
-        saturday_close:{type:String},
-    }
-],
 
 });
 

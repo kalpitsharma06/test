@@ -183,9 +183,10 @@ router.delete('/delete_combo/:id',authorization_restro,menu.delete_combo);
 router.get('/get_combo/:id',authorization_restro,menu.getall_combo);
 
 
-router.get('/get_products/:id',authorization_restro,menu.getall_products);
-router.delete('/delete_product/:id',authorization_restro,menu.delete_product);
-router.patch('/edit_product/:id',upload.single("image"),authorization_restro,menu.edit_product);
+router.get('/get_products/:id',menu.getall_products);
+router.get('/get_productsdetails/:id',menu.get_productsdetails);
+router.delete('/delete_product/:id',menu.delete_product);
+router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
 
 
 

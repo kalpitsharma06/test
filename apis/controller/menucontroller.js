@@ -385,6 +385,33 @@ exports.edit_product = async (req, res) => {
 
 },
 
+exports.get_productsdetails = async(req, res) =>{
+    // var reqdata = req.body;
+    var _id = req.params.id
+    // var userId = req.user.id;
+    // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
+    //     if (favourite_data == null) {
+    //         if (vendor_id == '') {
+    //             itemModel.find({}, (err, userdata) => {
+    //                 return res.status(200).json({
+    //                     success: true,
+    //                     data: userdata,
+    //                     message: "Menu listing loaded",
+    //                 });
+    //             })
+    //         }} else {
+    itemModel.findOne({ _id }, (err, userdata) => {
+        console.log(userdata)
+        return res.status(200).json({
+            success: true,
+            data: userdata,
+            message: " menu details loaded",
+        });
+    })
+}
+
+
+
 exports.delete_product = async (req, res) =>{
 
         const product_id = req.params.id;
