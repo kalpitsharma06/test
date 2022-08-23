@@ -34,7 +34,7 @@ exports.create_menu = async (req, res) => {
 
                 var subCategory = subCategory_name;
                 var reqdata = req.body;
-                var category = userdata.category_name;
+                var category = req.body.category;
                 var Product_name = reqdata.Product_name;
                 var Product_description = reqdata.Product_description;
                 var price = reqdata.price;
