@@ -206,6 +206,25 @@ exports.getSubCategoryDetails = async (req, res) => {
     }
 }
 
+
+
+
+exports.getSubCategorybycategory = async (req, res) => {
+const category = req.params.id
+    try {
+        const result = await sub_Category.find({category}   )
+        res.status(200).json({
+            status: true,
+            message: "Successfully Fetched Sub-Category Details",
+            'total': result.length,
+            'results': result
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
 //Delete sub category
 exports.deleteSubCategory = async (req, res) => {
     try {

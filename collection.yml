@@ -1131,7 +1131,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1justeat/addaddressbook:
+  /api/v1/justeat/addaddressbook:
     post:
       tags:
         - usercontrol

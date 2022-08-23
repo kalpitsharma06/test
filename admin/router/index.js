@@ -108,6 +108,7 @@ router.put('/updatecategory/:id', upload.single('image'), category_type.updateCa
 // Sub-Category control
 router.post('/addsubcategory', upload.single('image'), category_type.subCategory)
 router.get('/getsubcategorydetails', category_type.getSubCategoryDetails)
+router.get('/getsubcategorybycategory/:id', category_type.getSubCategorybycategory)
 router.delete('/deletesubcategory/:id', category_type.deleteSubCategory)
 router.put('/updatesubcategory/:id', upload.single('image'), category_type.updateSubCategory)
 

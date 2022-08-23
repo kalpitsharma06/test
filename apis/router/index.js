@@ -3,6 +3,7 @@ const router = express.Router()
 const addUser = require('../controller/userController')
 
 const signUp = require('../controller/signup')
+const payment = require('../controller/paymentController')
 const menu = require('../controller/menucontroller')
 const multer = require('multer');
 const path = require('path')
@@ -185,6 +186,12 @@ router.get('/get_combo/:id',authorization_restro,menu.getall_combo);
 router.get('/get_products/:id',authorization_restro,menu.getall_products);
 router.delete('/delete_product/:id',authorization_restro,menu.delete_product);
 router.patch('/edit_product/:id',upload.single("image"),authorization_restro,menu.edit_product);
+
+
+
+// payment\
+
+
 
 
 
