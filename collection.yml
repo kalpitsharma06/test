@@ -491,7 +491,17 @@ paths:
     get:
       tags:
         - products
-      summary: delete product
+      summary: get products detail
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/get_productsbycategory:
+    get:
+      tags:
+        - products
+      summary: get products by category
       responses:
         '200':
           description: Successful response
@@ -627,6 +637,16 @@ paths:
       tags:
         - Admin/ > SUB-CATEGORY
       summary: GET ALL
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/getsubcategorybycategory/62fb2c81e65e544d031c6492:
+    get:
+      tags:
+        - Admin/ > SUB-CATEGORY
+      summary: GET sybcatby cateogry
       responses:
         '200':
           description: Successful response
@@ -1131,7 +1151,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/addaddressbook:
+  /api/v1justeat/addaddressbook:
     post:
       tags:
         - usercontrol
