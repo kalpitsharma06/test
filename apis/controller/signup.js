@@ -560,7 +560,7 @@ exports.updateResturantDetails = async (req, res) => {
             status: true,
             is_registered: true,
             user_type: 'vendor'
-        })
+        },{new:true})
         res.status(200).json({
             status: true,
             message: "Successfully Updated Resturent details",

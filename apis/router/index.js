@@ -155,7 +155,7 @@ router.patch('/verification/:id'
 ,signUp.ownership_verification)
 router.put('/bank_details/:id',signUp.menu_bank_details)
 router.put('/updaterestaurant/:id', signUp.updateResturantDetails)
-router.get('/login_vendor',signUp.logIn)
+router.post('/login_vendor',signUp.logIn)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.post('/forgotpassword', signUp.forgotpassword)
 router.get('/logout',signUp.logout)

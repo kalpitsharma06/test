@@ -79,7 +79,7 @@ exports.updateUser = async (req, res) => {
             postcode:req.body.postcode,
             mobile:req.body.mobile,
       
-        })
+        },{new:true})
         res.status(200).json({
             status: true,
             message: "Successfully userdetails details",
@@ -979,7 +979,7 @@ exports.updateCard = async (req, res) => {
             status: true,
             message: "Successfully updated details",
             results:payload
-        })
+        },{new:true})
 
     } catch (error) {
         res.status(400).json(error.message)

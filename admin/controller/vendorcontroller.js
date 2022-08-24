@@ -750,7 +750,7 @@ exports.updateResturantDetails = async (req, res) => {
             status: true,
             is_registered: true,
             user_type: 'vendor'
-        })
+        },{new:true})
         res.status(200).json({
             status: true,
             message: "Successfully Updated Resturent details",
@@ -776,6 +776,56 @@ exports.deleteRetaurant = async (req, res) => {
         res.status(400).json(error.message)
     }
 }
+
+
+exports.Accept_status = async (req, res) =>{
+          
+    try {
+        const updateResDetails = await signUp.findByIdAndUpdate(req.params.id,    {
+          
+            status: true,
+           
+        },{new:true})
+        res.status(200).json({
+            status: true,
+            message: "Successfully Updated Resturent status ",
+            'results': updateResDetails
+        })
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+    
+
+}
+exports.Reject_status = async (req, res) =>{
+          
+    try {
+        signUp.findByIdAndUpdate(
+        req.params.id,
+        {status: false},
+        {new:true},
+        (err,data)=>{
+            if(err){
+                res.status(400).json(error.message)
+            }else{
+                res.status(200).json({
+                    status: true,
+                    message: "Successfully Updated Resturent status ",
+                    'results': data
+                })
+            }
+        })
+     
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+    
+
+}
+
+
 
 
 

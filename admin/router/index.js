@@ -82,6 +82,8 @@ router.get('/getrestaurants',vendor.get_restaurants)
 router.get('/get_restrobyid/:id',vendor.get_restrobyid)
 
 router.post('/addrestaurant', vendor.addrestaurant);
+router.post('/accept_status/:id', vendor.Accept_status);
+router.post('/reject_status/:id', vendor.Reject_status);
 
 router.put('/updateResturantDetails/:id',
     upload.fields([{
