@@ -13,6 +13,7 @@ const signup = new mongoose.Schema({
         ]
       },
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
+    restaurant_id:String,
     restaurant_name: String,
     owner_name: String,
     owner_email:String,

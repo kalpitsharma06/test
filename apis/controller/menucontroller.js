@@ -146,11 +146,11 @@ exports.create_menu = async (req, res) => {
 exports.create_combos = async (req, res) => {
 
     // console.log(req.file.image)
+    try { // console.log(user)
 
     var reqdata = req.body
     var product_id = req.body.product_id
     var user = req.user.id
-    try { // console.log(user)
         signup.findOne({ _id: user }, (err, restrodata) => {
             var vendor_id = user
 

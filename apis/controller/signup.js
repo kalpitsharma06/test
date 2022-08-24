@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const moment = require("moment")
 // const locationModel = require('../model/location').location;
 const { apiAuthAuthenticated, authorization, generateAccessToken } = require('../../services/auth');
+var randomstring = require("randomstring");
 const auth = require("../../services/auth")
 const orderModel = require('../../apis/model/order').order;
 const aws = require("aws-sdk")
@@ -31,6 +32,11 @@ exports.addrestaurant = async function (req, res, next) {
         //         message: " email/confirm email does not  match",
         //     })
         // } else {
+            var restaurant_id = randomstring.generate({
+                length: 4,
+                charset:'numeric'
+              });
+                var restaurant_id= "JUSTEAT"+restaurant_id
             let lattitude = req.body.lattitude
             let longitude = req.body.longitude
             let payload = {
@@ -45,6 +51,7 @@ exports.addrestaurant = async function (req, res, next) {
         // console.log(req.files.filename)
         const singupRecords = new signUp({
 
+            restaurant_id:restaurant_id,
             restaurant_name: req.body.restaurant_name,
             restaurant_address: req.body.restaurant_address,
             pincode: req.body.pincode,
@@ -671,8 +678,8 @@ exports.logIn = async (req, res) => {
 
         }
         else {
-            //     const validPassword = await bcrypt.compare(req.body.password, check.password)
-            //     if (validPassword) {
+                const restaurant_id = req.body.restaurant_id
+                if (check.restaurant_id ==restaurant_id) {
 
             const payload = {
                 email: req.body.email,
@@ -704,20 +711,21 @@ exports.logIn = async (req, res) => {
             })
 
         }
-        // else {
-        //     res.status(400).json({
-        //         status: false,
-        //         message: 'password is wrong'
-        //     })
-        // }
+        else {
+            res.status(400).json({
+                status: false,
+                message: 'restaurant Id is wrong'
+            })
+        }
     }
 
-    // }
+    }
     catch (err) {
         res.status(400).json(err.message)
     }
 
 }
+
 exports.logout = (req, res) => {
     return res
         .clearCookie("access_token")
