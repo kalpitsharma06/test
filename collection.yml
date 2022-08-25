@@ -16,7 +16,7 @@ tags:
   - name: Admin/ > user control
   - name: usercontrol
 paths:
-  /api/v1/justeat/addrestaurant/:
+  /api/v1justeat/addrestaurant/:
     post:
       tags:
         - vendor control
@@ -30,8 +30,8 @@ paths:
                 restaurant_name: ABCsdsdssdsd
                 restaurant_address: 'ajmer '
                 pincode: '11'
-                confirm_email: madhav.appic@gmail.com
-                email: madhav.appic@gmail.com
+                confirm_email: madhav.appic@gmail.comj
+                email: just_1
                 meal_timming: breakfast
                 contact_number: '99'
                 lattitude: '26.4521'
@@ -233,10 +233,18 @@ paths:
           content:
             application/json: {}
   /api/v1/justeat/login_vendor:
-    get:
+    post:
       tags:
         - vendor control
       summary: LOGIN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: just_test@gmail.com
+                restaurant_id: JUSTEAT4225
       responses:
         '200':
           description: Successful response
@@ -332,7 +340,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/create_menu/62fb2d9de65e544d031c6497:
+  /api/v1/create_menu/63063c6f8c9269cf03cfb87a:
     post:
       tags:
         - products
@@ -345,10 +353,16 @@ paths:
               properties:
                 Product_name:
                   type: string
-                  example: rasgullajjj
+                  example: 'tava momos '
                 Product_description:
-                  type: string
-                  example: jjj
+                  type: number
+                  example: >-
+                    Any other aged raw basmati rice should work the same way.
+                    The same recipe works with 1.5 & 2 cups of rice. If you use
+                    1.5 cups rice then you will not need 2 cups water to blend.
+                    For aroma you may add 2 to 3 tbsps of chiroti rava or fine
+                    semolina to the fermented batter just before you make the
+                    masala dosas
                 price:
                   type: string
                   example: '100 '
@@ -361,6 +375,23 @@ paths:
                 offer_price:
                   type: integer
                   example: '80'
+                category:
+                  type: string
+                  example: italian
+                subcategory:
+                  type: string
+                  example: MOMOS
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1c3RfMSIsImlkIjoiNjMwNzMyYjNiZGE4ZjBlN2Y2MmU5OGQzIiwiaWF0IjoxNjYxNDE2MTg5fQ.Pg21NG5nZKxSHUy-ZsxRyIjqUQKsV7AaU5ojuxBQHJY
+        - name: ''
+          in: header
+          schema:
+            type: string
       responses:
         '200':
           description: Successful response
@@ -391,7 +422,14 @@ paths:
                   example: helo hooo
                 product_id:
                   type: string
-                  example: 62f0dfe5dcd85e7cbae1c427
+                  example: 6305b9e4d6f0c8edc73cd4c4
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdi5hcGpqanBpY0BnbWFpbC5ja21rbWttbywiLCJpZCI6IjYzMDVjODE0YmJkOWRlZWU2MzgyZTI3OSIsImlhdCI6MTY2MTMyMzkwMX0.kIB-ec6Flo1MIXiZE8wkIEJdpyKt5Ih1h3Xk-Np_fk4
       responses:
         '200':
           description: Successful response
@@ -437,7 +475,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/edit_product/62fc95c0295173b4c9a00d1a:
+  /api/v1/justeat/edit_product/62fc95c0295173b4c9a00d1a:
     patch:
       tags:
         - products
@@ -450,10 +488,10 @@ paths:
               properties:
                 Product_name:
                   type: string
-                  example: jajnaogneowenioenvindiwon
+                  example: jajnaogneowenioenvindiwonjjjjjjjjjjjjjj
                 Product_description:
                   type: string
-                  example: seet and cherry
+                  example: seet and cherryjjjjjj
                 price:
                   type: integer
                   example: '10'
@@ -477,7 +515,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/get_products/62e36fc3c1d59716c4f0da5c:
+  /api/v1/justeat/get_products/62f253b1038df3ee7d3ace57:
     get:
       tags:
         - products
@@ -497,11 +535,11 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/get_productsbycategory:
+  /api/v1/justeat/get_productsbysubcategory/6305fd6151dd077fd6fa8387:
     get:
       tags:
         - products
-      summary: get products by category
+      summary: get products by subcategory
       responses:
         '200':
           description: Successful response
@@ -808,6 +846,68 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /admin/accept_status_restro/6305c814bbd9deee6382e279:
+    post:
+      tags:
+        - Admin/ > user control
+      summary: accept status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABCsdsdssdsd
+                restaurant_address: 'ajmer '
+                pincode: '11'
+                confirm_email: jitendrakumar.appic@gmail.com
+                email: jitendrakumar.appic@gmail.comlllllllkklll
+                meal_timming: breakfast
+                contact_number: '99'
+                lattitude: '26.4521'
+                longitude: '74.6387'
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                address_of_welcome_pack: regular malll pink square
+                business_operate: basement
+                typeof_location: interna
+                drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/reject_status_restro/6305c814bbd9deee6382e279:
+    post:
+      tags:
+        - Admin/ > user control
+      summary: reject status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABCsdsdssdsd
+                restaurant_address: 'ajmer '
+                pincode: '11'
+                confirm_email: jitendrakumar.appic@gmail.com
+                email: jitendrakumar.appic@gmail.comlllllllkklll
+                meal_timming: breakfast
+                contact_number: '99'
+                lattitude: '26.4521'
+                longitude: '74.6387'
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                address_of_welcome_pack: regular malll pink square
+                business_operate: basement
+                typeof_location: interna
+                drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /admin/get_usersbyid/62f228996645a0e8b789234f:
     get:
       tags:
@@ -853,7 +953,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/cart:
+  /justeat/cart/6305fd6151dd077fd6fa8387:
     post:
       tags:
         - usercontrol
@@ -864,20 +964,17 @@ paths:
             schema:
               type: object
               example:
-                productId: 62fc9980295173b4c9a00d24
-                quantity: '2'
-                name: jj
-                price: '1000'
+                productId: 62fc9970227916def7ef25e1
+                quantity: '5'
                 offer_price: '000'
                 type: user
-                vendorId: 62fb2136e65e544d031c647a
       parameters:
         - name: Authorization
           in: header
           schema:
             type: string
           example: >-
-            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg0NTI1OX0.YoPCTLulcyu3LtAVS-b4sZlFoXBsi5eR3siUFGoTVtQ
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkQiLCJpZCI6IjYzMDQ3N2I5ZjcwNmI1M2I3M2ZjZWNjNSIsImlhdCI6MTY2MTQxMTgxNH0.uyG_9fO2S1PfQb3ZM2y8MHArtO7XjcQWnMCwTRVAhYU
       responses:
         '200':
           description: Successful response

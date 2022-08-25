@@ -110,6 +110,11 @@ const signup = require('../model/signup');
 //   }
 // };
 
+
+
+
+
+// current with subcategory
 exports.create_menu = async (req, res) => {
   var subCategory_id = req.params.id;
   // var restro_id = req.user.id
@@ -220,7 +225,7 @@ exports.create_menu = async (req, res) => {
     });
   }
 };
-// clone
+
 exports.create_combos = async (req, res) => {
   // console.log(req.file.image)
   try {
