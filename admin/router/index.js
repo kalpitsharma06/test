@@ -82,8 +82,8 @@ router.get('/getrestaurants',vendor.get_restaurants)
 router.get('/get_restrobyid/:id',vendor.get_restrobyid)
 
 router.post('/addrestaurant', vendor.addrestaurant);
-router.post('/accept_status/:id', vendor.Accept_status);
-router.post('/reject_status/:id', vendor.Reject_status);
+router.post('/accept_status_restro/:id', vendor.Accept_status_restro);
+router.post('/reject_status_restro/:id', vendor.Reject_status_restro);
 
 router.put('/updateResturantDetails/:id',
     upload.fields([{
@@ -121,4 +121,6 @@ router.delete('/deleteuser/:id', user.deleteUser)
 
 router.get('/getusers',user.get_users)
 router.get('/get_usersbyid/:id',user.get_usersbyid)
+router.post('/accept_status_user/:id', user.Accept_status_user);
+router.post('/reject_status_user/:id', user.Reject_status_user);
 module.exports = router

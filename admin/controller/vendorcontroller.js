@@ -778,7 +778,7 @@ exports.deleteRetaurant = async (req, res) => {
 }
 
 
-exports.Accept_status = async (req, res) =>{
+exports.Accept_status_restro = async (req, res) =>{
           
     try {
         const updateResDetails = await signUp.findByIdAndUpdate(req.params.id,    {
@@ -798,7 +798,7 @@ exports.Accept_status = async (req, res) =>{
     
 
 }
-exports.Reject_status = async (req, res) =>{
+exports.Reject_status_restro = async (req, res) =>{
           
     try {
         signUp.findByIdAndUpdate(

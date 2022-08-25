@@ -16,6 +16,7 @@ const signup = require('../model/signup');
 
 exports.create_menu = async (req, res) => {
     var subCategory_id = req.params.id
+    var restro_id = req.user.id
     console.log(req.file.location)
     try {
         subCategoryModel.findOne({ _id: subCategory_id }, (err, subCategorydata) => {
@@ -30,7 +31,7 @@ exports.create_menu = async (req, res) => {
                 if (err) throw err;
                 var reqdata = req.body
 
-                var restro_id = userdata.restaurant_id;
+              
 
                 var subCategory = subCategory_name;
                 var reqdata = req.body;
@@ -401,18 +402,26 @@ exports.get_productsdetails = async(req, res) =>{
     //             })
     //         }} else {
     itemModel.findOne({ _id }, (err, userdata) => {
+        
+        if (err) {
+            res.status(400).json({
+                msg: "no product exist",
+                status: false,
+                err: err.message,
+            })}
+            else{
         console.log(userdata)
         return res.status(200).json({
             success: true,
             data: userdata,
             message: " menu details loaded",
-        });
-    })
+        })
+    }})
 }
 
-exports.get_productsbycategory = async(req, res) =>{
+exports.get_productsbysubcategory = async(req, res) =>{
     // var reqdata = req.body;
-    var category = req.body.category
+    var subCategory = req.body.subCategory
     // var userId = req.user.id;
     // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
     //     if (favourite_data == null) {
@@ -425,14 +434,21 @@ exports.get_productsbycategory = async(req, res) =>{
     //                 });
     //             })
     //         }} else {
-    itemModel.find({category}, (err, userdata) => {
+    itemModel.find({subCategory}, (err, userdata) => {
+        if (err) {
+            res.status(400).json({
+                msg: "no product exist",
+                status: false,
+                err: err.message,
+            })}
+            else{
         console.log(userdata)
         return res.status(200).json({
             success: true,
-            data: userdata,
+            result: userdata,
             message: " menu details loaded",
-        });
-    })
+        })
+    }})
 }
 
 
@@ -472,7 +488,7 @@ exports.category_listing =async(req, res)=> {
         })
 
     },
-exports.getall_products = async(req, res) =>{
+    exports.getall_products = async(req, res) =>{
         // var reqdata = req.body;
         var vendor_id = req.params.id
         // var userId = req.user.id;
@@ -489,12 +505,21 @@ exports.getall_products = async(req, res) =>{
         //         }} else {
         itemModel.find({ vendorId: vendor_id }, (err, userdata) => {
             console.log(userdata)
+            if (err) {
+                res.status(400).json({
+                    msg: "no product exist",
+                    status: false,
+                    err: err.message,
+                })}
+                else{
+            console.log(userdata)
             return res.status(200).json({
                 success: true,
-                data: userdata,
-                message: "Vendor menu listing loaded",
-            });
-        })
+                result: userdata,
+                message: " menu details loaded",
+            })
+        }})
+  
     }
 
 

@@ -104,4 +104,49 @@ exports.get_usersbyid = async (req, res) => {
     }
 }
 
+exports.Accept_status_user = async (req, res) =>{
+          
+    try {
+        const updateResDetails = await User_signUp.findByIdAndUpdate(req.params.id,    {
+          
+            status: true,
+           
+        },{new:true})
+        res.status(200).json({
+            status: true,
+            message: "Successfully Updated Resturent status ",
+            'results': updateResDetails
+        })
 
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+    
+
+}
+exports.Reject_status_user = async (req, res) =>{
+          
+    try {
+        User_signUp.findByIdAndUpdate(
+        req.params.id,
+        {status: false},
+        {new:true},
+        (err,data)=>{
+            if(err){
+                res.status(400).json(error.message)
+            }else{
+                res.status(200).json({
+                    status: true,
+                    message: "Successfully Updated Resturent status ",
+                    'results': data
+                })
+            }
+        })
+     
+
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+    
+
+}

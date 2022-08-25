@@ -76,6 +76,8 @@ exports.authorization_restro = (req, res, next) => {
 exports.authorization_user = (req, res, next) => {
     // const token = req.cookies.access_token
     const token = req.header('Authorization');
+
+
     if (!token) {
         res.status(200).json({
             status: 401,
@@ -88,24 +90,22 @@ exports.authorization_user = (req, res, next) => {
             const verified = jwt.verify(token, 'AcdHz3LjemqvI872qrBpLY4B6SU3h56MexbzQpfWl1I1UgLzghtypLkUkl');
             req.user = verified;
             registerusersModel_user.find({ _id: req.user.id }, (err, rows) => {
-                // console.log(req.user)
+              
                 if (rows.length > 0) {
-                    if (rows[0].active != undefined && rows[0].active != null && rows[0].active != "") {
-                        if (rows[0].active == true) {
+                    
+                        console.log(rows)
+                        if (rows[0].status == true) {
                             req.user.email = rows[0].email;
                             next();
                         }
                         else {
                             res.status(401).json({
                                 status: 401,
-                                message: "You Are Blocked!"
+                                message: "You Are Blocked! Kindly contact your admin "
                             });
                             return;
                         }
-                    }
-                    else {
-                        next();
-                    }
+                 
                 }
                 else {
                     res.status(401).json({
@@ -119,12 +119,13 @@ exports.authorization_user = (req, res, next) => {
         catch (err) {
             res.status(401).json({
                 status: 401,
-                message: "Invalid Tokens"
+                message: "Invalid Token"
             });
             return;
         }
     }
 }
+
 
 
 exports.authorization_admin = (req, res, next) => {

@@ -349,30 +349,7 @@ exports.getrestro_byid = async(req,res)=>{
     }
 // 
 
-exports.get_products = async (req, res) => {
-    const id =  req.params.id ;
-console.log(id)
-    itemModel.find({ vendorId: id },
-        (err, data) => {
-console.log(data)
-            if (err) {
-                res.status(200).json({
-                    msg: "No menu exist",
-                    status: false,
-                    err: err.message,
-                });
-            } else {
-                res.status(200).json({
-                    msg: " Menu list successfully loaded",
-                    status: true,
-                    Data: data
 
-                });
-            }
-        })
-
-    //   })
-}
 
 exports.logout = (req, res) => {
     return res

@@ -7,6 +7,9 @@ let item = new mongoose.Schema({
     category:{
         type:String,
     },
+    totalSaleAmount:{type:Number,
+
+    },
     subCategory:{
         type:String,
     },
@@ -21,7 +24,7 @@ let item = new mongoose.Schema({
             type :String
         },
         price: { type:Number},
-        quantity: {type:String},
+        quantity: {type:Number},
         image: {type:String},
         type: {type:String},
         restro_name:{type:String},
