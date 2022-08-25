@@ -102,7 +102,7 @@ router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 
 router.get('/nearbyRestro',addUser.nearbyRestro);
-router.post('/cart',authorization_user,addUser.cart);
+router.post('/cart/:id',authorization_user,addUser.cart);
 router.get('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 router.get('/orderlisting',authorization_user,addUser.order_listing);
@@ -176,7 +176,7 @@ router.put('/changepassword/:id', signUp.changePassword)
 
 
 
-router.post('/create_menu/:id',upload.single("image"),menu.create_menu);
+router.post('/create_menu',upload.single("image"),authorization_restro,menu.create_menu);
 router.post('/create_combo',upload.single("image"),authorization_restro,menu.create_combos);
 router.delete('/delete_comboitem/:id',authorization_restro,menu.delete_combo_item);
 router.delete('/delete_combo/:id',authorization_restro,menu.delete_combo);
@@ -185,7 +185,7 @@ router.get('/get_combo/:id',authorization_restro,menu.getall_combo);
 
 router.get('/get_products/:id',menu.getall_products);
 router.get('/get_productsdetails/:id',menu.get_productsdetails);
-router.get('/get_productsbysubcategory/:id',menu.get_productsbysubcategory);
+router.post('/get_productsbysubcategory/:id',menu.get_productsbysubcategory);
 router.delete('/delete_product/:id',menu.delete_product);
 router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
 

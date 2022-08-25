@@ -136,26 +136,26 @@ exports.updateCategory = async (req, res) => {
 // Adding Sub-Category
 exports.subCategory = async function (req, res, next) {
 
-    // const check = await sub_Category.findOne({ sub_category_name: req.body.sub_category_name })
-    // if (check !== null) {
-    //     res.status(400).json({
-    //         status: false,
-    //         message: 'Category already exist'
-    //     })
-    // } else {
-    //     const categoryRecords = new sub_Category({
-    //         sub_category_name: req.body.sub_category_name,
-    //         image: req.file.filename,
-    //         category: req.body.category
-    //     })
+    const check = await sub_Category.findOne({ sub_category_name: req.body.sub_category_name })
+    if (check !== null) {
+        res.status(400).json({
+            status: false,
+            message: 'Category already exist'
+        })
+    } else {
+        const categoryRecords = new sub_Category({
+            sub_category_name: req.body.sub_category_name,
+            image: req.file.filename,
+            category: req.body.category
+        })
 
-    //     await categoryRecords.save();
-    //     res.status(200).json({
-    //         status: true,
-    //         message: "Successfully Added Sub-Category",
-    //         'results': categoryRecords,
-    //     })
-    // }
+        await categoryRecords.save();
+        res.status(200).json({
+            status: true,
+            message: "Successfully Added Sub-Category",
+            'results': categoryRecords,
+        })
+    }
 try{// console.log(req.file)
         // const { category_name, category_id } = req.body
     

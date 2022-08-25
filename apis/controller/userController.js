@@ -315,7 +315,7 @@ exports.Searchby_mealtimming = async(req,res)=>{
             message: 'No resrautrants available for this time shift '
         })
     
-    }}
+}}
 
 exports.getrestro_byid = async(req,res)=>{
         let payload = req.params;
@@ -362,36 +362,48 @@ exports.logout = (req, res) => {
 //  add cart
  exports.cart =  async (req, res) => {
      try {
-    const { productId, name, price, offer_price, type } = req.body;
-    let quantity = req.body.quantity
+
+
+
+        
+
+    const { productId} = req.body;
+    let quantity
     var userId = req.user.id;
-    var vendorId = req.body.vendorId;
-    var  subtotal = price*quantity
-    // console.log(subtotal)
+    var vendorId ;
+    var  subtotal
+  
     let restro_address;
     let restro_name;
+    let price ;
+     let Product_name;
+     let offer_price;
 
-    let  Grand_total =subtotal;
-   
-        // let cart = await cartModel.find();
+    let  Grand_total;
+console.log(productId)
+        
+    itemModel.findOne({ _id: ObjectId(productId) }, async (err, productdata)=>{
+        console.log(productdata)
+        quantity =req.body.quantity
+        price= productdata.price
+        Product_name= productdata.Product_name
+        vendorId = productdata.vendorId
+        offer_price = productdata.offer_price
+        subtotal =price*quantity
+        Grand_total =subtotal
+
+
+        
+        
+        
         let cart = await cartModel.findOne({ userId });
         cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
+            console.log(vendorId)
 
 
-        console.log(data)
+    
         if (data) {
-         restaurant_model.findOne({ _id: vendorId }, (err, restrodata) => {
-            console.log(restrodata)
-                    if (restrodata == null) {
-                        return res.status(200).json({
-                            status: 201,
-                            message: " No restaurant found "
-                        });
-                    }
-                     
-                                       
-               
-                
+
                 data.products.map((p) =>{
                     return Grand_total=Grand_total+(p.subtotal)
                 } )
@@ -427,7 +439,7 @@ exports.logout = (req, res) => {
                              productItem.price = price;
                              subtotal = price*newQuantity   
                             productItem.offer_price = offer_price;
-                            productItem.type = type;
+                      
                             cart.products[itemIndex] = productItem;
                             //  cart.products.push({ productId, quantity, name, price, offer_price, type });
                            cart.Grand_total=Grand_total;
@@ -435,7 +447,7 @@ exports.logout = (req, res) => {
                             
                             cart.Grand_total=Grand_total;
              
-                            cart.products.push({ productId, quantity, name, price, offer_price, type, subtotal });
+                            cart.products.push({ productId, quantity, Product_name, price, offer_price,  subtotal });
                         }
                         
                         cart = cart.save();
@@ -443,8 +455,8 @@ exports.logout = (req, res) => {
                             status: 200,
                             message: "Your cart prducts quatity updated successfully."
                         });
-                    }) } else {
-                        console.log(Grand_total,"2")
+                   } else {
+                        
                     //     restro_address = restrodata.restro_address;
                     //  restro_name = restrodata.restro_name;
                         //no cart for user, create new cart
@@ -455,7 +467,7 @@ exports.logout = (req, res) => {
                             restro_address,
                             Grand_total,
                       
-                              products: [{ productId, quantity, name, price, offer_price, type ,subtotal}]
+                              products: [{ productId, quantity, Product_name, price, offer_price ,subtotal}]
                         });
                         // console.log(newCart)
                         return res.status(200).json({
@@ -466,6 +478,10 @@ exports.logout = (req, res) => {
                     }
           
             })
+
+        })
+
+
     } catch (err) {
         console.log(err);
         res.status(500).send("Something went wrong");
