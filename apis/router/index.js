@@ -185,7 +185,7 @@ router.get('/get_combo/:id',authorization_restro,menu.getall_combo);
 
 router.get('/get_products/:id',menu.getall_products);
 router.get('/get_productsdetails/:id',menu.get_productsdetails);
-router.get('/get_productsbysubcategory',menu.get_productsbysubcategory);
+router.get('/get_productsbysubcategory/:id',menu.get_productsbysubcategory);
 router.delete('/delete_product/:id',menu.delete_product);
 router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
 

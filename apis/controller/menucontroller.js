@@ -420,7 +420,7 @@ exports.get_productsdetails = async(req, res) =>{
 }
 
 exports.get_productsbysubcategory = async(req, res) =>{
-    // var reqdata = req.body;
+    var vendorId = req.params.id
     var subCategory = req.body.subCategory
     // var userId = req.user.id;
     // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
@@ -434,12 +434,12 @@ exports.get_productsbysubcategory = async(req, res) =>{
     //                 });
     //             })
     //         }} else {
-    itemModel.find({subCategory}, (err, userdata) => {
-        if (err) {
+    itemModel.find({vendorId:vendorId,subCategory:subCategory}, (err, userdata) => {
+        if (userdata.length == 0) {
             res.status(400).json({
                 msg: "no product exist",
                 status: false,
-                err: err.message,
+            
             })}
             else{
         console.log(userdata)
