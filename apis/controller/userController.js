@@ -360,6 +360,7 @@ exports.logout = (req, res) => {
 
 
 //  add cart
+
  exports.cart =  async (req, res) => {
      try {
 
@@ -486,6 +487,128 @@ console.log(productId)
         console.log(err);
         res.status(500).send("Something went wrong");
     }
+
+
+
+} 
+
+// new
+exports.cart =  async (req, res) => {
+    try {
+  const { productId} = req.body;
+   let quantity
+   var userId = req.user.id;
+   var vendorId ;
+   var  subtotal
+ 
+   let restro_address;
+   let restro_name;
+   let price ;
+   let Product_name;
+    let offer_price;
+
+   let  Grand_total;
+console.log(productId)
+       
+   itemModel.findOne({ _id: ObjectId(productId) }, async (err, productdata)=>{
+       console.log(productdata)
+       quantity =req.body.quantity
+       price= productdata.price
+       Product_name= productdata.Product_name
+       vendorId = productdata.vendorId
+       offer_price = productdata.offer_price
+       subtotal =req.body.subtotal
+       Grand_total =req.body.Grand_total
+
+
+       
+       
+       
+       let cart = await cartModel.findOne({ userId });
+       cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
+           console.log(vendorId)
+
+
+   
+       if (data) {
+
+               
+             
+              
+                       //cart exists for user
+                       let itemIndex = cart.products.findIndex(p => p.productId == productId);
+                       
+                       
+                       // console.log(itemIndex)
+                       // console.log(quantity)
+                       // console.log(itemIndex)
+                       // if (itemIndex !== -1 && quantity <= 0) {
+                       //     cart.products.splice(itemIndex, 0);
+                       //     if (cart.products.length == 0) {
+                       //         cart.quantity = 0;
+                       //     } else {
+                       //         cart.price = cart.products.map(products => products.price).reduce((acc, next) => acc + next);
+                       //     }
+                       // }
+                       if (itemIndex > -1) {
+                           //product exists in the cart, update the quantity
+                           let productItem = cart.products[itemIndex];
+                           //  console.log(cart)
+                        
+                           //  console.log(newSubtotal)
+                            
+                            productItem.quantity =quantity ;
+                            productItem.subtotal = subtotal;
+                            productItem.price = price;
+                            subtotal =subtotal    
+                           productItem.offer_price = offer_price;
+                     
+                           cart.products[itemIndex] = productItem;
+                           //  cart.products.push({ productId, quantity, name, price, offer_price, type });
+                          cart.Grand_total=Grand_total;
+                       } else {
+                           
+                           cart.Grand_total=Grand_total;
+            
+                           cart.products.push({ productId, quantity, Product_name, price, offer_price,  subtotal });
+                       }
+                       
+                       cart = cart.save();
+                       return res.status(200).json({
+                           status: 200,
+                           message: "Your cart prducts quatity updated successfully."
+                       });
+                  } else {
+                       
+                   //     restro_address = restrodata.restro_address;
+                   //  restro_name = restrodata.restro_name;
+                       //no cart for user, create new cart
+                       const newCart = cartModel.create({
+                           userId,
+                           vendorId,
+                           restro_name,
+                           restro_address,
+                           Grand_total,
+                     
+                             products: [{ productId, quantity, Product_name, price, offer_price ,subtotal}]
+                       });
+                       // console.log(newCart)
+                       return res.status(200).json({
+                           status: 200,
+                           message: "Your cart created successfully. ",
+                           result:newCart
+                       });
+                   }
+         
+           })
+
+       })
+
+
+   } catch (err) {
+       console.log(err);
+       res.status(500).send("Something went wrong");
+   }
 
 
 

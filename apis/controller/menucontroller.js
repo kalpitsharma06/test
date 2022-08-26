@@ -376,7 +376,7 @@ exports.delete_combo_item = async (req, res) => {
   //   })
 };
 
-(exports.edit_product = async (req, res) => {
+exports.edit_product = async (req, res) => {
   var reqdata = req.body;
 
   // const {user} = req;
@@ -421,7 +421,7 @@ exports.delete_combo_item = async (req, res) => {
       err: err.message,
     });
   }
-}),
+},
   (exports.get_productsdetails = async (req, res) => {
     // var reqdata = req.body;
     var _id = req.params.id;
