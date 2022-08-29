@@ -295,7 +295,7 @@ exports.Default_card = async (req, res, next) => {
       }).then(function (token) {
         // console.log("asdasd",token)
         stripe.addAccount({
-          id: "merchantStripe_id",
+          id: merchantStripe_id,
           token: token.id
         }).then(function (bank) {
           User.update({

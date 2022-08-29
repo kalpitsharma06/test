@@ -181,7 +181,7 @@ exports.balance = (payload) => {
 }
 
 exports.payouts = (payload) => {
-    console.log("asdlkia",payload)
+    // console.log("asdlkia",payload)
     return new Promise((resolve, reject) => {
         stripe.payouts.create({
             amount: payload.amount,

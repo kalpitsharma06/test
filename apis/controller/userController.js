@@ -223,8 +223,8 @@ exports.guest_login = async (req, res) => {
   });
 };
 
-exports.Searchby_pincode = async (req, res) => {
-    console.log(req.params)
+exports.Searchby_main = async (req, res) => {
+  console.log(req.params);
   try {
     if (req.body) {
       let data = await restaurant_model
@@ -233,7 +233,8 @@ exports.Searchby_pincode = async (req, res) => {
             { pincode: { $regex: req.body.key } },
             { restaurant_name: { $regex: req.body.key } },
             { restaurant_address: { $regex: req.body.key } },
-            { city: { $regex: req.body.key } },
+            { city: { $regex: req.body.key } }, { primary_cuisine: { $regex: req.body.key } },
+            { secoundry_cuisine: { $regex: req.body.key } }
           ],
         })
         .select({ restaurant_name: 1, restaurant_address: 1 });
@@ -348,121 +349,113 @@ exports.cart = async (req, res) => {
       offer_price = productdata.offer_price;
       subtotal = price * quantity;
       Grand_total = subtotal;
- 
 
       let cart = await cartModel.findOne({ userId });
       cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
         // console.log(vendorId);
 
         if (data) {
+          if (data.vendorId !== productdata.vendorId) {
+            res.status(201).json({
+              msg: 'Item already exist with different resturant ',
+              status: false,
+             
+            });
+          }
           data.products.map((p) => {
             return (Grand_total = Grand_total + p.subtotal);
           });
 
           //cart exists for user
           let itemIndex = cart.products.findIndex((p) => p.productId == productId);
-        
-          if(quantity <= 0){
-        
-           
-            console.log(data.products[itemIndex].subtotal)
-            console.log(Grand_total,"1")
-            cart.Grand_total=Grand_total-data.products[itemIndex].subtotal
-            console.log( cart.Grand_total,"2")
-          
-            cart.save()
-            cartModel.updateOne({userId:userId}, { $pull: { products: { productId:productId} } }, (err, modeldata) => {
-             
-              if (err) {
-                res.status(201).json({
-                  msg: 'no data exist',
-                  status: false,
-                  err: err.message,
-                });
-              } else {
-                
-                res.status(200).json({
-                  msg: 'Delted item  successfully',
-                  status: true,
-                  data: modeldata,
-                });
+
+          if (quantity <= 0) {
+            console.log(data.products[itemIndex].subtotal);
+            console.log(Grand_total, '1');
+            cart.Grand_total = Grand_total - data.products[itemIndex].subtotal;
+            console.log(cart.Grand_total, '2');
+
+            cart.save();
+            cartModel.updateOne(
+              { userId: userId },
+              { $pull: { products: { productId: productId } } },
+              (err, modeldata) => {
+                if (err) {
+                  res.status(201).json({
+                    msg: 'no data exist',
+                    status: false,
+                    err: err.message,
+                  });
+                } else {
+                  res.status(200).json({
+                    msg: 'Delted item  successfully',
+                    status: true,
+                    data: modeldata,
+                  });
+                }
               }
-            });
-
-          }else{
-
-            
-
-        
-          if (itemIndex > -1) {
-            //product exists in the cart, update the quantity
-            let productItem = cart.products[itemIndex];
-            //  console.log(productItem)
-            let newQuantity = quantity;
-            // console.log(price)
-          
-            let newSubtotal = cart.products[itemIndex].subtotal;
-            newSubtotal = newQuantity * price;
-            //  console.log(newSubtotal)
-
-productItem.name = 
-            productItem.quantity = newQuantity;
-            productItem.subtotal = newSubtotal;
-            productItem.price = price;
-            subtotal = price * newQuantity;
-            productItem.offer_price = offer_price;
-
-            cart.products[itemIndex] = productItem;
-            //  cart.products.push({ productId, quantity, name, price, offer_price, type });
-            cart.Grand_total = subtotal;
+            );
           } else {
-         
-              console.log(quantity)
-            cart.Grand_total = Grand_total;
+            if (itemIndex > -1) {
+              //product exists in the cart, update the quantity
+              let productItem = cart.products[itemIndex];
+              //  console.log(productItem)
+              let newQuantity = quantity;
+              // console.log(price)
 
-            cart.products.push({ productId, quantity, name, price, offer_price, subtotal });
-            
-            
-          
+              let newSubtotal = cart.products[itemIndex].subtotal;
+              newSubtotal = newQuantity * price;
+              //  console.log(newSubtotal)
+
+              productItem.name = productItem.quantity = newQuantity;
+              productItem.subtotal = newSubtotal;
+              productItem.price = price;
+              subtotal = price * newQuantity;
+              productItem.offer_price = offer_price;
+
+              cart.products[itemIndex] = productItem;
+              //  cart.products.push({ productId, quantity, name, price, offer_price, type });
+              cart.Grand_total = subtotal;
+            } else {
+              // console.log(quantity)
+              cart.Grand_total = Grand_total;
+
+              cart.products.push({ productId, quantity, name, price, offer_price, subtotal });
+            }
+
+            cart = cart.save();
+            return res.status(200).json({
+              status: 200,
+              message: 'Your cart prducts quatity updated successfully.',
+            });
           }
+        } else {
+          if (quantity > 0) {
+            let newCart = cartModel.create({
+              userId,
+              vendorId,
+              restro_name,
+              restro_address,
+              Grand_total,
 
-          cart = cart.save();
-          return res.status(200).json({
-            status: 200,
-            message: 'Your cart prducts quatity updated successfully.',
-          });
-        }} else {
-          if(quantity >0){
-          let newCart = cartModel.create({
-            userId,
-            vendorId,
-            restro_name,
-            restro_address,
-            Grand_total,
-
-            products: [{ productId, quantity,name, price, offer_price, subtotal }],
-          });
-        }
-        else{
-
-           newCart = cartModel.create({
-            userId,
-            vendorId,
-            restro_name,
-            restro_address,
-            Grand_total,
-
-          
-          });
+              products: [{ productId, quantity, name, price, offer_price, subtotal }],
+            });
+          } else {
+            newCart = cartModel.create({
+              userId,
+              vendorId,
+              restro_name,
+              restro_address,
+              Grand_total,
+            });
           }
           // console.log(newCart)
           return res.status(200).json({
             status: 200,
             message: 'Your cart created successfully. ',
-            
           });
-        }{
-
+        }
+        {
         }
       });
     });
@@ -595,97 +588,88 @@ exports.cart_list = async (req, res) => {
     } else {
       return res.status(200).json({
         status: 200,
-        data: cartdata,
+        data: cartdata[0],
         message: 'cart listing loaded',
       });
     }
     // })
   });
-}
-  exports.clear_cart = async (req, res) => {
-    try {
-      const id = req.params.id;
-      const { productId_no } = req.body;
+};
+exports.clear_cart = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { productId_no } = req.body;
 
-      //   console.log(data)
-      cartModel.findOne({ _id: id }, (err, cartdata) => {
+    //   console.log(data)
+    cartModel.findOne({ _id: id }, (err, cartdata) => {
+      console.log(cartdata, 'dddddddd');
+      var products = cartdata.products;
 
-      
-
-
-
-
-        console.log(cartdata, 'dddddddd');
-        var products = cartdata.products;
-
-        if (products.length == 1) {
-
-
-
-          cartModel.findOneAndDelete({ _id: ObjectId(id) }, (err, cartdata) => {
-            return res.status(200).json({
-              status: 200,
-              message: 'Your cart is empty',
-            });
-          });
-        } else {
-         cartdata.products.splice(productId_no, 1);
-          cartdata = cartdata.save();
+      if (products.length == 1) {
+        cartModel.findOneAndDelete({ _id: ObjectId(id) }, (err, cartdata) => {
           return res.status(200).json({
             status: 200,
-            message: 'Your quantity reduced successfull.',
+            message: 'Your cart is empty',
           });
-        }
-      });
-    } catch (err) {
-      res.status(400).json({
-        status: 400,
-        message: 'something went wrong',
-      });
-    }
-  }
-  exports.nearbyRestro = async (req, res) => {
-    var reqdata = req.body;
-    var lat = reqdata.lat;
-    var long = reqdata.long;
-    console.log(Number(lat));
-    var userId = [];
-    restaurant_model.aggregate(
-      [
-        {
-          $geoNear: {
-            near: {
-              type: 'Point',
-              coordinates: [Number(long), Number(lat)],
-            },
-            maxDistance: 3002186.9,
-            spherical: true,
-
-            distanceField: 'restroDistance',
-          },
-        },
-        { $limit: 5 },
-      ],
-      function (err, nearbyRestro) {
-        console.log(err);
-        if (nearbyRestro) {
-          return res.status(200).json({
-            success: true,
-            status: 200,
-            message: 'Nearby restaurant ',
-            data: nearbyRestro,
-          });
-        } else {
-          return res.status(200).json({
-            success: false,
-            status: 401,
-            message: 'No nearby restaurant',
-            err: err.message,
-          });
-        }
+        });
+      } else {
+        cartdata.products.splice(productId_no, 1);
+        cartdata = cartdata.save();
+        return res.status(200).json({
+          status: 200,
+          message: 'Your quantity reduced successfull.',
+        });
       }
-    );
-  };
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: 'something went wrong',
+    });
+  }
+};
+exports.nearbyRestro = async (req, res) => {
+  var reqdata = req.body;
+  var lat = reqdata.lat;
+  var long = reqdata.long;
+  console.log(Number(lat));
+  var userId = [];
+  restaurant_model.aggregate(
+    [
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [Number(long), Number(lat)],
+          },
+          maxDistance: 3002186.9,
+          spherical: true,
+
+          distanceField: 'restroDistance',
+        },
+      },
+      { $limit: 5 },
+    ],
+    function (err, nearbyRestro) {
+      console.log(err);
+      if (nearbyRestro) {
+        return res.status(200).json({
+          success: true,
+          status: 200,
+          message: 'Nearby restaurant ',
+          data: nearbyRestro,
+        });
+      } else {
+        return res.status(200).json({
+          success: false,
+          status: 401,
+          message: 'No nearby restaurant',
+          err: err.message,
+        });
+      }
+    }
+  );
+};
 exports.create_order = (req, res) => {
   try {
     var reqdata = req.body;

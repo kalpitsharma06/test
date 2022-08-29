@@ -97,7 +97,7 @@ router.post('/guest_login',addUser.guest_login)
 router.get('/cart',authorization_user,addUser.cart)
 
 router.put('/changepassword/:id',authorization_user, addUser.changePassword)
-router.get('/searchbypin/:key', addUser.Searchby_pincode)
+router.get('/search', addUser.Searchby_main)
 router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 
@@ -199,7 +199,7 @@ router.post('/addbank',authorization_user,payment.addBank);
 router.get('/ListCard',authorization_user,payment.ListCard);
 // router.post('/payout',commonservices.apiAuthAuthenticated,payment.payout);
 router.post('/Default_card',payment.Default_card);
-router.post('/Login_stripe',authorization_user,payment.Login_stripe);
+router.post('/Login_stripe',authorization_restro,payment.Login_stripe);
 // router.post('/order_payment',commonservices.apiAuthAuthenticated,payment.order_payment);
 
 
