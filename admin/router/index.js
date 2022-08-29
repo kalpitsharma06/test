@@ -121,6 +121,6 @@ router.delete('/deleteuser/:id', user.deleteUser)
 
 router.get('/getusers',user.get_users)
 router.get('/get_usersbyid/:id',user.get_usersbyid)
-router.post('/accept_status_user/:id', user.Accept_status_user);
-router.post('/reject_status_user/:id', user.Reject_status_user);
+// router.post('/accept_status_user/:id', user.Accept_status_user);
+// router.post('/reject_status_user/:id', user.Reject_status_user);
 module.exports = router

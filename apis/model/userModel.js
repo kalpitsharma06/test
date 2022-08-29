@@ -22,6 +22,43 @@ let usersignup = new mongoose.Schema({
 
 }],
 
+
+
+stripe_id: {
+  type: String
+},
+merchantStripe_id: {
+  type: String
+},
+total_stripe_amount:{
+  type:String,
+  default: 0
+},
+//save user encrypted card info for Stripe Payment getway
+stripe_card_data: [{
+  _id: mongoose.Schema.Types.ObjectId,
+  number: String,
+  brand: String,
+  name: String,
+  card_id: String,
+  is_default: {
+    type: Boolean,
+    default: false
+  },
+}],
+bank_data: [{
+  _id: mongoose.Schema.Types.ObjectId,
+  account_holder_type : String,
+  account_holder_name:String,
+  routing_number: String,
+  accountNumber: String,
+  bank_name: String,
+  bank_id: String,
+  is_default: {
+    type: Boolean,
+    default: false
+  },
+}],
       get_order_update_email:Boolean,
       get_order_update_text:Boolean,
       get_new_offers_email:Boolean,

@@ -782,10 +782,11 @@ exports.Accept_status_restro = async (req, res) =>{
           
     try {
         const ResDetails = await signUp.findByIdAndUpdate(req.params.id,    {
-          
+      
             status: true,
            
         },{new:true})
+        console.log(ResDetails)
         res.status(200).json({
             status: true,
             message: "Successfully Updated Resturent status ",
@@ -809,6 +810,7 @@ exports.Reject_status_restro = async (req, res) =>{
             if(err){
                 res.status(400).json(error.message)
             }else{
+                console.log(data)
                 res.status(200).json({
                     status: true,
                     message: "Successfully Updated Resturent status ",
