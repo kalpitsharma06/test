@@ -346,22 +346,28 @@ exports.cart = async (req, res) => {
       price = productdata.price;
       name = productdata.Product_name;
       vendorId = productdata.vendorId;
+      restro_name= productdata.restro_name;
       offer_price = productdata.offer_price;
       subtotal = price * quantity;
       Grand_total = subtotal;
+
+      console.log(productdata.restro_name)
 
       let cart = await cartModel.findOne({ userId });
       cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
         // console.log(vendorId);
 
         if (data) {
-          // if (data.vendorId == productdata.vendorId) {
-          //   res.status(201).json({
-          //     msg: 'Kindly clear the cart to add item from  different restaurant ',
-          //     status: false,
+          console.log(data.vendorId)
+          console.log(ObjectId(vendorId))
+          if (data.vendorId.toString() != ObjectId(vendorId).toString() ){
+            res.status(201).json({
+              msg: 'Kindly clear the cart to add item from  different restaurant ',
+              status: false,
              
-          //   });
-          // }
+            });
+          }
+         
           data.products.map((p) => {
             return (Grand_total = Grand_total + p.subtotal);  
           });
@@ -419,6 +425,7 @@ exports.cart = async (req, res) => {
             } else {
               // console.log(quantity)
               cart.Grand_total = Grand_total;
+              cart.restro_name =restro_name;
 
               cart.products.push({ productId, quantity, name, price, offer_price, subtotal });
             }
