@@ -416,6 +416,8 @@ exports.cart = async (req, res) => {
               productItem.name = productItem.quantity = newQuantity;
               productItem.subtotal = newSubtotal;
               productItem.price = price;
+              productItem.restro_name = restro_name;
+
               subtotal = price * newQuantity;
               productItem.offer_price = offer_price;
 
@@ -425,9 +427,9 @@ exports.cart = async (req, res) => {
             } else {
               // console.log(quantity)
               cart.Grand_total = Grand_total;
-              cart.restro_name =restro_name;
+            
 
-              cart.products.push({ productId, quantity, name, price, offer_price, subtotal });
+              cart.products.push({ productId, quantity, name, price, offer_price, subtotal,restro_name });
             }
 
             cart = cart.save();
@@ -441,18 +443,18 @@ exports.cart = async (req, res) => {
             let newCart = cartModel.create({
               userId,
               vendorId,
-              restro_name,
-              restro_address,
+              
+             
               Grand_total,
 
-              products: [{ productId, quantity, name, price, offer_price, subtotal }],
+              products: [{ productId, quantity, name, price, offer_price, subtotal, restro_address,restro_name }],
             });
           } else {
             newCart = cartModel.create({
               userId,
               vendorId,
               restro_name,
-              restro_address,
+           
               Grand_total,
             });
           }

@@ -13,9 +13,7 @@ let cart = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'registerusers',
     },
-    restro_name:{
-      type:String
-    },
+  
     restro_address:{
       type:String
     },
@@ -24,6 +22,9 @@ let cart = new Schema({
     },
     products: [
         {
+          restro_name:{
+            type:String
+          },
           productId:{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'item',
