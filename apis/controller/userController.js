@@ -355,15 +355,15 @@ exports.cart = async (req, res) => {
         // console.log(vendorId);
 
         if (data) {
-          if (data.vendorId !== productdata.vendorId) {
-            res.status(201).json({
-              msg: 'Item already exist with different resturant ',
-              status: false,
+          // if (data.vendorId == productdata.vendorId) {
+          //   res.status(201).json({
+          //     msg: 'Kindly clear the cart to add item from  different restaurant ',
+          //     status: false,
              
-            });
-          }
+          //   });
+          // }
           data.products.map((p) => {
-            return (Grand_total = Grand_total + p.subtotal);
+            return (Grand_total = Grand_total + p.subtotal);  
           });
 
           //cart exists for user

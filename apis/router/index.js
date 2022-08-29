@@ -97,7 +97,7 @@ router.post('/guest_login',addUser.guest_login)
 router.get('/cart',authorization_user,addUser.cart)
 
 router.put('/changepassword/:id',authorization_user, addUser.changePassword)
-router.get('/search', addUser.Searchby_main)
+router.post('/search',addUser.Searchby_main)
 router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 
