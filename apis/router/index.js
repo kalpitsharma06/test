@@ -108,6 +108,7 @@ router.get('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 router.get('/orderlisting',authorization_user,addUser.order_listing);
 router.post('/create_order/:id',authorization_user,addUser.create_order);
+router.post('/checkout/:id',authorization_user,addUser.checkout);
 router.post('/create_order_guest',authorization_user,addUser.create_order_guest);
 router.post('/report',authorization_user,addUser.report);
 
