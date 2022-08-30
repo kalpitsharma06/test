@@ -21,6 +21,7 @@ let orderModel = require('../../apis/model/order').order;
 const reportsModel = require('../../apis/model/report').reports;
 const stripe = require('../../functions/stripe');
 
+
 //USER SING UP
 exports.addUser = async function (req, res, next) {
   var address = req.body.address;
@@ -408,8 +409,9 @@ exports.cart = async (req, res) => {
               //  console.log(productItem)
               let newQuantity = quantity;
               // console.log(price)
-
+let old_subtotal =cart.products[itemIndex].subtotal;
               let newSubtotal = cart.products[itemIndex].subtotal;
+              console.log(newSubtotal,"old subtotal")
               newSubtotal = newQuantity * price;
               //  console.log(newSubtotal)
 
@@ -422,8 +424,20 @@ exports.cart = async (req, res) => {
               productItem.offer_price = offer_price;
 
               cart.products[itemIndex] = productItem;
-              //  cart.products.push({ productId, quantity, name, price, offer_price, type });
-              cart.Grand_total = subtotal;
+              // console.log(subtotal)
+              // Grand_total= subtotal
+              Grand_total=subtotal
+              console.log(Grand_total,"latest total")
+              data.products.map((p) => {
+                console.log(p.subtotal) 
+                return (Grand_total = Grand_total + p.subtotal);  
+              });
+              console.log(old_subtotal,"old sub")
+              Grand_total=  Grand_total-old_subtotal
+              console.log(Grand_total,"final  value")
+
+    //  cart.products.push({ productId, quantity, name, price, offer_price, type });
+              cart.Grand_total = Grand_total;
             } else {
               // console.log(quantity)
               cart.Grand_total = Grand_total;
@@ -473,6 +487,7 @@ exports.cart = async (req, res) => {
     res.status(500).send('Something went wrong');
   }
 };
+
 
 // new
 // exports.cart = async (req, res) => {
