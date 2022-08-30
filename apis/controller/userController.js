@@ -456,6 +456,7 @@ exports.cart = async (req, res) => {
               //  console.log(newSubtotal)
 
               productItem.name = name;
+              productItem.quantity = newQuantity;
               productItem.subtotal = newSubtotal;
               productItem.price = price;
               productItem.restro_name = restro_name;
@@ -916,7 +917,7 @@ exports.checkout = (req, res) => {
   //               customerID: customerID,
   //              name = Product_name,
   //              price = price,
-  //             //  orderModel.products.push({ name ,}),
+  //              orderModel.products.push({ name ,}),
   //             };
   //           } else {
   //             return res.status(400).json({
