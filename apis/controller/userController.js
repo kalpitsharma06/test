@@ -238,7 +238,7 @@ exports.Searchby_main = async (req, res) => {
             { secoundry_cuisine: { $regex: req.body.key } }
           ],
         })
-        .select({ restaurant_name: 1, restaurant_address: 1 });
+        .select({ restaurant_name: 1, restaurant_address: 1,restaurant_logo:1,});
       if (data.length > 0) {
         res.status(200).json({
           status: 'true..',
@@ -286,6 +286,46 @@ exports.Searchby_mealtimming = async (req, res) => {
     res.status(400).json({
       status: false,
       message: 'No resrautrants available for this time shift ',
+    });
+  }
+};
+
+exports.suggestion_main = async (req, res) => {
+  console.log(req.params);
+  try {
+    if (req.body) {
+      let data = await restaurant_model
+        .find({
+          $or: [
+            { pincode: { $regex: req.body.key } },
+            { restaurant_name: { $regex: req.body.key } },
+            { restaurant_address: { $regex: req.body.key } },
+            { city: { $regex: req.body.key } }, { primary_cuisine: { $regex: req.body.key } },
+            { secoundry_cuisine: { $regex: req.body.key } }
+          ],
+        })
+        .select({ restaurant_name: 1});
+      if (data.length > 0) {
+        res.status(200).json({
+          status: 'true..',
+          result: data,
+        });
+      } else {
+        res.status(400).json({
+          status: false,
+          message: 'No resrautrants available',
+        });
+      }
+    } else {
+      res.status(400).json({
+        status: false,
+        message: 'No resrautrants avialable',
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: false,
+      message: 'No resrautrants avialable',
     });
   }
 };

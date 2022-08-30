@@ -98,10 +98,11 @@ router.get('/cart',authorization_user,addUser.cart)
 
 router.put('/changepassword/:id',authorization_user, addUser.changePassword)
 router.post('/search',addUser.Searchby_main)
+router.post('/suggestion_main',addUser.suggestion_main)
 router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
 router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 
-router.get('/nearbyRestro',addUser.nearbyRestro);
+router.get('/nearbyRestro',addUser.nearbyRestro)
 router.post('/cart',authorization_user,addUser.cart);
 router.get('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
