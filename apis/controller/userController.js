@@ -21,7 +21,6 @@ let orderModel = require('../../apis/model/order').order;
 const reportsModel = require('../../apis/model/report').reports;
 const stripe = require('../../functions/stripe');
 
-
 //USER SING UP
 exports.addUser = async function (req, res, next) {
   var address = req.body.address;
@@ -234,11 +233,12 @@ exports.Searchby_main = async (req, res) => {
             { pincode: { $regex: req.body.key } },
             { restaurant_name: { $regex: req.body.key } },
             { restaurant_address: { $regex: req.body.key } },
-            { city: { $regex: req.body.key } }, { primary_cuisine: { $regex: req.body.key } },
-            { secoundry_cuisine: { $regex: req.body.key } }
+            { city: { $regex: req.body.key } },
+            { primary_cuisine: { $regex: req.body.key } },
+            { secoundry_cuisine: { $regex: req.body.key } },
           ],
         })
-        .select({ restaurant_name: 1, restaurant_address: 1,restaurant_logo:1,});
+        .select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1 });
       if (data.length > 0) {
         res.status(200).json({
           status: 'true..',
@@ -300,11 +300,12 @@ exports.suggestion_main = async (req, res) => {
             { pincode: { $regex: req.body.key } },
             { restaurant_name: { $regex: req.body.key } },
             { restaurant_address: { $regex: req.body.key } },
-            { city: { $regex: req.body.key } }, { primary_cuisine: { $regex: req.body.key } },
-            { secoundry_cuisine: { $regex: req.body.key } }
+            { city: { $regex: req.body.key } },
+            { primary_cuisine: { $regex: req.body.key } },
+            { secoundry_cuisine: { $regex: req.body.key } },
           ],
         })
-        .select({ restaurant_name: 1});
+        .select({ restaurant_name: 1 });
       if (data.length > 0) {
         res.status(200).json({
           status: 'true..',
@@ -387,30 +388,29 @@ exports.cart = async (req, res) => {
       price = productdata.price;
       name = productdata.Product_name;
       vendorId = productdata.vendorId;
-      restro_name= productdata.restro_name;
+      restro_name = productdata.restro_name;
       offer_price = productdata.offer_price;
       subtotal = price * quantity;
       Grand_total = subtotal;
 
-      console.log(productdata.restro_name)
+      console.log(productdata.restro_name);
 
       let cart = await cartModel.findOne({ userId });
       cartModel.findOne({ userId: ObjectId(userId) }, (err, data) => {
         // console.log(vendorId);
 
         if (data) {
-          console.log(data.vendorId)
-          console.log(ObjectId(vendorId))
-          if (data.vendorId.toString() != ObjectId(vendorId).toString() ){
+          console.log(data.vendorId);
+          console.log(ObjectId(vendorId));
+          if (data.vendorId.toString() != ObjectId(vendorId).toString()) {
             res.status(201).json({
               msg: 'Kindly clear the cart to add item from  different restaurant ',
               status: false,
-             
             });
           }
-         
+
           data.products.map((p) => {
-            return (Grand_total = Grand_total + p.subtotal);  
+            return (Grand_total = Grand_total + p.subtotal);
           });
 
           //cart exists for user
@@ -449,9 +449,9 @@ exports.cart = async (req, res) => {
               //  console.log(productItem)
               let newQuantity = quantity;
               // console.log(price)
-let old_subtotal =cart.products[itemIndex].subtotal;
+              let old_subtotal = cart.products[itemIndex].subtotal;
               let newSubtotal = cart.products[itemIndex].subtotal;
-              console.log(newSubtotal,"old subtotal")
+              console.log(newSubtotal, 'old subtotal');
               newSubtotal = newQuantity * price;
               //  console.log(newSubtotal)
 
@@ -466,24 +466,23 @@ let old_subtotal =cart.products[itemIndex].subtotal;
               cart.products[itemIndex] = productItem;
               // console.log(subtotal)
               // Grand_total= subtotal
-              Grand_total=subtotal
-              console.log(Grand_total,"latest total")
+              Grand_total = subtotal;
+              console.log(Grand_total, 'latest total');
               data.products.map((p) => {
-                console.log(p.subtotal) 
-                return (Grand_total = Grand_total + p.subtotal);  
+                console.log(p.subtotal);
+                return (Grand_total = Grand_total + p.subtotal);
               });
-              console.log(old_subtotal,"old sub")
-              Grand_total=  Grand_total-old_subtotal
-              console.log(Grand_total,"final  value")
+              console.log(old_subtotal, 'old sub');
+              Grand_total = Grand_total - old_subtotal;
+              console.log(Grand_total, 'final  value');
 
-    //  cart.products.push({ productId, quantity, name, price, offer_price, type });
+              //  cart.products.push({ productId, quantity, name, price, offer_price, type });
               cart.Grand_total = Grand_total;
             } else {
               // console.log(quantity)
               cart.Grand_total = Grand_total;
-            
 
-              cart.products.push({ productId, quantity, name, price, offer_price, subtotal,restro_name });
+              cart.products.push({ productId, quantity, name, price, offer_price, subtotal, restro_name });
             }
 
             cart = cart.save();
@@ -497,18 +496,17 @@ let old_subtotal =cart.products[itemIndex].subtotal;
             let newCart = cartModel.create({
               userId,
               vendorId,
-              
-             
+
               Grand_total,
 
-              products: [{ productId, quantity, name, price, offer_price, subtotal, restro_address,restro_name }],
+              products: [{ productId, quantity, name, price, offer_price, subtotal, restro_address, restro_name }],
             });
           } else {
             newCart = cartModel.create({
               userId,
               vendorId,
               restro_name,
-           
+
               Grand_total,
             });
           }
@@ -527,7 +525,6 @@ let old_subtotal =cart.products[itemIndex].subtotal;
     res.status(500).send('Something went wrong');
   }
 };
-
 
 // new
 // exports.cart = async (req, res) => {
@@ -750,7 +747,7 @@ exports.create_order = (req, res) => {
     var transaction_status = reqdata.transaction_status;
     // console.log(req.user)
     var id1 = req.user.id;
-    var id = req.body.id;
+    var id = req.params.id;
     console.log(id);
     User_signUp.findOne({ _id: id1 }, (err, userdata) => {
       //    console.log(userdata)
@@ -767,7 +764,7 @@ exports.create_order = (req, res) => {
 
           var vendorID = cartdata.vendorId;
           var payment = reqdata.payment;
-          var subtotal = reqdata.subtotal;
+          var subtotal = cartdata.Grand_total;
           var products = cartdata.products;
           // var errors = req.validationErrors();
           restaurant_model.findOne({ _id: vendorID }, (err, vendordata) => {
@@ -816,16 +813,16 @@ exports.create_order = (req, res) => {
             }
             var NewTicket = new orderModel(payload);
             NewTicket.save(function (err, obj) {
-              // cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
-              if (err) throw err;
-              return res.status(200).json({
-                success: true,
-                message: 'order created successfully',
-                payload: payload,
+              cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
+                if (err) throw err;
+                return res.status(200).json({
+                  success: true,
+                  message: 'order created successfully',
+                  payload: payload,
+                });
               });
             });
           });
-          // })
         } else {
           return res.status(400).json({
             success: false,
