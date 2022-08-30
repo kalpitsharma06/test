@@ -15,6 +15,7 @@ tags:
   - name: Admin/ > vendor control
   - name: Admin/ > user control
   - name: usercontrol
+  - name: PAYMENTS
 paths:
   /api/v1justeat/addrestaurant/:
     post:
@@ -397,7 +398,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/create_combo:
+  /api/v1//create_combo:
     post:
       tags:
         - products
@@ -445,7 +446,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/delete_comboitem/62f204e53f021a26207dba3d:
+  /api/v1/justeat/delete_comboitem/62f21aa9f070d09081f471f7:
     delete:
       tags:
         - products
@@ -525,7 +526,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/delete_product/62f0cbbcb9fe662e6aeb3998:
+  /api/v1/justeat/get_productsdetails/6305b9e4d6f0c8edc73cd4c4:
     get:
       tags:
         - products
@@ -536,10 +537,17 @@ paths:
           content:
             application/json: {}
   /api/v1/justeat/get_productsbysubcategory/6305fd6151dd077fd6fa8387:
-    get:
+    post:
       tags:
         - products
       summary: get products by subcategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                subCategory: MOMOS
       responses:
         '200':
           description: Successful response
@@ -815,41 +823,10 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /admin/addrestaurant:
-    post:
-      tags:
-        - Admin/ > vendor control
-      summary: add restaurant
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                restaurant_name: ABCsdsdssdsd
-                restaurant_address: 'ajmer '
-                pincode: '11'
-                confirm_email: jitendrakumar.appic@gmail.com
-                email: jitendrakumar.appic@gmail.comlllllllkklll
-                meal_timming: breakfast
-                contact_number: '99'
-                lattitude: '26.4521'
-                longitude: '74.6387'
-                primary_cuisine: hello
-                secoundry_cuisine: hye
-                address_of_welcome_pack: regular malll pink square
-                business_operate: basement
-                typeof_location: interna
-                drivers_availability: jjjjj
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
   /admin/accept_status_restro/6305c814bbd9deee6382e279:
     post:
       tags:
-        - Admin/ > user control
+        - Admin/ > vendor control
       summary: accept status
       requestBody:
         content:
@@ -880,8 +857,70 @@ paths:
   /admin/reject_status_restro/6305c814bbd9deee6382e279:
     post:
       tags:
-        - Admin/ > user control
+        - Admin/ > vendor control
       summary: reject status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABCsdsdssdsd
+                restaurant_address: 'ajmer '
+                pincode: '11'
+                confirm_email: jitendrakumar.appic@gmail.com
+                email: jitendrakumar.appic@gmail.comlllllllkklll
+                meal_timming: breakfast
+                contact_number: '99'
+                lattitude: '26.4521'
+                longitude: '74.6387'
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                address_of_welcome_pack: regular malll pink square
+                business_operate: basement
+                typeof_location: interna
+                drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/accept_status_restro/6305c814bbd9deee6382e279:
+    post:
+      tags:
+        - Admin/ > vendor control
+      summary: accept status restro
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABCsdsdssdsd
+                restaurant_address: 'ajmer '
+                pincode: '11'
+                confirm_email: jitendrakumar.appic@gmail.com
+                email: jitendrakumar.appic@gmail.comlllllllkklll
+                meal_timming: breakfast
+                contact_number: '99'
+                lattitude: '26.4521'
+                longitude: '74.6387'
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                address_of_welcome_pack: regular malll pink square
+                business_operate: basement
+                typeof_location: interna
+                drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/reject_status_restro/63047737f706b53b73fcecbd:
+    post:
+      tags:
+        - Admin/ > vendor control
+      summary: reject status restro
       requestBody:
         content:
           application/json:
@@ -928,6 +967,68 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/v1/admin/accept_status_user/63047737f706b53b73fcecbd:
+    post:
+      tags:
+        - Admin/ > user control
+      summary: accept status user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABCsdsdssdsd
+                restaurant_address: 'ajmer '
+                pincode: '11'
+                confirm_email: jitendrakumar.appic@gmail.com
+                email: jitendrakumar.appic@gmail.comlllllllkklll
+                meal_timming: breakfast
+                contact_number: '99'
+                lattitude: '26.4521'
+                longitude: '74.6387'
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                address_of_welcome_pack: regular malll pink square
+                business_operate: basement
+                typeof_location: interna
+                drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/admin/reject_status_user/63047737f706b53b73fcecbd:
+    post:
+      tags:
+        - Admin/ > user control
+      summary: reject status user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                restaurant_name: ABCsdsdssdsd
+                restaurant_address: 'ajmer '
+                pincode: '11'
+                confirm_email: jitendrakumar.appic@gmail.com
+                email: jitendrakumar.appic@gmail.comlllllllkklll
+                meal_timming: breakfast
+                contact_number: '99'
+                lattitude: '26.4521'
+                longitude: '74.6387'
+                primary_cuisine: hello
+                secoundry_cuisine: hye
+                address_of_welcome_pack: regular malll pink square
+                business_operate: basement
+                typeof_location: interna
+                drivers_availability: jjjjj
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/v1/justeat/adduser:
     post:
       tags:
@@ -953,7 +1054,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /justeat/cart/6305fd6151dd077fd6fa8387:
+  /justeat/cart:
     post:
       tags:
         - usercontrol
@@ -964,17 +1065,15 @@ paths:
             schema:
               type: object
               example:
-                productId: 62fc9970227916def7ef25e1
-                quantity: '5'
-                offer_price: '000'
-                type: user
+                productId: 6305b9e4d6f0c8edc73cd4c4
+                quantity: '1'
       parameters:
         - name: Authorization
           in: header
           schema:
             type: string
           example: >-
-            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkQiLCJpZCI6IjYzMDQ3N2I5ZjcwNmI1M2I3M2ZjZWNjNSIsImlhdCI6MTY2MTQxMTgxNH0.uyG_9fO2S1PfQb3ZM2y8MHArtO7XjcQWnMCwTRVAhYU
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdnNocmlkaGFyM0BnbWFpbC5jb20iLCJpZCI6IjYzMDhiOWM4YzUyZDgxYWE5ZDRjMjIxMiIsImlhdCI6MTY2MTUzMzk2NH0.ZGltCCqPQO8JTfIh9dQTBJTbyuvmCLJ-9lEMLE8tRAQ
       responses:
         '200':
           description: Successful response
@@ -1000,13 +1099,20 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/create_order_guest:
+  /api/v1/justeat/checkout/63086165f0de1f63c2a925a3:
     post:
       tags:
         - usercontrol
-      summary: create_order_guest
+      summary: checkout
       requestBody:
         content: {}
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhamF0QHlvcG1haWwuY29tIiwiaWQiOiI2MzBkOTQ3NWQ5OTg1NmY3ODVlNGYxYTciLCJpYXQiOjE2NjE4NTAyNDZ9.-fJzEIJuzqpHZt7gabTATmAUrrEEviRMkVJcAYLD0kM
       responses:
         '200':
           description: Successful response
@@ -1153,11 +1259,35 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/searchbypin/aj:
-    get:
+  /justeat/search:
+    post:
       tags:
         - usercontrol
       summary: search_restro_main
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                key: o
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/suggestion_main/:
+    post:
+      tags:
+        - usercontrol
+      summary: suggestion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                key: '11'
       responses:
         '200':
           description: Successful response
@@ -1281,8 +1411,8 @@ paths:
   /api/v1/justeat/addfeedback/62f253b1038df3ee7d3ace57:
     post:
       tags:
-        - usercontrol
-      summary: add Feedback
+        - PAYMENTS
+      summary: login merchant
       requestBody:
         content:
           application/json:
@@ -1405,7 +1535,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/deletecard/62ff25f22c36e2f413c5a0d0:
+  /justeat/AddCard:
     delete:
       tags:
         - usercontrol
@@ -1416,7 +1546,7 @@ paths:
           schema:
             type: string
           example: >-
-            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZGhhdkBnbWFpbC5jb20iLCJpZCI6IjYyZmUyMzk0YjUyODYyMjZiYjAwODY5MSIsImlhdCI6MTY2MDg4ODIyM30.mjRglynLBPLpWwPF9RhmFhQedr3qoeAt1t3EnUc6sRQ
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiwsbixnLGosIiwiaWQiOiI2MzAwN2I2MGMzNWJhZGY2MDMyNzEyOGQiLCJpYXQiOjE2NjA5NzkyMjN9.Dt7pUU6-jvb95gxWhQi4ozTXM3-5qbd8vM9x9JBFoyY
       responses:
         '200':
           description: Successful response

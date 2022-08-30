@@ -841,109 +841,109 @@ exports.create_order = (req, res) => {
 };
 
 exports.checkout = (req, res) => {
-  // try {
-  //   var reqdata = req.body;
-  //   var order = randomstring.generate({
-  //     length: 6,
-  //     charset: 'numeric',
-  //   });
-  //   var order_id = 'justeat' + order;
+  try {
+    var reqdata = req.body;
+    var order = randomstring.generate({
+      length: 6,
+      charset: 'numeric',
+    });
+    var order_id = 'justeat' + order;
 
-  //   var transaction_id = randomstring.generate({
-  //     length: 9,
-  //     charset: 'numeric',
-  //   });
-  //   var transaction_status = reqdata.transaction_status;
-  //   // console.log(req.user)
-  //   var id1 = req.user.id;
-  //   var id = req.params.id;
-  //   // console.log(id);
-  //   User_signUp.findOne({ _id: id1 }, (err, userdata) => {
-  //     //    console.log(userdata)
-  //     var first_name = userdata.firstname;
-  //     var last_name = userdata.lastname;
-  //     var customerID = userdata._id;
-  //     var restro_address = userdata.address;
-  //     itemModel.findOne({ _id: id }, (err, cartdata) => {
-  //       console.log(cartdata);
-  //       if (err) throw err;
-  //       if (cartdata) {
-  //         // console.log(cartdata);
-  //         var restro_name = cartdata.restro_name;
+    var transaction_id = randomstring.generate({
+      length: 9,
+      charset: 'numeric',
+    });
+    var transaction_status = reqdata.transaction_status;
+    // console.log(req.user)
+    var id1 = req.user.id;
+    var id = req.params.id;
+    // console.log(id);
+    User_signUp.findOne({ _id: id1 }, (err, userdata) => {
+      //    console.log(userdata)
+      var first_name = userdata.firstname;
+      var last_name = userdata.lastname;
+      var customerID = userdata._id;
+      var restro_address = userdata.address;
+      itemModel.findOne({ _id: id }, (err, cartdata) => {
+        console.log(cartdata);
+        if (err) throw err;
+        if (cartdata) {
+          // console.log(cartdata);
+          var restro_name = cartdata.restro_name;
 
-  //         var vendorID = cartdata.vendorId;
-  //         var payment = reqdata.payment;
-  //         var subtotal = reqdata.subtotal;
-  //         var Product_name = cartdata.Product_name;
-  //         var price = cartdata.price;
+          var vendorID = cartdata.vendorId;
+          var payment = reqdata.payment;
+          var subtotal = reqdata.subtotal;
+          var Product_name = cartdata.Product_name;
+          var price = cartdata.price;
 
-  //         // var errors = req.validationErrors();
-  //         restaurant_model.findOne({ _id: vendorID }, (err, vendordata) => {
-  //           if (vendordata) {
-  //             var mobile = vendordata.mobile;
-  //             var restro_image = vendordata.image;
-  //             console.log(vendordata);
-  //             console.log(mobile);
-  //             let order = new orderModel();
-  //             (transaction_id = transaction_id),
-  //               (order.transaction_status = transaction_status),
-  //               (order.order_id = order_id),
-  //               (order.first_name = first_name),
-  //               (order.last_name = last_name),
-  //               (order.restro_name = restro_name),
-  //               (order.restro_address = restro_address),
-  //               (order.mobile = mobile),
-  //               (order.restro_image = restro_image),
-  //               (order.payment = payment),
-  //               (order.products.name = Product_name);
-  //               (order.products.price = price);
-  //             (order.vendorID = vendorID),
-  //               (order.customerID = customerID),
-  //               (order.subtotal = subtotal),
-  //               (order.products = products);
-  //             var payload = {
-  //               first_name: first_name,
-  //               last_name: last_name,
-  //               restro_name: restro_name,
-  //               restro_address: restro_address,
-  //               restro_image: restro_image,
-  //               mobile: mobile,
-  //               payment: payment,
-  //               subtotal: subtotal,
-  //               order_id: order_id,
-  //               transaction_id: transaction_id,
-  //               transaction_status: transaction_status,
-  //               vendorID: vendorID,
-  //               customerID: customerID,
-  //              name = Product_name,
-  //              price = price,
-  //              orderModel.products.push({ name ,}),
-  //             };
-  //           } else {
-  //             return res.status(400).json({
-  //               success: false,
-  //               message: 'Restaurant not found',
-  //             });
-  //           }
-  //           var NewTicket = new orderModel(payload);
-  //           NewTicket.save(function (err, obj) {
-  //             if (err) throw err;
-  //             return res.status(200).json({
-  //               success: false,
-  //               message: 'order successfully placed',
-  //             });
+          // var errors = req.validationErrors();
+          restaurant_model.findOne({ _id: vendorID }, (err, vendordata) => {
+            if (vendordata) {
+              var mobile = vendordata.mobile;
+              var restro_image = vendordata.image;
+              console.log(vendordata);
+              console.log(mobile);
+              let order = new orderModel();
+              (transaction_id = transaction_id),
+                (order.transaction_status = transaction_status),
+                (order.order_id = order_id),
+                (order.first_name = first_name),
+                (order.last_name = last_name),
+                (order.restro_name = restro_name),
+                (order.restro_address = restro_address),
+                (order.mobile = mobile),
+                (order.restro_image = restro_image),
+                (order.payment = payment),
+                (order.products.name = Product_name);
+                (order.products.price = price);
+              (order.vendorID = vendorID),
+                (order.customerID = customerID),
+                (order.subtotal = subtotal),
+                (order.products = products);
+              var payload = {
+                first_name: first_name,
+                last_name: last_name,
+                restro_name: restro_name,
+                restro_address: restro_address,
+                restro_image: restro_image,
+                mobile: mobile,
+                payment: payment,
+                subtotal: subtotal,
+                order_id: order_id,
+                transaction_id: transaction_id,
+                transaction_status: transaction_status,
+                vendorID: vendorID,
+                customerID: customerID,
+              //  name = Product_name,
+              //  price = price,
+
+              };
+            } else {
+              return res.status(400).json({
+                success: false,
+                message: 'Restaurant not found',
+              });
+            }
+            var NewTicket = new orderModel(payload);
+            NewTicket.save(function (err, obj) {
+              if (err) throw err;
+              return res.status(200).json({
+                success: false,
+                message: 'order successfully placed',
+              });
               
-  //           });
-  //         });
-  //       } 
-  //     });
-  //   });
-  // } catch (err) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: 'Something went wrong',
-  //   });
-  // }
+            });
+          });
+        } 
+      });
+    });
+  } catch (err) {
+    return res.status(400).json({
+      success: false,
+      message: 'Something went wrong',
+    });
+  }
 };
 
 exports.create_order_guest = (req, res) => {
