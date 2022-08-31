@@ -224,20 +224,25 @@ exports.guest_login = async (req, res) => {
 };
 
 exports.Searchby_main = async (req, res) => {
-  console.log(req.params);
+ var key =req.body.key;
+ console.log(key)
+  newkey =new RegExp(key, "i")
   try {
-    if (req.body) {
+
+    if (req.body.key) {
       let data = await restaurant_model
         .find({
           $or: [
-            { pincode: { $regex: req.body.key } },
-            { restaurant_name: { $regex: req.body.key } },
-            { restaurant_address: { $regex: req.body.key } },
-            { city: { $regex: req.body.key } },
-            { primary_cuisine: { $regex: req.body.key } },
-            { secoundry_cuisine: { $regex: req.body.key } },
+            { pincode: { $regex:newkey} },
+            { restaurant_name: { $regex: newkey } },
+            { restaurant_address: { $regex:newkey  } },
+            { city: { $regex: newkey } },
+            { primary_cuisine: { $regex: newkey } },
+            { secoundry_cuisine: { $regex: newkey } },
           ],
         })
+
+      
         .select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1 });
       if (data.length > 0) {
         res.status(200).json({
@@ -900,8 +905,8 @@ exports.checkout = (req, res) => {
               (order.vendorID = vendorID),
                 (order.customerID = customerID),
                 (order.subtotal = subtotal),
-                (order.products = products);
-              var payload = {
+         
+          payload = {
                 first_name: first_name,
                 last_name: last_name,
                 restro_name: restro_name,
@@ -915,9 +920,7 @@ exports.checkout = (req, res) => {
                 transaction_status: transaction_status,
                 vendorID: vendorID,
                 customerID: customerID,
-              //  name = Product_name,
-              //  price = price,
-
+                // Products.push({name})
               };
             } else {
               return res.status(400).json({
@@ -929,7 +932,7 @@ exports.checkout = (req, res) => {
             NewTicket.save(function (err, obj) {
               if (err) throw err;
               return res.status(200).json({
-                success: false,
+                success: true,
                 message: 'order successfully placed',
               });
               

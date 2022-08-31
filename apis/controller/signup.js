@@ -678,8 +678,8 @@ exports.logIn = async (req, res) => {
 
         }
         else {
-                const restaurant_id = req.body.restaurant_id
-                if (check.restaurant_id ==restaurant_id) {
+                // const restaurant_id = req.body.restaurant_id
+                // if (check.restaurant_id ==restaurant_id) {
 
             const payload = {
                 email: req.body.email,
@@ -710,13 +710,13 @@ exports.logIn = async (req, res) => {
 
             })
 
-        }
-        else {
-            res.status(400).json({
-                status: false,
-                message: 'restaurant Id is wrong'
-            })
-        }
+        // }
+        // else {
+        //     res.status(400).json({
+        //         status: false,
+        //         message: 'restaurant Id is wrong'
+        //     })
+        // }
     }
 
     }
