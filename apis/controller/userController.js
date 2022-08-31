@@ -299,7 +299,7 @@ exports.Searchby_main = async (req, res) => {
              { primary_cuisine: { $regex: newkey } },
              { secoundry_cuisine: { $regex: newkey } },
            ],
-         })
+         }).select({restaurant_name :1 ,restaurant_logo:1,restaurant_address:1 })
          
      
          if (data.length > 0) {
