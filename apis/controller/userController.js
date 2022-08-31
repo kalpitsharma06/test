@@ -223,64 +223,108 @@ exports.guest_login = async (req, res) => {
   });
 };
 
-exports.Searchby_main = async (req, res) => {
- var key =req.body.key;
- console.log(key)
-  newkey =new RegExp(key, "i")
-  try {
+// exports.Searchby_main = async (req, res) => {
+//  var key =req.body.key;
+//  console.log(key)
+//   newkey =new RegExp(key, "i")
+//   try {
 
-    if (req.body.key) {
-      let data = await restaurant_model
-        .find({
-          $or: [
-            { pincode: { $regex:newkey} },
-            { restaurant_name: { $regex: newkey } },
-            { restaurant_address: { $regex:newkey  } },
-            { city: { $regex: newkey } },
-            { primary_cuisine: { $regex: newkey } },
-            { secoundry_cuisine: { $regex: newkey } },
-          ],
-        })
+//     if (req.body.key) {
+//       let data = await restaurant_model
+//         .find({
+//           $or: [
+//             { pincode: { $regex:newkey} },
+//             { restaurant_name: { $regex: newkey } },
+//             { restaurant_address: { $regex:newkey  } },
+//             { city: { $regex: newkey } },
+//             { primary_cuisine: { $regex: newkey } },
+//             { secoundry_cuisine: { $regex: newkey } },
+//           ],
+//         })
         
     
-        if (data.length > 0) {
-          if(req.body.primary_cuisine){
-            console.log("it is avialable ")
-        let  output = data.filter(x => x.primary_cuisine == req.body.primary_cuisine  )
-        // .select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1 });
-        console.log("jjjj")
-       if(output.length >0){
+//         if (data.length > 0) {
+//           if(req.body.primary_cuisine){
+//             console.log("it is avialable ")
+//         let  output = data.filter(x => x.primary_cuisine == req.body.primary_cuisine  )
+//         // .select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1 });
+//         console.log("jjjj")
+//        if(output.length >0){
 
+//          res.status(200).json({
+//            status: 'true..',
+//            result: output,
+//           });
+//         }
+//          else{
+//         res.status(200).json({
+//           status: 'true..',
+//           result: data,
+//         });}
+//       } else {
+//         res.status(200).json({
+//           status: true,
+//           message: data,
+//         });
+//       }
+//     } else {
+//       res.status(400).json({
+//         status: false,
+//         message: 'No resrautrants avialable',
+//       });
+//     }
+//   }} catch (error) {
+//     res.status(400).json({
+//       status: false,
+//       message: 'No resrautrants avialable',
+//     });
+//   }
+// };
+
+
+exports.Searchby_main = async (req, res) => {
+  var key =req.body.key;
+  console.log(key)
+   newkey =new RegExp(key, "i")
+   try {
+ 
+     if (req.body.key) {
+       let data = await restaurant_model
+         .find({
+           $or: [
+             { pincode: { $regex:newkey} },
+             { restaurant_name: { $regex: newkey } },
+             { restaurant_address: { $regex:newkey  } },
+             { city: { $regex: newkey } },
+             { primary_cuisine: { $regex: newkey } },
+             { secoundry_cuisine: { $regex: newkey } },
+           ],
+         })
+         
+     
+         if (data.length > 0) {
+          
+      
          res.status(200).json({
-           status: 'true..',
-           result: output,
-          });
-        }
-         else{
-        res.status(200).json({
-          status: 'true..',
-          result: data,
-        });}
-      } else {
-        res.status(200).json({
-          status: true,
-          message: data,
-        });
-      }
-    } else {
-      res.status(400).json({
-        status: false,
-        message: 'No resrautrants avialable',
-      });
-    }
-  }} catch (error) {
-    res.status(400).json({
-      status: false,
-      message: 'No resrautrants avialable',
-    });
-  }
-};
-
+           status: true,
+           message: data,
+         });
+     
+     } else {
+       res.status(400).json({
+         status: false,
+         message: 'No resrautrants avialable',
+       });
+     }
+   } }
+   catch (error) {
+     res.status(400).json({
+       status: false,
+       message: 'No resrautrants avialable',
+     });
+   }
+ }
+ 
 exports.Searchby_mealtimming = async (req, res) => {
   try {
     let data = await restaurant_model
