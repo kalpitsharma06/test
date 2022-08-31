@@ -10,212 +10,96 @@ let comboModel = require('../../apis/model/combo').combo;
 const registerusersModel = require('../model/signup');
 const signup = require('../model/signup');
 
-// exports.create_menu = async (req, res) => {
-//   // var subCategory_id = req.params.id
-//   var restro_id = req.user.id;
-
-//   console.log(restro_id);
-
-//   try {
-//     var reqdata = req.body;
-
-//     var subCategory = reqdata.subcategory;
-//     var reqdata = req.body;
-//     var category = reqdata.category;
-//     var Product_name = reqdata.Product_name;
-//     var Product_description = reqdata.Product_description;
-//     var price = reqdata.price;
-//     var quantity = reqdata.quantity;
-//     var image = req.file.location;
-//     var offer_price = reqdata.offer_price;
-//     var status = 'Active';
-//     registerusersModel.findOne({ _id: restro_id }, (err, restrodate) => {
-//       console.log(restrodate, 'jjjjj');
-//       if (restrodate) {
-//         var restro_name = restrodate.restaurant_name;
-//         var type = restrodate.user_type;
-
-//         let menu = new itemModel();
-//         (menu.category = category),
-//           (menu.status = status),
-//           (menu.subCategory = subCategory),
-//           (menu.Product_name = Product_name),
-//           (menu.Product_description = Product_description),
-//           (menu.price = price),
-//           (menu.quantity = quantity),
-//           (menu.image = image),
-//           (menu.vendorId = restro_id),
-//           (menu.type = type),
-//           (menu.offer_price = offer_price),
-//           (menu.restro_name = restro_name);
-
-//         if (image) {
-//           var payload = {
-//             category: category,
-//             status: status,
-//             vendorId: restro_id,
-//             subCategory: subCategory,
-//             Product_name: Product_name,
-//             Product_description: Product_description,
-//             price: price,
-
-//             quantity: quantity,
-//             image: image,
-//             type: type,
-//             restro_name: restro_name,
-//             offer_price: offer_price,
-//           };
-//         } else {
-//           var payload = {
-//             category: category,
-//             status: status,
-//             vendorId: restro_id,
-//             subCategory: subCategory,
-//             Product_name: Product_name,
-//             Product_description: Product_description,
-//             price: price,
-
-//             quantity: quantity,
-
-//             type: type,
-//             restro_name: restro_name,
-//             offer_price: offer_price,
-//           };
-//         }
-
-//         var NewTicket = new itemModel(payload);
-//         NewTicket.save(function (err, obj) {
-//           if (err) throw err;
-//           return res.status(200).json({
-//             success: true,
-//             message: 'Item created successfully',
-//             payload: payload,
-//           });
-//         });
-//         // console.log(itemdata)
-//       } else {
-//         res.status(400).json({
-//           status: false,
-//           result: err,
-//           message: '  menu creation unsuccessfull ',
-//         });
-//       }
-//     });
-//   } catch (err) {
-//     res.status(400).json({
-//       status: false,
-//       result: err.message,
-//       message: '  menu creation unsuccessfull ',
-//     });
-//   }
-// };
-
-
-
-
-
-// current with subcategory
 exports.create_menu = async (req, res) => {
-  var subCategory_id = req.params.id;
-  // var restro_id = req.user.id
+  // var subCategory_id = req.params.id
+  var restro_id = req.user.id;
+
+  console.log(restro_id);
 
   try {
-    subCategoryModel.findOne({ _id: subCategory_id }, (err, subCategorydata) => {
-      var subCategory_name = subCategorydata.sub_category_name;
+    var reqdata = req.body;
 
-      var category_id = subCategorydata.category;
+    var subCategory = reqdata.subcategory;
+    var reqdata = req.body;
+    var category = reqdata.category;
+    var Product_name = reqdata.Product_name;
+    var Product_description = reqdata.Product_description;
+    var price = reqdata.price;
+    var quantity = reqdata.quantity;
+    var image = req.file.location;
+    var offer_price = reqdata.offer_price;
+    var status = 'Active';
+    registerusersModel.findOne({ _id: restro_id }, (err, restrodate) => {
+      console.log(restrodate, 'jjjjj');
+      if (restrodate) {
+        var restro_name = restrodate.restaurant_name;
+        var type = restrodate.user_type;
 
-      categorymodel.findOne({ _id: category_id }, (err, userdata) => {
-        console.log(userdata);
-        if (err) throw err;
-        var reqdata = req.body;
-        var restro_id = userdata.restaurant_id;
+        let menu = new itemModel();
+        (menu.category = category),
+          (menu.status = status),
+          (menu.subCategory = subCategory),
+          (menu.Product_name = Product_name),
+          (menu.Product_description = Product_description),
+          (menu.price = price),
+          (menu.quantity = quantity),
+          (menu.image = image),
+          (menu.vendorId = restro_id),
+          (menu.type = type),
+          (menu.offer_price = offer_price),
+          (menu.restro_name = restro_name);
 
-        var subCategory = subCategory_name;
-        var reqdata = req.body;
-        var category = req.body.category;
-        var Product_name = reqdata.Product_name;
-        var Product_description = reqdata.Product_description;
-        var price = reqdata.price;
-        var quantity = reqdata.quantity;
-        var image = req.file.location;
-        var offer_price = reqdata.offer_price;
-        var status = 'Active';
-        registerusersModel.findOne({ _id: restro_id }, (err, restrodate) => {
-          console.log(restrodate, 'jjjjj');
-          if (restrodate) {
-            var restro_name = restrodate.restaurant_name;
-            var type = restrodate.user_type;
+        if (image) {
+          var payload = {
+            category: category,
+            status: status,
+            vendorId: restro_id,
+            subCategory: subCategory,
+            Product_name: Product_name,
+            Product_description: Product_description,
+            price: price,
 
-            let menu = new itemModel();
-            (menu.category = category),
-              (menu.status = status),
-              (menu.subCategory = subCategory),
-              (menu.Product_name = Product_name),
-              (menu.Product_description = Product_description),
-              (menu.price = price),
-              (menu.quantity = quantity),
-              (menu.image = image),
-              (menu.vendorId = restro_id),
-              (menu.type = type),
-              (menu.offer_price = offer_price),
-              (menu.restro_name = restro_name);
+            quantity: quantity,
+            image: image,
+            type: type,
+            restro_name: restro_name,
+            offer_price: offer_price,
+          };
+        } else {
+          var payload = {
+            category: category,
+            status: status,
+            vendorId: restro_id,
+            subCategory: subCategory,
+            Product_name: Product_name,
+            Product_description: Product_description,
+            price: price,
 
-            itemModel.findOne({ subCategory: subCategory }, (err, itemdata) => {
-              if (image) {
-                var payload = {
-                  category: category,
-                  status: status,
-                  vendorId: restro_id,
-                  subCategory: subCategory,
-                  Product_name: Product_name,
-                  Product_description: Product_description,
-                  price: price,
+            quantity: quantity,
 
-                  quantity: quantity,
-                  image: image,
-                  type: type,
-                  restro_name: restro_name,
-                  offer_price: offer_price,
-                };
-              } else {
-                var payload = {
-                  category: category,
-                  status: status,
-                  vendorId: restro_id,
-                  subCategory: subCategory,
-                  Product_name: Product_name,
-                  Product_description: Product_description,
-                  price: price,
+            type: type,
+            restro_name: restro_name,
+            offer_price: offer_price,
+          };
+        }
 
-                  quantity: quantity,
-
-                  type: type,
-                  restro_name: restro_name,
-                  offer_price: offer_price,
-                };
-              }
-
-              var NewTicket = new itemModel(payload);
-              NewTicket.save(function (err, obj) {
-                if (err) throw err;
-                return res.status(200).json({
-                  success: true,
-                  message: 'Item created successfully',
-                  payload: payload,
-                });
-              });
-              console.log(itemdata);
-            });
-          } else {
-            res.status(400).json({
-              status: false,
-              result: err,
-              message: '  menu creation unsuccessfull ',
-            });
-          }
+        var NewTicket = new itemModel(payload);
+        NewTicket.save(function (err, obj) {
+          if (err) throw err;
+          return res.status(200).json({
+            success: true,
+            message: 'Item created successfully',
+            payload: payload,
+          });
         });
-      });
+        // console.log(itemdata)
+      } else {
+        res.status(400).json({
+          status: false,
+          result: err,
+          message: '  menu creation unsuccessfull ',
+        });
+      }
     });
   } catch (err) {
     res.status(400).json({
@@ -225,6 +109,122 @@ exports.create_menu = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+// exports.create_menu = async (req, res) => {
+//   var subCategory_id = req.params.id;
+//   var restro_id = req.user.id
+
+//   try {
+//     subCategoryModel.findOne({ _id: subCategory_id }, (err, subCategorydata) => {
+//       var subCategory_name = subCategorydata.sub_category_name;
+
+//       var category_id = subCategorydata.category;
+
+//       categorymodel.findOne({ _id: category_id }, (err, userdata) => {
+//         console.log(userdata);
+//         if (err) throw err;
+//         var reqdata = req.body;
+//         var restro_id = userdata.restaurant_id;
+
+//         var subCategory = subCategory_name;
+//         var reqdata = req.body;
+//         var category = req.body.category;
+//         var Product_name = reqdata.Product_name;
+//         var Product_description = reqdata.Product_description;
+//         var price = reqdata.price;
+//         var quantity = reqdata.quantity;
+//         var image = req.file.location;
+//         var offer_price = reqdata.offer_price;
+//         var status = 'Active';
+//         registerusersModel.findOne({ _id: restro_id }, (err, restrodate) => {
+//           console.log(restrodate, 'jjjjj');
+//           if (restrodate) {
+//             var restro_name = restrodate.restaurant_name;
+//             var type = restrodate.user_type;
+
+//             let menu = new itemModel();
+//             (menu.category = category),
+//               (menu.status = status),
+//               (menu.subCategory = subCategory),
+//               (menu.Product_name = Product_name),
+//               (menu.Product_description = Product_description),
+//               (menu.price = price),
+//               (menu.quantity = quantity),
+//               (menu.image = image),
+//               (menu.vendorId = restro_id),
+//               (menu.type = type),
+//               (menu.offer_price = offer_price),
+//               (menu.restro_name = restro_name);
+
+//             itemModel.findOne({ subCategory: subCategory }, (err, itemdata) => {
+//               if (image) {
+//                 var payload = {
+//                   category: category,
+//                   status: status,
+//                   vendorId: restro_id,
+//                   subCategory: subCategory,
+//                   Product_name: Product_name,
+//                   Product_description: Product_description,
+//                   price: price,
+
+//                   quantity: quantity,
+//                   image: image,
+//                   type: type,
+//                   restro_name: restro_name,
+//                   offer_price: offer_price,
+//                 };
+//               } else {
+//                 var payload = {
+//                   category: category,
+//                   status: status,
+//                   vendorId: restro_id,
+//                   subCategory: subCategory,
+//                   Product_name: Product_name,
+//                   Product_description: Product_description,
+//                   price: price,
+
+//                   quantity: quantity,
+
+//                   type: type,
+//                   restro_name: restro_name,
+//                   offer_price: offer_price,
+//                 };
+//               }
+
+//               var NewTicket = new itemModel(payload);
+//               NewTicket.save(function (err, obj) {
+//                 if (err) throw err;
+//                 return res.status(200).json({
+//                   success: true,
+//                   message: 'Item created successfully',
+//                   payload: payload,
+//                 });
+//               });
+//               console.log(itemdata);
+//             });
+//           } else {
+//             res.status(400).json({
+//               status: false,
+//               result: err,
+//               message: '  menu creation unsuccessfull ',
+//             });
+//           }
+//         });
+//       });
+//     });
+//   } catch (err) {
+//     res.status(400).json({
+//       status: false,
+//       result: err.message,
+//       message: '  menu creation unsuccessfull ',
+//     });
+//   }
+// };
 
 exports.create_combos = async (req, res) => {
   // console.log(req.file.image)

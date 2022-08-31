@@ -241,18 +241,30 @@ exports.Searchby_main = async (req, res) => {
             { secoundry_cuisine: { $regex: newkey } },
           ],
         })
+        
+    
+        if (data.length > 0) {
+          if(req.body.primary_cuisine){
+            console.log("it is avialable ")
+        let  output = data.filter(x => x.primary_cuisine == req.body.primary_cuisine  )
+        // .select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1 });
+        console.log("jjjj")
+       if(output.length >0){
 
-      
-        .select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1 });
-      if (data.length > 0) {
+         res.status(200).json({
+           status: 'true..',
+           result: output,
+          });
+        }
+         else{
         res.status(200).json({
           status: 'true..',
           result: data,
-        });
+        });}
       } else {
-        res.status(400).json({
-          status: false,
-          message: 'No resrautrants available',
+        res.status(200).json({
+          status: true,
+          message: data,
         });
       }
     } else {
@@ -261,7 +273,7 @@ exports.Searchby_main = async (req, res) => {
         message: 'No resrautrants avialable',
       });
     }
-  } catch (error) {
+  }} catch (error) {
     res.status(400).json({
       status: false,
       message: 'No resrautrants avialable',
