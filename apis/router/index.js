@@ -138,25 +138,22 @@ router.post('/addfeedback/:id',authorization_user,addUser.add_feedback)
 router.post('/addrestaurant',signUp.addrestaurant)
 router.post('/restro_additionalinfo',authorization_restro,signUp.restaurant_additionalinfo)
 router.patch('/verification/:id'
-,upload.fields([{
+,upload.fields([
+    {
     name: 'photo_id', maxCount: 1
 }, {
     name: 'proof_of_ownership', maxCount: 1
-}, {
+},
+{
+   name: 'menu', maxCount: 1
+}, ])
+,signUp.ownership_verification) 
+router.put('/bank_details/:id',signUp.menu_bank_details)
+router.put('/updaterestaurant/:id',upload.fields([ {
     name: 'shop_image_front', maxCount: 1
 }, {
-    name: 'foot_hygiene_registration', maxCount: 1
-}, {
-    name: 'permission_to_trade', maxCount: 1
-}, 
-{
-    name: 'menu', maxCount: 1
-}, {
     name: 'restaurant_logo', maxCount: 1
-}])
-,signUp.ownership_verification)
-router.put('/bank_details/:id',signUp.menu_bank_details)
-router.put('/updaterestaurant/:id', signUp.updateResturantDetails)
+}]), signUp.updateResturantDetails)
 router.post('/login_vendor',signUp.logIn)
 router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.post('/forgotpassword', signUp.forgotpassword)
@@ -201,7 +198,7 @@ router.post('/AddCard_stripe',authorization_user,payment.AddCard);
 router.post('/addbank',authorization_user,payment.addBank);
 router.get('/ListCard',authorization_user,payment.ListCard);
 // router.post('/payout',commonservices.apiAuthAuthenticated,payment.payout);
-router.post('/Default_card',payment.Default_card);
+router.post('/Default_card',authorization_user,payment.Default_card);
 router.post('/Login_stripe',authorization_restro,payment.Login_stripe);
 // router.post('/order_payment',commonservices.apiAuthAuthenticated,payment.order_payment);
 

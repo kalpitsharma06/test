@@ -99,7 +99,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /api/v1/justeat/verification/62f34a45b778d9dc4ac77187:
+  /justeat/verification/62f6418c472144a61b116de4:
     patch:
       tags:
         - vendor control
@@ -382,6 +382,34 @@ paths:
                 subcategory:
                   type: string
                   example: MOMOS
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1c3RfMSIsImlkIjoiNjMwNzMyYjNiZGE4ZjBlN2Y2MmU5OGQzIiwiaWF0IjoxNjYxNDE2MTg5fQ.Pg21NG5nZKxSHUy-ZsxRyIjqUQKsV7AaU5ojuxBQHJY
+        - name: ''
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/justeat/search_product:
+    post:
+      tags:
+        - products
+      summary: search_prodcuts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                key: vada
       parameters:
         - name: Authorization
           in: header
@@ -1270,7 +1298,8 @@ paths:
             schema:
               type: object
               example:
-                key: o
+                key: ajmer
+                primary_cuisine: ''
       responses:
         '200':
           description: Successful response

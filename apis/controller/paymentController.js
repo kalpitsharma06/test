@@ -30,6 +30,7 @@ exports.Default_card = async (req, res, next) => {
     console.log(logindata)
     User.find({ _id: ObjectId(logindata.id) }, (err, usedata) => {
       var stripe_id = usedata.stripe_id
+      console.log(stripe_id)
       stripe.updateCustomerCard(stripe_id, card_id)
         .then(function () {
           User.update({
@@ -60,8 +61,7 @@ exports.Default_card = async (req, res, next) => {
         });
     })
  }
-
-  exports.ListCard = async(req, res, next) => {
+exports.ListCard = async(req, res, next) => {
     var logindata = req.user;
     User.find({ email: logindata.email }, (err, userdata) => {
       // var array = userdata.map(function (obj) {

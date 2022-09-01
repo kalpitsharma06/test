@@ -372,15 +372,15 @@ try {
             photo_id: req.files.photo_id[0].location,
             ownership_certificate_name: req.body.certificate_name,
             proof_of_ownership: req.files.proof_of_ownership[0].location,
-            shop_image_front: req.files.shop_image_front[0].location,
-            foot_hygiene_registration: req.files.foot_hygiene_registration[0].location,
-            permission_to_trade: req.files.permission_to_trade[0].location,
+            
+            // foot_hygiene_registration: req.files.foot_hygiene_registration[0].location,
+            // permission_to_trade: req.files.permission_to_trade[0].location,
 
             menu: req.files.menu[0].location,
-            restaurant_logo: req.files.restaurant_logo[0].location,
+           
 
             address_of_welcome_pack: req.body.address_of_welcome_pack,
-        })
+        },{new:true})
 
         // await singupRecords.save();
         res.status(200).json({
@@ -535,7 +535,7 @@ try {
 exports.updateResturantDetails = async (req, res) => {
 
     try {
-        const updateResDetails = await signUp.findByIdAndUpdate(req.params.id, {
+        let sssssss = await signUp.findByIdAndUpdate(req.params.id, {
             restaurant_name: req.body.restaurant_name,
             owner_name: req.body.owner_name,
             restaurant_address: req.body.restaurant_address,
@@ -543,6 +543,8 @@ exports.updateResturantDetails = async (req, res) => {
             email: req.body.email,
             // city:req.body.city,
             //  password: hashedPassword,
+            shop_image_front: req.files.shop_image_front[0].location,
+            restaurant_logo: req.files.restaurant_logo[0].location,
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             primary_cuisine: req.body.primary_cuisine,
@@ -561,10 +563,11 @@ exports.updateResturantDetails = async (req, res) => {
             is_registered: true,
             user_type: 'vendor'
         },{new:true})
+        // console.log(updateResDetails)
         res.status(200).json({
             status: true,
             message: "Successfully Updated Resturent details",
-            'results': updateResDetails
+            'results': sssssss
         })
 
     } catch (error) {
