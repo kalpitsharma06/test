@@ -875,14 +875,14 @@ exports.create_order = (req, res) => {
             }
             var NewTicket = new orderModel(payload);
             NewTicket.save(function (err, obj) {
-              cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
+              // cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
                 if (err) throw err;
                 return res.status(200).json({
                   success: true,
                   message: 'order created successfully',
-                  payload: payload,
+                  result: payload,
                 });
-              });
+              // });
             });
           });
         } else {
