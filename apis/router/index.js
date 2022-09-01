@@ -179,6 +179,7 @@ router.put('/changepassword/:id', signUp.changePassword)
 
 
 router.post('/create_menu/',upload.single("image"),authorization_restro,menu.create_menu);
+router.post('/search_product',authorization_restro,menu.search_product)
 router.post('/create_combo',upload.single("image"),authorization_restro,menu.create_combos);
 router.delete('/delete_comboitem/:id',authorization_restro,menu.delete_combo_item);
 router.delete('/delete_combo/:id',authorization_restro,menu.delete_combo);

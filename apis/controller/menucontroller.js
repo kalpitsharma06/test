@@ -109,6 +109,44 @@ exports.create_menu = async (req, res) => {
     });
   }
 };
+exports.search_product = async (req, res) => {
+  var key =req.body.key;
+  console.log(key)
+   newkey =new RegExp(key, "i")
+   try {
+ 
+     if (req.body.key) {
+       let data = await  itemModel.find({
+           $or: [
+             { Product_name: { $regex:newkey} },
+             { subCategory: { $regex: newkey } },
+             { category: { $regex:newkey  } },
+        
+           ],
+         })
+         
+         
+     
+         if (data.length > 0) {
+      res.status(200).json({
+           status: true,
+           message: data,
+         });
+   
+     } else {
+       res.status(400).json({
+         status: false,
+         message: 'No Products avialable',
+       });
+     }
+   }} catch (error) {
+     res.status(400).json({
+       status: false,
+       message: 'No resrautrants avialable',
+     });
+   }
+ };
+ 
 
 
 
