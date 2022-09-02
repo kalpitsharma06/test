@@ -253,13 +253,13 @@ exports.Searchby_main = async (req, res) => {
 
          res.status(200).json({
            status: 'true..',
-           result: output,
+           message: output,
           });
         }
          else{
         res.status(200).json({
           status: 'true..',
-          result: data,
+          message: data,
         });}
       } else {
         res.status(200).json({
