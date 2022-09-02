@@ -148,8 +148,8 @@ router.patch('/verification/:id'
    name: 'menu', maxCount: 1
 }, ])
 ,signUp.ownership_verification) 
-router.put('/bank_details/:id',signUp.menu_bank_details)
-router.put('/updaterestaurant/:id',upload.fields([ {
+router.patch('/bank_details/:id',signUp.menu_bank_details)
+router.patch('/updaterestaurant/:id',upload.fields([ {
     name: 'shop_image_front', maxCount: 1
 }, {
     name: 'restaurant_logo', maxCount: 1
@@ -172,9 +172,6 @@ router.put('/changepassword/:id', signUp.changePassword)
 
 
 // Products
-
-
-
 router.post('/create_menu/',upload.single("image"),authorization_restro,menu.create_menu);
 router.post('/search_product',authorization_restro,menu.search_product)
 router.post('/create_combo',upload.single("image"),authorization_restro,menu.create_combos);
@@ -201,11 +198,6 @@ router.get('/ListCard',authorization_user,payment.ListCard);
 router.post('/Default_card',authorization_user,payment.Default_card);
 router.post('/Login_stripe',authorization_restro,payment.Login_stripe);
 // router.post('/order_payment',commonservices.apiAuthAuthenticated,payment.order_payment);
-
-
-
-
-
 
 
 module.exports = router
