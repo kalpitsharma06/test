@@ -11,15 +11,16 @@ exports.order_payment = async(req, res)=>{
       email: req.body.stripeEmail,
       source: req.body.stripeToken,  
       name: 'Madhav shridhar ',
-      // address: {
-      //     line1: 'TC 9/4 Old MES colony',
-      //     postal_code: '452331',
-      //     city: 'Indore',
-      //     state: 'Madhya Pradesh', 
-      //     country: 'India',
-      // }
+      address: {
+          line1: 'TC 9/4 Old MES colony',
+          postal_code: '452331',
+    
+          city: 'Indore',
+          state: 'Madhya Pradesh', 
+          country: 'UsA',
+      }
   })
-  .then((customer) => {
+  .then((customer) => { 
 
     
       return stripe.charges.create({
@@ -30,10 +31,18 @@ exports.order_payment = async(req, res)=>{
     });
   })
   .then((charge) => {
-      res.send(charge)  // If no error occurs
+    res.status(200).json({
+      status: true,
+      message: 'payment successfull',
+      results: charge,
+    });// If no error occurs
   })
   .catch((err) => {
-      res.send(err)       // If some error occurs
+    res.status(400).json({
+      status: False,
+      error: err,
+
+    });      // If some error occurs
   });
 }
 
