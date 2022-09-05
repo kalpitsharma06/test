@@ -224,56 +224,54 @@ exports.guest_login = async (req, res) => {
 };
 
 exports.Searchby_main = async (req, res) => {
- var key =req.body.key;
- console.log(key)
-  newkey =new RegExp(key, "i")
+  var key = req.body.key;
+  console.log(key);
+  newkey = new RegExp(key, 'i');
   try {
-
     if (req.body.key) {
       let data = await restaurant_model
         .find({
           $or: [
-            { pincode: { $regex:newkey} },
+            { pincode: { $regex: newkey } },
             { restaurant_name: { $regex: newkey } },
-            { restaurant_address: { $regex:newkey  } },
+            { restaurant_address: { $regex: newkey } },
             { city: { $regex: newkey } },
             { primary_cuisine: { $regex: newkey } },
             { secoundry_cuisine: { $regex: newkey } },
           ],
-        }).select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1,primary_cuisine:1 })  
-        
-        
-    
-        if (data.length > 0) {
-          if(req.body.primary_cuisine){
-            console.log("it is avialable ")
-        let  output = data.filter(x => x.primary_cuisine == req.body.primary_cuisine)
-        // console.log("jjjj")
-       if(output.length >0){
+        })
+        .select({ restaurant_name: 1, restaurant_address: 1, restaurant_logo: 1, primary_cuisine: 1 });
 
-         res.status(200).json({
-           status: 'true..',
-           message: output,
+      if (data.length > 0) {
+        if (req.body.primary_cuisine) {
+          console.log('it is avialable ');
+          let output = data.filter((x) => x.primary_cuisine == req.body.primary_cuisine);
+          // console.log("jjjj")
+          if (output.length > 0) {
+            res.status(200).json({
+              status: 'true..',
+              message: output,
+            });
+          } else {
+            res.status(200).json({
+              status: 'true..',
+              message: data,
+            });
+          }
+        } else {
+          res.status(200).json({
+            status: true,
+            message: data,
           });
         }
-         else{
-        res.status(200).json({
-          status: 'true..',
-          message: data,
-        });}
       } else {
-        res.status(200).json({
-          status: true,
-          message: data,
+        res.status(400).json({
+          status: false,
+          message: 'No resrautrants avialable',
         });
       }
-    } else {
-      res.status(400).json({
-        status: false,
-        message: 'No resrautrants avialable',
-      });
     }
-  }} catch (error) {
+  } catch (error) {
     res.status(400).json({
       status: false,
       message: 'No resrautrants avialable',
@@ -281,13 +279,12 @@ exports.Searchby_main = async (req, res) => {
   }
 };
 
-
 // exports.Searchby_main = async (req, res) => {
 //   var key =req.body.key;
 //   console.log(key)
 //    newkey =new RegExp(key, "i")
 //    try {
- 
+
 //      if (req.body.key) {
 //        let data = await restaurant_model
 //          .find({
@@ -300,16 +297,14 @@ exports.Searchby_main = async (req, res) => {
 //              { secoundry_cuisine: { $regex: newkey } },
 //            ],
 //          }).select({restaurant_name :1 ,restaurant_logo:1,restaurant_address:1 })
-         
-     
+
 //          if (data.length > 0) {
-          
-      
+
 //          res.status(200).json({
 //            status: true,
 //            message: data,
 //          });
-     
+
 //      } else {
 //        res.status(400).json({
 //          status: false,
@@ -324,7 +319,7 @@ exports.Searchby_main = async (req, res) => {
 //      });
 //    }
 //  }
- 
+
 exports.Searchby_mealtimming = async (req, res) => {
   try {
     let data = await restaurant_model
@@ -366,7 +361,7 @@ exports.suggestion_main = async (req, res) => {
             { secoundry_cuisine: { $regex: req.body.key } },
           ],
         })
-        .select({ restaurant_name: 1,restaurant_address: 1 });
+        .select({ restaurant_name: 1, restaurant_address: 1 });
       if (data.length > 0) {
         res.status(200).json({
           status: 'true..',
@@ -444,7 +439,7 @@ exports.cart = async (req, res) => {
     // console.log(productId);
 
     itemModel.findOne({ _id: ObjectId(productId) }, async (err, productdata) => {
-      // console.log(productdata);
+
       quantity = req.body.quantity;
       price = productdata.price;
       name = productdata.Product_name;
@@ -692,10 +687,7 @@ exports.cart = async (req, res) => {
 
 exports.cart_list = async (req, res) => {
   var id = req.user.id;
-  cartModel.find({ userId: ObjectId(id) }, (err, cartdata) => {
-    let productId = cartdata.map((p) => p.products);
-    let quantity = cartdata.map((a) => a.quantity);
-    let pro = cartdata.map((p) => p.products);
+
     //     let newArray = lodash.flatten(pro);
     //  console.log("pro", pro)
     //      console.log("qwe", quantity)
@@ -703,21 +695,51 @@ exports.cart_list = async (req, res) => {
     // var vendorId = result.toString()
     // console.log(vendorId)
     // itemModel.findOne({ vendorId: vendorId }, (err, itemdata) => {
-    if (cartdata.length == 0) {
+      var Grand_total = 0
+      cartModel.findOne({ userId: ObjectId(id) }, (err, cartdata) => {
+    if (cartdata == null) {
       return res.status(200).json({
         status: 401,
         message: 'No item available in your cart',
       });
     } else {
+     if(cartdata.products.length <= 0 )
+
+     {
+      cartModel.deleteOne({userId: ObjectId(id)},(err,deleted)=>{
+        console.log(deleted)
+        if (err) throw err;
+        else{
+        return res.status(200).json({
+          status: 200,
+          message: 'No item available in your cart',
+          data:deleted
+        });
+      }
+      })
+    
+     }else{
+      console.log(cartdata.products.length)
+    cartdata.products.map((p) => {
+      console.log(p.subtotal);
+      return (Grand_total = Grand_total + p.subtotal);
+    });
+  
+    cartModel.findOneAndUpdate({userId: ObjectId(id)}, { $set: {Grand_total:Grand_total}},{new:true},(err,data)=>{
       return res.status(200).json({
-        status: 200,
-        data: cartdata[0],
-        message: 'cart listing loaded',
+        status: 401,
+        message: 'cart list loaded',
+        data:data
       });
+      
+      
+      
+    },{new:true})} 
+  
     }
-    // })
-  });
-};
+  })
+}
+  
 exports.clear_cart = async (req, res) => {
   try {
     const id = req.params.id;
@@ -876,12 +898,12 @@ exports.create_order = (req, res) => {
             var NewTicket = new orderModel(payload);
             NewTicket.save(function (err, obj) {
               // cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
-                if (err) throw err;
-                return res.status(200).json({
-                  success: true,
-                  message: 'order created successfully',
-                  result: payload,
-                });
+              if (err) throw err;
+              return res.status(200).json({
+                success: true,
+                message: 'order created successfully',
+                result: payload,
+              });
               // });
             });
           });
@@ -957,27 +979,26 @@ exports.checkout = (req, res) => {
                 (order.restro_image = restro_image),
                 (order.payment = payment),
                 (order.products.name = Product_name);
-                (order.products.price = price);
+              order.products.price = price;
               (order.vendorID = vendorID),
                 (order.customerID = customerID),
                 (order.subtotal = subtotal),
-         
-          payload = {
-                first_name: first_name,
-                last_name: last_name,
-                restro_name: restro_name,
-                restro_address: restro_address,
-                restro_image: restro_image,
-                mobile: mobile,
-                payment: payment,
-                subtotal: subtotal,
-                order_id: order_id,
-                transaction_id: transaction_id,
-                transaction_status: transaction_status,
-                vendorID: vendorID,
-                customerID: customerID,
-                // Products.push({name})
-              };
+                (payload = {
+                  first_name: first_name,
+                  last_name: last_name,
+                  restro_name: restro_name,
+                  restro_address: restro_address,
+                  restro_image: restro_image,
+                  mobile: mobile,
+                  payment: payment,
+                  subtotal: subtotal,
+                  order_id: order_id,
+                  transaction_id: transaction_id,
+                  transaction_status: transaction_status,
+                  vendorID: vendorID,
+                  customerID: customerID,
+                  // Products.push({name})
+                });
             } else {
               return res.status(400).json({
                 success: false,
@@ -991,10 +1012,9 @@ exports.checkout = (req, res) => {
                 success: true,
                 message: 'order successfully placed',
               });
-              
             });
           });
-        } 
+        }
       });
     });
   } catch (err) {
@@ -1068,8 +1088,7 @@ exports.create_order_guest = (req, res) => {
           (order.postcode = postcode),
           (order.restro_image = restro_image),
           (order.payment = payment),
-       
-        (order.vendorID = vendorID),
+          (order.vendorID = vendorID),
           //     order.customerID = customerID,
           (order.subtotal = subtotal),
           (order.products = products);

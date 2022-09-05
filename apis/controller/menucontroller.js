@@ -9,7 +9,7 @@ let itemModel = require('../../apis/model/item').item;
 let comboModel = require('../../apis/model/combo').combo;
 const registerusersModel = require('../model/signup');
 const signup = require('../model/signup');
-
+const cartModel = require('../model/cart').cart;
 exports.create_menu = async (req, res) => {
   // var subCategory_id = req.params.id
   var restro_id = req.user.id;
@@ -110,48 +110,38 @@ exports.create_menu = async (req, res) => {
   }
 };
 exports.search_product = async (req, res) => {
-  var key =req.body.key;
-  console.log(key)
-   newkey =new RegExp(key, "i")
-   try {
- 
-     if (req.body.key) {
-       let data = await  itemModel.find({
-           $or: [
-             { Product_name: { $regex:newkey} },
-             { subCategory: { $regex: newkey } },
-             { category: { $regex:newkey  } },
-        
-           ],
-         })
-         
-         
-     
-         if (data.length > 0) {
-      res.status(200).json({
-           status: true,
-           message: data,
-         });
-   
-     } else {
-       res.status(400).json({
-         status: false,
-         message: 'No Products avialable',
-       });
-     }
-   }} catch (error) {
-     res.status(400).json({
-       status: false,
-       message: 'No resrautrants avialable',
-     });
-   }
- };
- 
+  var key = req.body.key;
+  console.log(key);
+  newkey = new RegExp(key, 'i');
+  try {
+    if (req.body.key) {
+      let data = await itemModel.find({
+        $or: [
+          { Product_name: { $regex: newkey } },
+          { subCategory: { $regex: newkey } },
+          { category: { $regex: newkey } },
+        ],
+      });
 
-
-
-
-
+      if (data.length > 0) {
+        res.status(200).json({
+          status: true,
+          message: data,
+        });
+      } else {
+        res.status(400).json({
+          status: false,
+          message: 'No Products avialable',
+        });
+      }
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: false,
+      message: 'No resrautrants avialable',
+    });
+  }
+};
 
 // exports.create_menu = async (req, res) => {
 //   var subCategory_id = req.params.id;
@@ -459,39 +449,39 @@ exports.edit_product = async (req, res) => {
       err: err.message,
     });
   }
-},
-  (exports.get_productsdetails = async (req, res) => {
-    // var reqdata = req.body;
-    var _id = req.params.id;
-    // var userId = req.user.id;
-    // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
-    //     if (favourite_data == null) {
-    //         if (vendor_id == '') {
-    //             itemModel.find({}, (err, userdata) => {
-    //                 return res.status(200).json({
-    //                     success: true,
-    //                     data: userdata,
-    //                     message: "Menu listing loaded",
-    //                 });
-    //             })
-    //         }} else {
-    itemModel.findOne({ _id }, (err, userdata) => {
-      if (err) {
-        res.status(400).json({
-          msg: 'no product exist',
-          status: false,
-          err: err.message,
-        });
-      } else {
-        console.log(userdata);
-        return res.status(200).json({
-          success: true,
-          data: userdata,
-          message: ' menu details loaded',
-        });
-      }
-    });
+};
+exports.get_productsdetails = async (req, res) => {
+  // var reqdata = req.body;
+  var _id = req.params.id;
+  // var userId = req.user.id;
+  // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
+  //     if (favourite_data == null) {
+  //         if (vendor_id == '') {
+  //             itemModel.find({}, (err, userdata) => {
+  //                 return res.status(200).json({
+  //                     success: true,
+  //                     data: userdata,
+  //                     message: "Menu listing loaded",
+  //                 });
+  //             })
+  //         }} else {
+  itemModel.findOne({ _id }, (err, userdata) => {
+    if (err) {
+      res.status(400).json({
+        msg: 'no product exist',
+        status: false,
+        err: err.message,
+      });
+    } else {
+      console.log(userdata);
+      return res.status(200).json({
+        success: true,
+        data: userdata,
+        message: ' menu details loaded',
+      });
+    }
   });
+};
 
 exports.get_productsbysubcategory = async (req, res) => {
   var vendorId = req.params.id;
@@ -525,68 +515,83 @@ exports.get_productsbysubcategory = async (req, res) => {
   });
 };
 
-(exports.delete_product = async (req, res) => {
+exports.delete_product = async (req, res) => {
   const product_id = req.params.id;
 
   itemModel.findByIdAndDelete({ _id: product_id }, (err, data) => {
-    console.log(data);
-    if (data == null) {
-      return res.status(200).json({
-        status: 200,
-        message: 'No items to delete',
+    if (data) {
+      const vendorid =  data.vendorId;
+      //  cartModel.find(vendorid)
+      
+
+      cartModel.updateOne({vendorId:vendorid}, { $pull: { products: { productId: product_id } } }, (err, cart_data) => {
+        console.log(cart_data)
+        if (cart_data) {
+          return res.status(200).json({
+            success: true,
+            data: cart_data,
+            message: 'product deleted from menu & cart',
+          });
+        } else {
+          return res.status(200).json({
+            success: true,
+            data: data,
+            message: 'product deleted from menu ',
+          });
+        }
       });
     } else {
-      return res.status(200).json({
-        status: 200,
-        message: 'item deleted successfully',
+      return res.status(400).json({
+        status: 400,
+        message: 'No items to delete',
       });
     }
   });
-}),
-  (exports.category_listing = async (req, res) => {
-    var reqdata = req.body;
+};
+exports.category_listing = async (req, res) => {
+  var reqdata = req.body;
 
-    categorymodel.find({}, (err, userdata) => {
-      return res.status(200).json({
-        success: true,
-        data: userdata,
-        message: 'Category listing loaded',
-      });
-    });
-  }),
-  (exports.getall_products = async (req, res) => {
-    // var reqdata = req.body;
-    var vendor_id = req.params.id;
-    // var userId = req.user.id;
-    // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
-    //     if (favourite_data == null) {
-    //         if (vendor_id == '') {
-    //             itemModel.find({}, (err, userdata) => {
-    //                 return res.status(200).json({
-    //                     success: true,
-    //                     data: userdata,
-    //                     message: "Menu listing loaded",
-    //                 });
-    //             })
-    //         }} else {
-    itemModel.find({ vendorId: vendor_id }, (err, userdata) => {
-      console.log(userdata);
-      if (err) {
-        res.status(400).json({
-          msg: 'no product exist',
-          status: false,
-          err: err.message,
-        });
-      } else {
-        console.log(userdata);
-        return res.status(200).json({
-          success: true,
-          result: userdata,
-          message: ' menu details loaded',
-        });
-      }
+  categorymodel.find({}, (err, userdata) => {
+    return res.status(200).json({
+      success: true,
+      data: userdata,
+      message: 'Category listing loaded',
     });
   });
+};
+exports.getall_products = async (req, res) => {
+  // var reqdata = req.body;
+  var vendor_id = req.params.id;
+  // var userId = req.user.id;
+  // // favouriteModel.findOne({ userId: userId }, (err, favourite_data) => {
+  //     if (favourite_data == null) {
+  //         if (vendor_id == '') {
+  //             itemModel.find({}, (err, userdata) => {
+  //                 return res.status(200).json({
+  //                     success: true,
+  //                     data: userdata,
+  //                     message: "Menu listing loaded",
+  //                 });
+  //             })
+  //         }} else {
+  itemModel.find({ vendorId: vendor_id }, (err, userdata) => {
+    console.log(userdata);
+    if (err) {
+      res.status(400).json({
+        msg: 'no product exist',
+        status: false,
+        err: err.message,
+      });
+    } else {
+      console.log(userdata);
+      return res.status(200).json({
+        success: true,
+        result: userdata,
+        message: ' menu details loaded',
+      });
+    }
+  });
+};
 
 // exports.create_menu = async (req, res) => {
 
