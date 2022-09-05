@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon  app"
   },
-  "author": "Yogendra Naruka",
+  "author": "Madhav shridhar",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1191.0",
