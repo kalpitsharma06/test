@@ -592,7 +592,7 @@ exports.updateCart = async (req, res) => {
  
       cartModel.findOneAndUpdate({userId: ObjectId(id)}, { $set: {  address: req.body.address,
         city: req.body.city,
-        postcode: req.body.postcode}},{new:true},(err,data)=>{
+        postcode: req.body.postcode,name: req.body.name}},{new:true},(err,data)=>{
           if (err) throw err;
         return res.status(200).json({
           status: 200,

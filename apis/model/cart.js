@@ -14,9 +14,13 @@ let cart = new Schema({
     city:{
       type:String
     },
+
     address:{
       type:String},
-    vendorId:{
+   name:{
+     type:String
+   },
+      vendorId:{
       type: Schema.Types.ObjectId,
       ref: 'registerusers',
     },

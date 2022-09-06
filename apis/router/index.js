@@ -199,7 +199,7 @@ router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
 // // router.post('/payout',commonservices.apiAuthAuthenticated,payment.payout);
 // router.post('/Default_card',authorization_user,payment.Default_card);
 // router.post('/Login_stripe',authorization_restro,payment.Login_stripe);
-router.post('/payment',payment.order_payment);
+router.post('/payment',authorization_user,payment.order_payment);
 
 
 module.exports = router

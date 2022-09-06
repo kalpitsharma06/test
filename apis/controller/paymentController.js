@@ -25,8 +25,11 @@ const stripe = require('stripe')(Secret_Key)
 
 exports.order_payment = async(req, res)=>{
 
-
+let id = req.user.id
    orderModel.findOne({ userId: ObjectId(id) }, async(err, orderdata) => {
+    console.log(orderdata)
+
+   });
 
  
   // Moreover you can take more details from user
@@ -49,12 +52,11 @@ exports.order_payment = async(req, res)=>{
     
       return stripe.charges.create({
         amount: 2500,     // Charging Rs 25
-        description: 'Food order',
+        description: 'Food',
         currency: 'USD',
         customer: customer.id
-    });
+    })
 
-  })
   .then((charge) => {
     res.status(200).json({
       status: true,
@@ -70,6 +72,7 @@ exports.order_payment = async(req, res)=>{
     
   });      // If some error occurs
 });
+
 }
 
 
