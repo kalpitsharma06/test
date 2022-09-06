@@ -9,10 +9,18 @@ let cart = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'registerusers',
     },
+    postcode:{
+      type:Number},
+    city:{
+      type:String
+    },
+    address:{
+      type:String},
     vendorId:{
       type: Schema.Types.ObjectId,
       ref: 'registerusers',
     },
+  
   
     restro_address:{
       type:String
@@ -20,6 +28,7 @@ let cart = new Schema({
     Grand_total:{
       type:Number
     },
+    
     products: [
         {
           restro_name:{

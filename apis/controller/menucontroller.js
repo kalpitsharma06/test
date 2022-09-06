@@ -352,7 +352,7 @@ exports.getall_combo = async (req, res) => {
       });
     } else {
       res.status(200).json({
-        msg: 'delete  combo successfully',
+        msg: 'combo successfully',
         status: true,
         Data: data,
       });

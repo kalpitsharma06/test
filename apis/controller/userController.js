@@ -423,6 +423,7 @@ exports.logout = (req, res) => {
 
 exports.cart = async (req, res) => {
   try {
+    console.log(req.user)
     const { productId } = req.body;
     let quantity;
     var userId = req.user.id;
@@ -437,6 +438,8 @@ exports.cart = async (req, res) => {
 
     let Grand_total;
     // console.log(productId);
+    let usersdata = await User_signUp.findOne({userId}).populate()
+    console.log(usersdata.address_book.address_title)
 
     itemModel.findOne({ _id: ObjectId(productId) }, async (err, productdata) => {
 
@@ -582,6 +585,38 @@ exports.cart = async (req, res) => {
     res.status(500).send('Something went wrong');
   }
 };
+exports.updateCart = async (req, res) => {
+  const id = req.user.id;
+  console.log(id);
+  try {
+ 
+      cartModel.findOneAndUpdate({userId: ObjectId(id)}, { $set: {  address: req.body.address,
+        city: req.body.city,
+        postcode: req.body.postcode}},{new:true},(err,data)=>{
+          if (err) throw err;
+        return res.status(200).json({
+          status: 200,
+          message: 'Successfully updated  Address',
+          data:data
+        });
+        
+        
+        
+      },{new:true}) 
+    
+  }catch(err){
+    return res.status(400).json({
+      status: 400,
+      message: 'something went wrong',
+      err :err
+    });
+     
+    
+  }
+
+}
+ 
+
 
 // new
 // exports.cart = async (req, res) => {
@@ -828,7 +863,7 @@ exports.create_order = (req, res) => {
       length: 9,
       charset: 'numeric',
     });
-    var transaction_status = reqdata.transaction_status;
+    var transaction_status = "pending";
     // console.log(req.user)
     var id1 = req.user.id;
     var id = req.params.id;
@@ -1331,10 +1366,13 @@ exports.add_addressbook = async function (req, res, next) {
   var address_title = req.body.address_title;
   var mobile = req.body.mobile;
   var id = req.user.id;
+  var first_name = req.body.first_name;
+  var last_name =req.body.last_name;
+  console.log(req.body.first_name)
   try {
     User_signUp.findOne({ _id: id }, async (err, userdata) => {
       if (userdata) {
-        await userdata.address_book.push({ address, city, postcode, address_title, mobile });
+        await userdata.address_book.push({ address, city, postcode, address_title, mobile,first_name,last_name});
         userdata.save();
         res.status(200).json({
           status: true,

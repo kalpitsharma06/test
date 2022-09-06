@@ -104,6 +104,8 @@ router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 
 router.get('/nearbyRestro',addUser.nearbyRestro)
 router.post('/cart',authorization_user,addUser.cart);
+router.patch('/updatecart',authorization_user,addUser.updateCart)
+
 router.post('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 router.get('/orderlisting',authorization_user,addUser.order_listing);
