@@ -20,11 +20,13 @@ exports.create_menu = async (req, res) => {
     var reqdata = req.body;
 
     var subCategory = reqdata.subcategory;
-    var reqdata = req.body;
+    var subCategory_id = reqdata.subcategory_id;
+ 
     var category = reqdata.category;
     var Product_name = reqdata.Product_name;
     var Product_description = reqdata.Product_description;
     var price = reqdata.price;
+    var category_id =reqdata.category_id;
     var quantity = reqdata.quantity;
     var image = req.file.location;
     var offer_price = reqdata.offer_price;
@@ -38,6 +40,8 @@ exports.create_menu = async (req, res) => {
         let menu = new itemModel();
         (menu.category = category),
           (menu.status = status),
+          (category_id =category_id),
+         (subCategory_id=subCategory_id),
           (menu.subCategory = subCategory),
           (menu.Product_name = Product_name),
           (menu.Product_description = Product_description),
@@ -58,6 +62,9 @@ exports.create_menu = async (req, res) => {
             Product_name: Product_name,
             Product_description: Product_description,
             price: price,
+            category_id:category_id,
+            subCategory_id:subCategory_id,
+
 
             quantity: quantity,
             image: image,
