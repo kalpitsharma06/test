@@ -130,12 +130,12 @@ exports.subCategory = async function (req, res, next) {
   if (check !== null) {
     res.status(400).json({
       status: false,
-      message: 'Category already exist',
+      message: 'subcategory already exist',
     });
   } else {
     const categoryRecords = new sub_Category({
       sub_category_name: req.body.sub_category_name,
-      image: req.file.filename,
+     
       category: req.body.category,
     });
 
@@ -146,37 +146,7 @@ exports.subCategory = async function (req, res, next) {
       results: categoryRecords,
     });
   }
-  try {
-    // console.log(req.file)
-    // const { category_name, category_id } = req.body
-
-    if (req.file) {
-      var sub_CategoryRecords = new sub_Category({
-        sub_category_name: req.body.sub_category_name,
-        image: req.file.location,
-        category: req.body.category,
-        status: 'Active',
-      });
-    } else {
-      var sub_CategoryRecords = new sub_Category({
-        sub_category_name: req.body.sub_category_name,
-        category: req.body.category,
-        status: 'Active',
-      });
-    }
-
-    await sub_CategoryRecords.save();
-    res.status(200).json({
-      status: true,
-      message: 'Successfully added sub category',
-      results: sub_CategoryRecords,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: false,
-      message: err.message,
-    });
-  }
+  
 };
 
 //get sub category
