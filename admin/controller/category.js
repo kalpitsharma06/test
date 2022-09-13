@@ -135,7 +135,7 @@ exports.subCategory = async function (req, res, next) {
   } else {
     const categoryRecords = new sub_Category({
       sub_category_name: req.body.sub_category_name,
-     
+      category_name:req.body.category_name,
       category: req.body.category,
     });
 

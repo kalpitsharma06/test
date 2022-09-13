@@ -73,7 +73,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.get_users = async (req, res) => {
     try {
-        const result = await signUp.find()
+        const result = await User_signUp.find()
         res.status(200).json({
             status: true,
             message: "Successfully Fetched all users",
