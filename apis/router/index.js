@@ -91,7 +91,7 @@ const multerArray = [{
 router.post('/adduser',addUser.addUser)
 router.patch('/updateuser/:id',authorization_user,addUser.updateUser)
 router.get('/get_usersbyid',authorization_user,addUser.get_usersbyid)
-router.delete('/deleteuser/:id',authorization_user, addUser.deleteUser)
+router.delete('/deleteuser/:id', addUser.deleteUser)
 router.post('/login_user',addUser.logIn)
 router.post('/guest_login',addUser.guest_login)
 router.get('/cart',authorization_user,addUser.cart)
