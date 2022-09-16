@@ -190,16 +190,9 @@ router.patch('/edit_product/:id',upload.single("image"),menu.edit_product);
 
 
 
-// payment\
-// router.post('/AddCard_stripe',authorization_user,payment.AddCard);
-// // router.post('/webhook',commonservices.apiAuthAuthenticated,payment.webhook);
-// //  router.get('/earning',commonservices.apiAuthAuthenticated,payment.earning);
-// router.post('/addbank',authorization_user,payment.addBank);
-// router.get('/ListCard',authorization_user,payment.ListCard);
-// // router.post('/payout',commonservices.apiAuthAuthenticated,payment.payout);
-// router.post('/Default_card',authorization_user,payment.Default_card);
-// router.post('/Login_stripe',authorization_restro,payment.Login_stripe);
+router.post('/payPaypal',authorization_user,payment.payPaypal)
 router.post('/payment',authorization_user,payment.order_payment);
+// router.post('/success',payment.success);
 
 
 module.exports = router

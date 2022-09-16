@@ -22,6 +22,15 @@ const reportsModel = require('../../apis/model/report').reports;
 var Secret_Key = 'sk_test_51LLAvFJ9nnMhlV7kVExDWv4r7aPrPKnGH7ArfRWJqUJuXtKxn7XmdkpMBSJWwTmEl29MyV0iS8ZuogM79HTnc8bV00Z75cWlY1'
  
 const stripe = require('stripe')(Secret_Key)
+const paypal = require("paypal-rest-sdk")
+
+
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AXsrJL5QxLJr_p9hZDEs-yftJQQyzvU66v0P90IA8yvVkhmgIb3_LD147SiKrO7SPpsSVS1TiJDy5atX',
+  'client_secret': 'EKGNbqJ-2BfGiBs4pxISBgTaqEWAGHBoP23xfze_aT6AXJyJm8g4W36i4jLZ-Aydj1gcsOtA6Zo5aqO3'
+});
+
 
 exports.order_payment = async(req, res)=>{
 
@@ -74,6 +83,64 @@ let id = req.user.id
 });
 
 }
+
+
+
+
+exports.payPaypal = async function (req, res, next) {
+  const {return_url, cancel_url , name , price , sku ,quantity ,currency ,description } = req.body;
+  const create_payment_json = {
+      "intent": "sale",
+      "payer": {
+          "payment_method": "paypal"
+      },
+      "redirect_urls": {
+          "return_url": return_url,
+          "cancel_url":cancel_url
+      },
+      "transactions": [{
+          "item_list": {
+              "items": [{
+                  "name": name,
+                  "sku": sku,
+                  "price": price,
+                  "currency": currency,
+                  "quantity": quantity
+              }]
+          },
+          "amount": {
+              "currency": currency,
+              "total": price
+          },
+          "description":description
+      }]
+  };
+  
+  paypal.payment.create(create_payment_json, function (error, payment) {
+    if (error) {
+      res.status(200).json({
+        status: false,
+        message: 'payment failed',
+        results: error,
+      });
+        throw error;
+    } else {
+      res.status(200).json({
+        status: true,
+        message: 'payment successfull',
+        results: payment,
+      });
+      // console.log(payment)
+      //   for(let i = 0;i < payment.links.length;i++){
+      //     if(payment.links[i].rel === 'approval_url'){
+      //       res.redirect(payment.links[i].href);
+      //     }
+      //   }
+    }
+  });
+};
+
+
 
 
 
