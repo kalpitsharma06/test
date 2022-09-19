@@ -808,48 +808,48 @@ exports.clear_cart = async (req, res) => {
     });
   }
 };
-exports.nearbyRestro = async (req, res) => {
-  var reqdata = req.body;
-  var lat = reqdata.lat;
-  var long = reqdata.long;
-  console.log(Number(lat));
-  var userId = [];
-  restaurant_model.aggregate(
-    [
-      {
-        $geoNear: {
-          near: {
-            type: 'Point',
-            coordinates: [Number(long), Number(lat)],
-          },
-          maxDistance: 3002186.9,
-          spherical: true,
+  exports.nearbyRestro = async (req, res) => {
+    var reqdata = req.body;
+    var lat = reqdata.lat;
+    var long = reqdata.long;
+    console.log(Number(lat));
+    var userId = [];
+    restaurant_model.aggregate(
+      [
+        {
+          $geoNear: {
+            near: {
+              type: 'Point',
+              coordinates: [Number(long), Number(lat)],
+            },
+            maxDistance: 3002186.9,
+            spherical: true,
 
-          distanceField: 'restroDistance',
+            distanceField: 'restroDistance',
+          },
         },
-      },
-      { $limit: 5 },
-    ],
-    function (err, nearbyRestro) {
-      console.log(err);
-      if (nearbyRestro) {
-        return res.status(200).json({
-          success: true,
-          status: 200,
-          message: 'Nearby restaurant ',
-          data: nearbyRestro,
-        });
-      } else {
-        return res.status(200).json({
-          success: false,
-          status: 401,
-          message: 'No nearby restaurant',
-          err: err.message,
-        });
+        { $limit: 5 },
+      ],
+      function (err, nearbyRestro) {
+        console.log(err);
+        if (nearbyRestro) {
+          return res.status(200).json({
+            success: true,
+            status: 200,
+            message: 'Nearby restaurant ',
+            data: nearbyRestro,
+          });
+        } else {
+          return res.status(200).json({
+            success: false,
+            status: 401,
+            message: 'No nearby restaurant',
+            err: err.message,
+          });
+        }
       }
-    }
-  );
-};
+    );
+  };
 exports.create_order = (req, res) => {
   try {
     var reqdata = req.body;
@@ -932,14 +932,14 @@ exports.create_order = (req, res) => {
             }
             var NewTicket = new orderModel(payload);
             NewTicket.save(function (err, obj) {
-              // cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
+              cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
               if (err) throw err;
               return res.status(200).json({
                 success: true,
                 message: 'order created successfully',
                 result: payload,
               });
-              // });
+              });
             });
           });
         } else {
