@@ -48,7 +48,8 @@ let cart = new Schema({
           price: {type:Number},
           offer_price :{type: Number},
           type:{type:String},
-          subtotal:{type:Number}
+          subtotal:{type:Number},
+          image:{type:String}
         }
       ],
       active: {

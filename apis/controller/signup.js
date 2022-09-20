@@ -58,22 +58,7 @@ exports.addrestaurant = async function (req, res, next) {
 
       primary_cuisine: req.body.primary_cuisine,
       secoundry_cuisine: req.body.secoundry_cuisine,
-      // photo_id: req.files.photo_id[0].filename,
-      // proof_of_ownership: req.files.proof_of_ownership[0].filename,
-      // shop_image_front: req.files.shop_image_front[0].filename,
-      // foot_hygiene_registration: req.files.foot_hygiene_registration[0].filename,
-      // permission_to_trade: req.files.permission_to_trade[0].filename,
 
-      // menu: req.files.menu[0].filename,
-      // restaurant_logo: req.files.restaurant_logo[0].filename,
-      // bank_details: req.body.bank_details,
-      // address_of_welcome_pack: req.body.address_of_welcome_pack,
-      // account_holder_type: req.body.account_holder_type,
-      // account_holder_name: req.body.account_holder_name,
-      // routing_number: req.body.routing_number,
-      // account_number: req.body.account_number,
-      // bank_name: req.body.bank_name,
-      // bank_id: req.body.bank_id,
       business_operate: req.body.business_operate,
       typeof_location: req.body.typeof_location,
       drivers_availability: req.body.drivers_availability,
@@ -551,7 +536,7 @@ exports.forgotpassword = (req, res, next) => {
       const recipient = email;
       const subject = 'Verify your email to reset your password';
       const body_text =
-        'Click on the link to reset password\n' + 'https://test.xntproject.com/api/v1/justeat/changepassword' + userid;
+        'Click on the link to reset password\n' + 'https://test.xntproject.com/user/change-password' + userid;
 
       var params = {
         Source: sender,

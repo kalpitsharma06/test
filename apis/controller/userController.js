@@ -21,6 +21,16 @@ let orderModel = require('../../apis/model/order').order;
 const reportsModel = require('../../apis/model/report').reports;
 const stripe = require('../../functions/stripe');
 
+const aws = require('aws-sdk');
+// const cluster = require("cluster");
+
+aws.config.update({
+  secretAccessKey: 'xaQwB/3+WOWf5ofmuhacNU95r8aYqzct6YUUu+iD',
+  accessKeyId: 'AKIARCFXHG3UECAKFKMM',
+  region: 'us-east-1',
+});
+var ses = new aws.SES();
+
 //USER SING UP
 exports.addUser = async function (req, res, next) {
   var address = req.body.address;
@@ -120,15 +130,66 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+exports.forgotpassword = (req, res, next) => {
+  var email = req.body.email;
+  User_signUp.findOne({ email: email }, (err, userdata) => {
+    if (userdata == null) {
+      return res.status(200).json({
+        status: 201,
+        message: 'This email is not registered',
+      });
+    } else {
+      var userid = userdata._id;
+      const sender = '<noreply@xntproject.com>';
+      const recipient = email;
+      const subject = 'Verify your email to reset your password';
+      const body_text =
+        'Click  The Below link to reset the password  \n' + 'https://test.xntproject.com/user/change-password' + userid;
+
+      var params = {
+        Source: sender,
+        Destination: {
+          ToAddresses: [recipient],
+        },
+        Message: {
+          Subject: {
+            Data: subject,
+          },
+          Body: {
+            Text: {
+              Data: body_text,
+            },
+          },
+        },
+      };
+
+      //Try to send the email.
+      ses.sendEmail(params, function (err, data) {
+        if (err) {
+          console.log(err.message);
+        } else {
+          return res.status(200).json({
+            status: 200,
+            message: 'Verification has been sent to your registered email',
+            messageId: data.MessageId,
+          });
+        }
+      });
+    }
+  });
+};
+
+
+
 // update the password
 exports.changePassword = async (req, res) => {
   try {
-    const databasePassword = await signUp.findById(req.params.id);
+    const databasePassword = await User_signUp.findById(req.params.id);
     const validPassword = await bcrypt.compare(req.body.currPassword, databasePassword.password);
 
     if (validPassword) {
       const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
-      const results = await signUp.findByIdAndUpdate(req.params.id, { password: hashedPassword });
+      const results = await User_signUp.findByIdAndUpdate(req.params.id, { password: hashedPassword });
       res.status(200).json({
         status: true,
         message: 'Successfully Updated Password',
@@ -437,6 +498,7 @@ exports.cart = async (req, res) => {
     let restro_address;
     let restro_name;
     let price;
+    let image;
     let Product_name;
     let offer_price;
 
@@ -455,7 +517,7 @@ exports.cart = async (req, res) => {
       offer_price = productdata.offer_price;
       subtotal = price * quantity;
       Grand_total = subtotal;
-
+image=productdata.image;
       console.log(productdata.restro_name);
 
       let cart = await cartModel.findOne({ userId });
@@ -524,6 +586,7 @@ exports.cart = async (req, res) => {
               productItem.price = price;
               productItem.restro_name = restro_name;
 
+              productItem.image=image
               subtotal = price * newQuantity;
               productItem.offer_price = offer_price;
 
@@ -546,7 +609,7 @@ exports.cart = async (req, res) => {
               // console.log(quantity)
               cart.Grand_total = Grand_total;
 
-              cart.products.push({ productId, quantity, name, price, offer_price, subtotal, restro_name });
+              cart.products.push({ productId, quantity, name, price, offer_price, subtotal, restro_name,image });
             }
 
             cart = cart.save();
@@ -563,7 +626,7 @@ exports.cart = async (req, res) => {
 
               Grand_total,
 
-              products: [{ productId, quantity, name, price, offer_price, subtotal, restro_address, restro_name }],
+              products: [{ productId,image,image, quantity, name, price, offer_price, subtotal, restro_address, restro_name }],
             });
           } else {
             newCart = cartModel.create({
