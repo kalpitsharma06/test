@@ -44,7 +44,11 @@ exports.addUser = async function (req, res, next) {
   try {
     const check = await User_signUp.findOne({ email: req.body.email });
     if (check !== null) {
-      res.status(400).json('Email Already Registered !');
+      res.status(400).json({
+        status: false,
+        message: 'Email already exist',
+     
+      });
     } else {
       await singupRecords.save();
       res.status(200).json({

@@ -83,13 +83,13 @@ exports.addrestaurant = async function (req, res, next) {
       loc: payload,
     });
 
-    // const check = await signUp.findOne({ email: req.body.email });
-    // if (check !== null) {
-    //   res.status(400).json({
-    //     status: false,
-    //     message: ' restaurant already exist with this email !',
-    //   });
-    // } else {
+    const check = await signUp.findOne({ email: req.body.email });
+    if (check !== null) {
+      res.status(400).json({
+        status: false,
+        message: ' restaurant already exist with this email !',
+      });
+    } else {
       await singupRecords.save();
       //             singupRecords.save(function (err, new_data) {
       //                 if (err) return next(err);
@@ -108,7 +108,7 @@ exports.addrestaurant = async function (req, res, next) {
         message: 'Successfully Signed up',
         results: singupRecords,
       });
-    // }
+    }
   } catch (err) {
     res.status(400).json({
       status: false,
