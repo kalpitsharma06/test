@@ -43,6 +43,10 @@ exports.addUser = async function (req, res, next) {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
+    address :req.body.address,
+    city:req.body.city,
+    postcode:req.body.postcode,
+
 
     password: hashedPassword,
     status: true,
@@ -144,6 +148,7 @@ exports.forgotpassword = (req, res, next) => {
       const recipient = email;
       const subject = 'Verify your email to reset your password';
       const body_text =
+
         'Click  The Below link to reset the password  \n' + 'https://test.xntproject.com/user/change-password' + userid;
 
       var params = {
@@ -184,11 +189,13 @@ exports.forgotpassword = (req, res, next) => {
 // update the password
 exports.changePassword = async (req, res) => {
   try {
-    const databasePassword = await User_signUp.findById(req.params.id);
-    const validPassword = await bcrypt.compare(req.body.currPassword, databasePassword.password);
-
+    const databasePassword = await User_signUp.findOne({id:req.params.id});
+    console.log(databasePassword.password)
+    // const hashedPassword = await bcrypt.hash(req.body.new_Password, 10)
+    const validPassword =  bcrypt.compare(req.body.current_Password, databasePassword.password);
+ console.log(validPassword ,"validPassword")
     if (validPassword) {
-      const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+      const hashedPassword = await bcrypt.hash(req.body.new_Password, 10);
       const results = await User_signUp.findByIdAndUpdate(req.params.id, { password: hashedPassword });
       res.status(200).json({
         status: true,
