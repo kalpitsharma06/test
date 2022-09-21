@@ -188,15 +188,16 @@ exports.forgotpassword = (req, res, next) => {
 
 // update the password
 exports.changePassword = async (req, res) => {
+  var id = ObjectId(req.params.id)
   try {
-    const databasePassword = await User_signUp.findOne({id:req.params.id});
-    console.log(databasePassword.password)
+    const databasePassword = await User_signUp.findOne({_id:id});
+  
     // const hashedPassword = await bcrypt.hash(req.body.new_Password, 10)
-    const validPassword =  bcrypt.compare(req.body.current_Password, databasePassword.password);
+    const validPassword = await bcrypt.compare(req.body.current_Password, databasePassword.password);
  console.log(validPassword ,"validPassword")
     if (validPassword) {
       const hashedPassword = await bcrypt.hash(req.body.new_Password, 10);
-      const results = await User_signUp.findByIdAndUpdate(req.params.id, { password: hashedPassword });
+      const results = await User_signUp.findByIdAndUpdate({_id:id}, { password: hashedPassword });
       res.status(200).json({
         status: true,
         message: 'Successfully Updated Password',
@@ -209,7 +210,11 @@ exports.changePassword = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(400).json({
+      status: false,
+      message: 'Password update failed',
+      error: error,
+    });
   }
 };
 // Login
