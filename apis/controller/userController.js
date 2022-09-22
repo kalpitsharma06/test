@@ -46,6 +46,7 @@ exports.addUser = async function (req, res, next) {
     address :req.body.address,
     city:req.body.city,
     postcode:req.body.postcode,
+    phone :req.body.phone,
 
 
     password: hashedPassword,
@@ -91,6 +92,7 @@ exports.updateUser = async (req, res) => {
         city: req.body.city,
         postcode: req.body.postcode,
         mobile: req.body.mobile,
+        phone :req.body.phone,
       },
       { new: true }
     );
@@ -1270,11 +1272,12 @@ exports.order_listing = (req, res) => {
         success: true,
         data: userorder,
         status: 200,
-        message: 'Active order',
+        message: status+" "+'order list',
       });
     }
   });
 }
+
 }
 exports.report = (req, res, next) => {
   var reqdata = req.body;
