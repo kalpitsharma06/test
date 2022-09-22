@@ -660,7 +660,9 @@ exports.searnea = async (req, res) => {
 
 exports.vendor_order_listing = async (req, res) => {
   var id = req.user.id;
-  orderModel.find({ vendorID: id }, (err, order_data) => {
+  var status = req.body.status
+
+  orderModel.find({$and:[{vendorID: id },{order_status :status}]}, (err, order_data) => {
     var order = order_data.reverse();
 
     if (order_data.length == 0) {
@@ -674,7 +676,7 @@ exports.vendor_order_listing = async (req, res) => {
         success: true,
         data: order,
         status: 200,
-        message: 'order listing successfully',
+        message: status+" "+'order list',
       });
     }
   });
