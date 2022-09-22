@@ -149,7 +149,7 @@ exports.forgotpassword = (req, res, next) => {
       const subject = 'Verify your email to reset your password';
       const body_text =
 
-        'Click  The Below link to reset the password  \n' + 'https://test.xntproject.com/user/userchangepassword' + userid;
+        'Click  The Below link to reset the password  \n' + 'https://test.xntproject.com/user/userchangepassword/' + userid;
 
       var params = {
         Source: sender,
