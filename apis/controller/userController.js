@@ -154,7 +154,7 @@ exports.forgotpassword = (req, res, next) => {
       var params = {
         Source: sender,
         Destination: {
-          ToAddresses: [recipient],
+          ToAddresses: [recipient], 
         },
         Message: {
           Subject: {
@@ -1011,14 +1011,14 @@ exports.create_order = (req, res) => {
             }
             var NewTicket = new orderModel(payload);
             NewTicket.save(function (err, obj) {
-              cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
+              // cartModel.deleteOne({ _id: ObjectId(id) }, (err, cartdata) => {
               if (err) throw err;
               return res.status(200).json({
                 success: true,
                 message: 'order created successfully',
                 result: payload,
               });
-              });
+              // });
             });
           });
         } else {
@@ -1250,14 +1250,18 @@ exports.create_order_guest = (req, res) => {
   });
 };
 exports.order_listing = (req, res) => {
+  var status = req.body.status
   var id = req.user.id;
-  orderModel.find({ customerID: id }, (err, order_data) => {
-    var userorderr = order_data.reverse();
-    var userorder = order_data;
 
-    if (order_data.length == 0) {
-      return res.status(200).json({
-        success: true,
+  if(status=="Active"){
+
+    orderModel.find({$and:[{customerID: id },{order_status :status}]}, (err, order_data) => {
+      var userorderr = order_data.reverse();
+      var userorder = order_data;
+      
+      if (order_data.length == 0) {
+        return res.status(200).json({
+          success: true,
         status: 201,
         message: 'You have no orders',
       });
@@ -1266,10 +1270,11 @@ exports.order_listing = (req, res) => {
         success: true,
         data: userorder,
         status: 200,
-        message: 'order listing successfully',
+        message: 'Active order',
       });
     }
   });
+}
 };
 exports.report = (req, res, next) => {
   var reqdata = req.body;

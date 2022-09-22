@@ -13,6 +13,7 @@ let order = new mongoose.Schema({
     order_id:{
         type:String
     },
+    order_status:{type:String, default: 'Active' },
     transaction_id:{
         type:String
     },
