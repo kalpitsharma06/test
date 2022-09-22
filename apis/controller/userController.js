@@ -1275,7 +1275,7 @@ exports.order_listing = (req, res) => {
     }
   });
 }
-};
+}
 exports.report = (req, res, next) => {
   var reqdata = req.body;
   const { user } = req;
