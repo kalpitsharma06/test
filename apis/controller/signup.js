@@ -52,6 +52,7 @@ exports.addrestaurant = async function (req, res, next) {
       contact_number: req.body.contact_number,
       email: req.body.email,
       meal_timming: req.body.meal_timming,
+      
 
       // city:req.body.city,
       //  password: hashedPassword,

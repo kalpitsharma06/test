@@ -43,7 +43,7 @@ const signup = new mongoose.Schema({
      permission_to_trade:{type:String, default :"null" },
     menu_status:Boolean,
     menu:{type:String,  default :"null"},
-    restaurant_logo:{type:String,  default :"null"},
+    restaurant_logo:{type:String,  default :"https://xntproject.s3.amazonaws.com/just-eat/1663562550224-45.jpg"},
    
     address_of_welcome_pack:String,
    bank_status:Boolean,
