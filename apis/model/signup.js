@@ -14,7 +14,7 @@ const signup = new mongoose.Schema({
       },
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
     restaurant_id:String,
-    restaurant_name: String,
+    restaurant_name: {type:String,  default :"unverified Restaurant"},
     owner_name: String,
     owner_email:String,
     owner_address:String,
@@ -43,7 +43,7 @@ const signup = new mongoose.Schema({
      permission_to_trade:{type:String, default :"null" },
     menu_status:Boolean,
     menu:{type:String,  default :"null"},
-    restaurant_logo:{type:String,  default :"https://xntproject.s3.amazonaws.com/just-eat/1663562550224-45.jpg"},
+    restaurant_logo:{type:String,  default :"https://xntproject.s3.amazonaws.com/just-eat/1663572413101-images%20%281%29.png"},
    
     address_of_welcome_pack:String,
    bank_status:Boolean,
