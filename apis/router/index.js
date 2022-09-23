@@ -110,6 +110,7 @@ router.patch('/updatecart',authorization_user,addUser.updateCart)
 router.post('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 router.post('/orderlisting',authorization_user,addUser.order_listing);
+router.post('/orderlisting',authorization_user,addUser.order_listing);
 router.get('/getorder_byid/:id',addUser.getorder_byid);
 
 router.post('/create_order/:id',authorization_user,addUser.create_order);
@@ -164,7 +165,7 @@ router.delete('/deleteretaurant/:id', signUp.deleteRetaurant)
 router.post('/forgotpassword', signUp.forgotpassword)
 router.get('/logout',signUp.logout)
 router.get('/vendor_completed_order',authorization_restro,signUp. vendor_completed_order)
-router.get('/vendor_cancelled_order',authorization_restro,signUp. vendor_cancelled_order)
+router.post('/order_status/:id',signUp.order_status)
 router.post('/vendor_order_listing',authorization_restro,signUp.vendor_order_listing)
 router.get('/vendor_report_bydate',authorization_restro,signUp. vendor_report_bydate)
 router.get('/vendor_report_bymonth',authorization_restro,signUp. vendor_report_bymonth)
