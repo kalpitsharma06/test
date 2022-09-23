@@ -994,3 +994,34 @@ exports.firebase_token = async (req, res) => {
     });
   });
 };
+
+exports.Reject_status_restro = async (req, res) =>{
+          
+  try {
+      signUp.findByIdAndUpdate(
+      req.params.id,
+      {status: false},
+      {new:true},
+      (err,data)=>{
+          if(err){
+              res.status(400).json(error.message)
+          }else{
+              console.log(data)
+              res.status(200).json({
+                  status: true,
+                  message: "Successfully Updated Resturent status ",
+                  'results': data
+              })
+          }
+      })
+   
+
+  } catch (error) {
+      res.status(400).json(error.message)
+  }
+  
+
+}
+
+
+

@@ -110,6 +110,8 @@ router.patch('/updatecart',authorization_user,addUser.updateCart)
 router.post('/cart_list',authorization_user,addUser.cart_list);
 router.get('/cart_clear/:id',authorization_user,addUser.clear_cart);
 router.post('/orderlisting',authorization_user,addUser.order_listing);
+router.get('/getorder_byid/:id',addUser.getorder_byid);
+
 router.post('/create_order/:id',authorization_user,addUser.create_order);
 router.post('/checkout/:id',authorization_user,addUser.checkout);
 router.post('/create_order_guest',authorization_user,addUser.create_order_guest);

@@ -801,6 +801,36 @@ exports.updateCart = async (req, res) => {
 //   }
 // };
 
+exports.getorder_byid = async (req, res) => {
+  let id = req.params.id;
+  // payload.userId = req.params.id;
+
+  orderModel.findById(
+    { _id: id },
+    (err, orderdetails) => {
+
+
+      if (orderdetails) {
+        res.status(200).json({
+          status: 'true',
+          result: orderdetails,
+          message:"order details "
+
+        });
+      } else {
+        res.status(400).json({
+          status: 'false',
+          message: 'No records',
+          err :err
+        });
+      }
+    },
+    {
+      // imageData:userimage,
+    }
+  );
+};
+
 exports.cart_list = async (req, res) => {
   var id = req.user.id;
 
@@ -988,7 +1018,8 @@ exports.create_order = (req, res) => {
               (order.vendorID = vendorID),
                 (order.customerID = customerID),
                 (order.subtotal = subtotal),
-                (order.products = products);
+                (order.products = products),
+                (order.order_status= "Active"); 
               var payload = {
                 first_name: first_name,
                 last_name: last_name,
@@ -1038,6 +1069,10 @@ exports.create_order = (req, res) => {
     });
   }
 };
+
+
+
+
 
 exports.checkout = (req, res) => {
   try {
