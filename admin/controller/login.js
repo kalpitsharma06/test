@@ -32,6 +32,10 @@ exports.admindetails = async function (req, res, next) {
 
 // update the password
 exports.change_Password = async (req, res) => {
+
+    
+
+  
     try {
         const databasePassword = await signUp.findById(req.user.id)
         const hashedPassword = await bcrypt.hash(req.body.new_Password, 10)
@@ -57,6 +61,7 @@ exports.change_Password = async (req, res) => {
     }
 
 }
+
 
 // Login
 exports.logIn = async (req, res) => {

@@ -191,6 +191,7 @@ exports.forgotpassword = (req, res, next) => {
 // update the password
 exports.changePassword = async (req, res) => {
   var id = ObjectId(req.params.id)
+  if(req.body.current_Password){
   try {
     const databasePassword = await User_signUp.findOne({_id:id});
   
@@ -218,6 +219,32 @@ exports.changePassword = async (req, res) => {
       error: error,
     });
   }
+
+}else{
+  if(req.body.new_Password ==req.body.confirm_password){
+    const hashedPassword = await bcrypt.hash(req.body.new_Password, 10);
+      const results = await User_signUp.findByIdAndUpdate({_id:id}, { password: hashedPassword });
+      if(results){
+      res.status(200).json({
+        status: true,
+        message: 'Successfully revived Password',
+        results: results,
+      });}
+      else {
+        res.status(400).json({
+          status: false,
+          message: 'Something went  wrong',
+        });
+      }
+  } else {
+    res.status(400).json({
+      status: false,
+      message: 'Password does not match',
+    });
+  }
+
+}
+
 };
 // Login
 exports.logIn = async (req, res) => {
@@ -1498,7 +1525,7 @@ exports.add_addressbook = async function (req, res, next) {
         userdata.save();
         res.status(200).json({
           status: true,
-          message: 'Successfully Signed up',
+          message: 'Successfully  added address',
           results: userdata,
         });
       }
