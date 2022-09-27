@@ -154,6 +154,7 @@ router.patch('/verification/:id'
    name: 'menu', maxCount: 1
 }, ])
 ,signUp.ownership_verification) 
+router.patch('/owner_address/:id',signUp.owners_deliveryaddress) 
 router.patch('/bank_details/:id',signUp.menu_bank_details)
 router.patch('/updaterestaurant/:id',upload.fields([ {
     name: 'shop_image_front', maxCount: 1

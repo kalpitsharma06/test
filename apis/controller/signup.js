@@ -52,7 +52,6 @@ exports.addrestaurant = async function (req, res, next) {
       contact_number: req.body.contact_number,
       email: req.body.email,
       meal_timming: req.body.meal_timming,
-      
 
       // city:req.body.city,
       //  password: hashedPassword,
@@ -327,6 +326,37 @@ exports.ownership_verification = async function (req, res, next) {
         menu: req.files.menu[0].location,
 
         address_of_welcome_pack: req.body.address_of_welcome_pack,
+      },
+      { new: true }
+    );
+
+    // await singupRecords.save();
+    res.status(200).json({
+      status: true,
+      message: 'Successfully Updated ownership record',
+      results: updateResDetails,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: false,
+      result: err.message,
+      message: 'Please submit all the  required documents',
+    });
+  }
+  // cluster.worker.kill()
+};
+exports.owners_deliveryaddress = async function (req, res, next) {
+  try {
+    const updateResDetails = await signUp.findByIdAndUpdate(
+      req.params.id,
+      {
+        owner_name: req.body.owner_name,
+
+        owner_address: req.body.owner_address,
+        owner_pincode: req.body.owner_pincode,
+
+        // foot_hygiene_registration: req.files.foot_hygiene_registration[0].location,
+        // permission_to_trade: req.files.permission_to_trade[0].location,
       },
       { new: true }
     );
@@ -661,9 +691,9 @@ exports.searnea = async (req, res) => {
 
 exports.vendor_order_listing = async (req, res) => {
   var id = req.user.id;
-  var status = req.body.status
+  var status = req.body.status;
 
-  orderModel.find({$and:[{vendorID: id },{order_status :status}]}, (err, order_data) => {
+  orderModel.find({ $and: [{ vendorID: id }, { order_status: status }] }, (err, order_data) => {
     var order = order_data.reverse();
 
     if (order_data.length == 0) {
@@ -677,60 +707,46 @@ exports.vendor_order_listing = async (req, res) => {
         success: true,
         data: order,
         status: 200,
-        message: status+" "+'order list',
+        message: status + ' ' + 'order list',
       });
     }
   });
 };
-exports.order_status = async (req, res) =>{
-  var status = req.body.status
+exports.order_status = async (req, res) => {
+  var status = req.body.status;
 
-          
   try {
-
-    if(status == "Active"){
-    orderModel.findByIdAndUpdate(
-      req.params.id,
-      {order_status: "Active"},
-      {new:true},
-      (err,data)=>{
-          if(err){
-              res.status(400).json(error.message)
-          }else{
-              console.log(data)
-              res.status(200).json({
-                  status: true,
-                  message: "Successfully Updated order status to Completed",
-                  'results': data
-              })
-          }
-      })
-    }else{
-      orderModel.findByIdAndUpdate(
-        req.params.id,
-        {order_status: "completed"},
-        {new:true},
-        (err,data)=>{
-            if(err){
-                res.status(400).json(error.message)
-            }else{
-                console.log(data)
-                res.status(200).json({
-                    status: true,
-                    message: "Successfully Updated order status to Active",
-                    'results': data
-                })
-            }
-        })
-
+    if (status == 'Active') {
+      orderModel.findByIdAndUpdate(req.params.id, { order_status: 'Active' }, { new: true }, (err, data) => {
+        if (err) {
+          res.status(400).json(error.message);
+        } else {
+          console.log(data);
+          res.status(200).json({
+            status: true,
+            message: 'Successfully Updated order status to Completed',
+            results: data,
+          });
+        }
+      });
+    } else {
+      orderModel.findByIdAndUpdate(req.params.id, { order_status: 'completed' }, { new: true }, (err, data) => {
+        if (err) {
+          res.status(400).json(error.message);
+        } else {
+          console.log(data);
+          res.status(200).json({
+            status: true,
+            message: 'Successfully Updated order status to Active',
+            results: data,
+          });
+        }
+      });
     }
-
   } catch (error) {
-      res.status(400).json(error.message)
+    res.status(400).json(error.message);
   }
-  
-
-}
+};
 
 exports.vendor_report_bydate = async (req, res) => {
   var id = req.user.id;
@@ -1045,7 +1061,3 @@ exports.firebase_token = async (req, res) => {
     });
   });
 };
-
-
-
-
