@@ -29,6 +29,7 @@ const signup = new mongoose.Schema({
     contact_number: Number,
     email: String,
     password: String,
+    country:String,
    
     primary_cuisine: String,
     secoundry_cuisine: String,

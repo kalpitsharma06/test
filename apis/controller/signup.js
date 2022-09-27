@@ -516,6 +516,7 @@ exports.updateResturantDetails = async (req, res) => {
         secoundry_cuisine: req.body.secoundry_cuisine,
         pincode: req.body.pincode,
 
+        country:req.body.country,
         meal_timming: req.body.meal_timming,
         // routing_number: req.body.routing_number,
         // account_number: req.body.account_number,
