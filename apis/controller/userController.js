@@ -1338,6 +1338,27 @@ exports.order_listing = (req, res) => {
       });
     }
   });
+}else {
+  orderModel.find({$and:[{customerID: id },{order_status :"completed"}]}, (err, order_data) => {
+    var userorderr = order_data.reverse();
+    var userorder = order_data;
+    
+    if (order_data.length == 0) {
+      return res.status(200).json({
+        success: true,
+      status: 201,
+      message: 'You have no orders',
+    });
+  } else {
+    return res.status(200).json({
+      success: true,
+      data: userorder,
+      status: 200,
+      message:  "completed order list",
+    });
+  }
+});
+
 }
 
 }
