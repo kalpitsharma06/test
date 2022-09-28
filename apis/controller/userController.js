@@ -321,13 +321,14 @@ exports.guest_login = async (req, res) => {
       res.cookie('access_token', token, {
         httpOnly: true,
       });
+      res.status(200).json({
+        status: true,
+        data: new_data,
+        token :token,
+        message: ' Guest loggedin',
+      });
     }
-    res.status(200).json({
-      status: true,
-      data: new_data,
-      message: ' Guest loggedin',
-      token :token
-    });
+  
   });
 };
 
