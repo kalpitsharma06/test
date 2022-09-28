@@ -57,7 +57,10 @@ exports.addrestaurant = async function (req, res, next) {
       //  password: hashedPassword,
 
       primary_cuisine: req.body.primary_cuisine,
+      primary_cuisine_id:req.body.primary_cuisine_id,
       secoundry_cuisine: req.body.secoundry_cuisine,
+      secoundry_cuisine_id:req.body.secoundry_cuisine_id,
+
 
       business_operate: req.body.business_operate,
       typeof_location: req.body.typeof_location,

@@ -55,6 +55,7 @@ exports.addUser = async function (req, res, next) {
     type: 'user',
 
     address_book: { address, city, postcode, address_title, mobile },
+    
   });
   try {
     const check = await User_signUp.findOne({ email: req.body.email });
