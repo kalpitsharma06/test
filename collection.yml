@@ -17,7 +17,7 @@ tags:
   - name: usercontrol
   - name: PAYMENTS
 paths:
-  /api/v1justeat/addrestaurant/:
+  /api/v1/justeat/addrestaurant/:
     post:
       tags:
         - vendor control
