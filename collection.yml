@@ -3,7 +3,7 @@ info:
   title: YamYam /
   version: 1.0.0
 servers:
-  - url: https://test.xntproject.com
+  - url: https://yamyam.com
   - url: http://localhost:8700
 tags:
   - name: vendor control
