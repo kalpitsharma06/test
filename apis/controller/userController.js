@@ -22,6 +22,7 @@ const reportsModel = require('../../apis/model/report').reports;
 const stripe = require('../../functions/stripe');
 
 const aws = require('aws-sdk');
+const { CloudWatchLogs } = require('aws-sdk');
 // const cluster = require("cluster");
 
 aws.config.update({
@@ -42,6 +43,7 @@ exports.addUser = async function (req, res, next) {
   const singupRecords = new User_signUp({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
+
     email: req.body.email,
     address :req.body.address,
     city:req.body.city,
@@ -57,6 +59,7 @@ exports.addUser = async function (req, res, next) {
     address_book: { address, city, postcode, address_title, mobile },
 
   });
+  console.log(firstname,"--------")
   try {
     const check = await User_signUp.findOne({ email: req.body.email });
     if (check !== null) {
@@ -433,9 +436,10 @@ exports.Searchby_mealtimming = async (req, res) => {
   try {
     let data = await restaurant_model
       .find({
-        $or: [{ meal_timming: { $regex: req.params.key } }],
+        $or: [{ meal_timming: { $regex: req.params.id } }],
       })
       .select({ restaurant_name: 1, restaurant_address: 1 });
+      console.log(req.params.id,"------key")
     if (data.length > 0) {
       res.status(200).json({
         status: 'true..',

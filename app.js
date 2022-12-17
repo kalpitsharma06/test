@@ -63,7 +63,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJSDocs));
 
 
 
-app.listen(port,()=>{
+app.listen(port, ()=>{
     console.log(`Server is listining on port : ${port}`)
 })
 

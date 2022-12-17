@@ -100,7 +100,7 @@ router.post('/forgotpassworduser', addUser.forgotpassword)
 router.put('/changepassword/:id',addUser.changePassword)
 router.post('/search',addUser.Searchby_main)
 router.post('/suggestion_main',addUser.suggestion_main)
-router.get('/Searchbymealtimming/:key', addUser.Searchby_mealtimming)
+router.get('/Searchbymealtimming/:_id', addUser.Searchby_mealtimming)
 router.get('/getrestro_byid/:id',addUser.getrestro_byid);
 
 router.get('/nearbyRestro',addUser.nearbyRestro)

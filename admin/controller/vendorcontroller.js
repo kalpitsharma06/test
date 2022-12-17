@@ -288,7 +288,6 @@ exports.addrestaurant = async function (req, res, next) {
     });
   }
 };
-
 exports.restaurant_additionalinfo = async function (req, res, next) {
   // try{
   // console.log(req.file.filename)
