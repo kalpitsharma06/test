@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log("kkkkkkkkkkkkkkkkkk")
 const signUp = require('../model/userModel');
 const subCategoryModel = require('../../admin/model/subCategory');
 const categorymodel = require('../../admin/model/category');
